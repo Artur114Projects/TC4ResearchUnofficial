@@ -19,13 +19,15 @@ repositories {
 
 dependencies {
     implementation 'org.jetbrains:annotations:24.0.0'
-    implementation rfg.deobf('curse.maven:codechickenlib-242818:2779848')
     implementation rfg.deobf('curse.maven:thaumcraft-223628:2629023')
     implementation rfg.deobf('curse.maven:baubles-227083:2518667')
-    implementation (rfg.deobf('com.cleanroommc:groovyscript:1.1.1')) {transitive = false}
     implementation ('zone.rong:mixinbooter:11.0') {transitive = false}
+
     annotationProcessor 'zone.rong:mixinbooter:11.0'
     modUtils.enableMixins('zone.rong:mixinbooter:11.0', "mixins.${mod_id}.refmap.json")
+
+    compileOnly rfg.deobf('curse.maven:codechickenlib-242818:2779848')
+    compileOnly (rfg.deobf('com.cleanroommc:groovyscript:1.1.1')) {transitive = false}
 }
 
 minecraft {
@@ -33,6 +35,12 @@ minecraft {
     mcVersion.set('1.12.2')
     mcpMappingChannel.set("stable")
     mcpMappingVersion.set("39")
+}
+
+for (runTask in ['runClient', 'runServer']) {
+    tasks.named(runTask).configure {
+        extraJvmArgs.add("-Dfml.coreMods.load=$mod_core_class")
+    }
 }
 
 processResources {
@@ -51,8 +59,9 @@ jar {
         attributes(
             "FMLAT": "tc_at.cfg",
             "ForceLoadAsMod": "true",
-            "FMLCorePlugin": "com.wonginnovations.oldresearch.core.OldResearchCore",
+            "FMLCorePlugin": mod_core_class,
             "FMLCorePluginContainsFMLMod": "true",
+            "MixinConfigs": "mixins.oldresearch.json",
             "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
         )
     }

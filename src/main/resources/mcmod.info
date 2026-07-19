@@ -1,17 +1,17 @@
 [
-{
-  "modid": "oldresearch",
-  "name": "TC4 Research Port Unofficial",
-  "description": "Thaumcraft 4 research system ported to Thaumcraft 6.",
-  "version": "${version}",
-  "mcversion": "${mcversion}",
-  "url": "",
-  "updateUrl": "",
-  "authorList": ["SumTingWong886", "Artur114", "LaSto4ka21"],
-  "credits": "Authors of this project",
-  "logoFile": "assets/oldresearch/logo.png",
-  "screenshots": [],
-  "dependencies": ["thaumcraft"],
-  "requiredMods": ["thaumcraft"]
-}
+  {
+    "modid": "oldresearch",
+    "name": "TC4 Research Port Unofficial",
+    "description": "Thaumcraft 4 research system ported to Thaumcraft 6.",
+    "version": "${version}",
+    "mcversion": "1.12.2",
+    "url": "",
+    "updateUrl": "",
+    "authorList": ["SumTingWong886", "Artur114", "LaSto4ka21"],
+    "credits": "Authors of this project",
+    "logoFile": "assets/oldresearch/logo.png",
+    "screenshots": [],
+    "dependencies": ["thaumcraft"],
+    "requiredMods": ["thaumcraft"]
+  }
 ]

@@ -62,10 +62,10 @@ public class Proxy implements IGuiHandler {
     }
 
     public void preInit(FMLPreInitializationEvent event) {
+        OldResearchManager.initCurios();
         PacketHandler.preInit();
         PlayerAspects.preInit();
         GameRegistry.registerTileEntity(TileResearchTable.class, new ResourceLocation("oldresearch:TileResearchTable"));
-        OldResearchManager.initCurios();
 
         MinecraftForge.EVENT_BUS.register(OldResearch.INSTANCE);
     }
