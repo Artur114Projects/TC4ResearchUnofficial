@@ -3,15 +3,12 @@ package com.wonginnovations.oldresearch.common.blocks;
 import java.util.Random;
 
 import com.wonginnovations.oldresearch.OldResearch;
-import com.wonginnovations.oldresearch.common.lib.network.PacketHandler;
-import com.wonginnovations.oldresearch.common.lib.network.PacketSyncAspects;
 import com.wonginnovations.oldresearch.common.tiles.TileResearchTable;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
@@ -24,8 +21,6 @@ import org.jetbrains.annotations.NotNull;
 import thaumcraft.client.fx.ParticleEngine;
 import thaumcraft.client.fx.particles.FXGeneric;
 import thaumcraft.common.blocks.IBlockFacingHorizontal;
-
-import javax.annotation.Nonnull;
 
 public class BlockResearchTable extends BlockTCDevice implements IBlockFacingHorizontal {
     public BlockResearchTable() {
@@ -49,7 +44,7 @@ public class BlockResearchTable extends BlockTCDevice implements IBlockFacingHor
         if (world.isRemote) {
             return true;
         } else {
-            player.openGui(OldResearch.instance, 1, world, pos.getX(), pos.getY(), pos.getZ());
+            player.openGui(OldResearch.INSTANCE, 1, world, pos.getX(), pos.getY(), pos.getZ());
             return true;
         }
     }

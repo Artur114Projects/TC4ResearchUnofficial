@@ -1,11 +1,9 @@
 package com.wonginnovations.oldresearch.common.items;
 
 import com.wonginnovations.oldresearch.OldResearch;
-import com.wonginnovations.oldresearch.Tags;
 import com.wonginnovations.oldresearch.api.registration.IModelRegister;
 import com.wonginnovations.oldresearch.common.lib.network.PacketAspectPool;
 import com.wonginnovations.oldresearch.common.lib.network.PacketHandler;
-import com.wonginnovations.oldresearch.common.lib.research.OldResearchManager;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -25,7 +23,7 @@ import thaumcraft.common.config.ConfigItems;
 public class ItemKnowledgeFragment extends Item implements IModelRegister {
 
     public ItemKnowledgeFragment() {
-        this.setRegistryName(Tags.MODID + ":knowledgefragment");
+        this.setRegistryName(OldResearch.MODID + ":knowledgefragment");
         this.setMaxStackSize(64);
         this.setHasSubtypes(false);
         this.setMaxDamage(0);
@@ -53,7 +51,7 @@ public class ItemKnowledgeFragment extends Item implements IModelRegister {
     @Override
     @SideOnly(Side.CLIENT)
     public void registerModels() {
-        ModelResourceLocation location0 = new ModelResourceLocation(Tags.MODID + ":knowledgefragment", "inventory");
+        ModelResourceLocation location0 = new ModelResourceLocation(OldResearch.MODID + ":knowledgefragment", "inventory");
         ModelLoader.setCustomModelResourceLocation(this, 0, location0);
     }
 

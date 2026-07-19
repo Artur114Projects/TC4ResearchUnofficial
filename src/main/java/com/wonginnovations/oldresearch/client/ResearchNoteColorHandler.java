@@ -16,7 +16,7 @@ public class ResearchNoteColorHandler implements IItemColor {
             case 1: {
                 int c = 10066329;
                 ResearchNoteData rd = OldResearchManager.getData(stack);
-                if(rd != null) {
+                if (rd != null) {
                     c = rd.color;
                 }
 

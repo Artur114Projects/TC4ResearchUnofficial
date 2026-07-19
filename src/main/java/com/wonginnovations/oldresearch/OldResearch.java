@@ -8,6 +8,7 @@ import net.minecraft.item.Item;
 import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.Mod.Instance;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLConstructionEvent;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -19,18 +20,21 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-@Mod(modid = Tags.MODID, name = Tags.MODNAME, version = Tags.VERSION, dependencies = "required-after:thaumcraft;after:*")
-@Mod.EventBusSubscriber(modid = Tags.MODID)
+@Mod(modid = OldResearch.MODID, useMetadata = true)
+@Mod.EventBusSubscriber(modid = OldResearch.MODID)
 public class OldResearch {
-
-    @Mod.Instance("oldresearch")
-    public static OldResearch instance;
-    public static final Logger LOGGER = LogManager.getLogger(Tags.MODID);
-
-    @SidedProxy(clientSide = "com.wonginnovations.oldresearch.proxy.ClientProxy", serverSide = "com.wonginnovations.oldresearch.proxy.Proxy")
-    public static Proxy proxy;
-
     public static boolean aspectShift = false; // this may have to be non-static
+    public static final Logger LOGGER = LogManager.getLogger("OldResearchUn");
+    public static final String MODID = "oldresearch";
+
+    @Instance
+    public static OldResearch INSTANCE;
+
+    @SidedProxy(
+        clientSide = "com.wonginnovations.oldresearch.proxy.ClientProxy",
+        serverSide = "com.wonginnovations.oldresearch.proxy.Proxy"
+    )
+    public static Proxy proxy;
 
     @Mod.EventHandler
     public void onConstruction(FMLConstructionEvent event) {
@@ -54,9 +58,9 @@ public class OldResearch {
 
     @SubscribeEvent
     @SideOnly(Side.CLIENT)
-    public void registerModels(ModelRegistryEvent event) {
+    public void registerModels(ModelRegistryEvent event) { // TODO шиза, переделать
         for (Item item : Item.REGISTRY) {
-            if (item.getRegistryName().getNamespace().equals(Tags.MODID) && item instanceof IModelRegister) {
+            if (item.getRegistryName().getNamespace().equals(MODID) && item instanceof IModelRegister) {
                 ((IModelRegister) item).registerModels();
             }
         }
@@ -64,8 +68,7 @@ public class OldResearch {
 
     @SubscribeEvent
     @SideOnly(Side.CLIENT)
-    public static void onColorHandlerEvent(ColorHandlerEvent.Item event) {
+    public static void onColorHandlerEvent(ColorHandlerEvent.Item event) { // TODO перенести
         event.getItemColors().registerItemColorHandler(new ResearchNoteColorHandler(), ModItems.RESEARCHNOTE);
     }
-
 }

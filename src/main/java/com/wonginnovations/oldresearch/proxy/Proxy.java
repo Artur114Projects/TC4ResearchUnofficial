@@ -3,14 +3,11 @@ package com.wonginnovations.oldresearch.proxy;
 import com.wonginnovations.oldresearch.OldResearch;
 import com.wonginnovations.oldresearch.api.capabilities.PlayerAspects;
 import com.wonginnovations.oldresearch.common.blocks.ModBlocks;
-import com.wonginnovations.oldresearch.common.items.ItemCurio;
-import com.wonginnovations.oldresearch.common.items.ModItems;
 import com.wonginnovations.oldresearch.common.lib.network.PacketHandler;
 import com.wonginnovations.oldresearch.common.lib.research.PlayerKnowledge;
 import com.wonginnovations.oldresearch.common.lib.research.OldResearchManager;
 import com.wonginnovations.oldresearch.common.tiles.TileResearchTable;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -27,7 +24,6 @@ import thaumcraft.api.ThaumcraftApi;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.blocks.BlocksTC;
 import thaumcraft.api.crafting.IDustTrigger;
-import thaumcraft.api.items.ItemsTC;
 import thaumcraft.api.research.ResearchCategories;
 import thaumcraft.common.lib.crafting.DustTriggerSimple;
 
@@ -71,11 +67,11 @@ public class Proxy implements IGuiHandler {
         GameRegistry.registerTileEntity(TileResearchTable.class, new ResourceLocation("oldresearch:TileResearchTable"));
         OldResearchManager.initCurios();
 
-        MinecraftForge.EVENT_BUS.register(OldResearch.instance);
+        MinecraftForge.EVENT_BUS.register(OldResearch.INSTANCE);
     }
 
     public void init(FMLInitializationEvent event) {
-        NetworkRegistry.INSTANCE.registerGuiHandler(OldResearch.instance, this);
+        NetworkRegistry.INSTANCE.registerGuiHandler(OldResearch.INSTANCE, this);
         this.registerDisplayInformation();
     }
 

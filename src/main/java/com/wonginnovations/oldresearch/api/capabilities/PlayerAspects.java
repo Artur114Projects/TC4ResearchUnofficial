@@ -20,7 +20,7 @@ import java.util.HashMap;
 public class PlayerAspects {
 
     public static void preInit() {
-        CapabilityManager.INSTANCE.register(IPlayerAspects.class, new Capability.IStorage<>() {
+        CapabilityManager.INSTANCE.register(IPlayerAspects.class, new Capability.IStorage<IPlayerAspects>() {
             @Nullable
             @Override
             public NBTTagCompound writeNBT(Capability<IPlayerAspects> capability, IPlayerAspects instance, EnumFacing side) {

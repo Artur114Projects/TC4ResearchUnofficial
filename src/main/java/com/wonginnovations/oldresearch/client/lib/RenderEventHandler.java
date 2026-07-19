@@ -1,18 +1,11 @@
 package com.wonginnovations.oldresearch.client.lib;
 
 import com.wonginnovations.oldresearch.OldResearch;
-import com.wonginnovations.oldresearch.Tags;
 import com.wonginnovations.oldresearch.common.lib.research.ScanManager;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraftforge.client.event.DrawBlockHighlightEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -21,23 +14,16 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.lwjgl.opengl.GL11;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
-import thaumcraft.api.aspects.IAspectContainer;
-import thaumcraft.api.internal.CommonInternals;
-import thaumcraft.api.items.IGoggles;
 import thaumcraft.api.items.ItemsTC;
 import thaumcraft.api.research.ScanningManager;
-import thaumcraft.common.config.ConfigAspects;
-import thaumcraft.common.config.ConfigItems;
-import thaumcraft.common.lib.utils.EntityUtils;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Mod.EventBusSubscriber(modid = Tags.MODID, value = Side.CLIENT)
+@Mod.EventBusSubscriber(modid = OldResearch.MODID, value = Side.CLIENT)
 public abstract class RenderEventHandler {
     public static List<Object> blockTags = new ArrayList<>();
     public static float tagscale = 0.0F;

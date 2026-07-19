@@ -1,6 +1,6 @@
 package com.wonginnovations.oldresearch.proxy;
 
-import com.wonginnovations.oldresearch.Tags;
+import com.wonginnovations.oldresearch.OldResearch;
 import com.wonginnovations.oldresearch.common.lib.network.PacketHandler;
 import com.wonginnovations.oldresearch.common.lib.network.PacketScanSelfToServer;
 import com.wonginnovations.oldresearch.common.lib.network.PacketScanSlotToServer;
@@ -17,21 +17,13 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.inventory.SlotCrafting;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.event.GuiScreenEvent;
-import net.minecraftforge.client.event.RenderTooltipEvent;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.Side;
@@ -44,10 +36,7 @@ import thaumcraft.api.research.ScanningManager;
 import thaumcraft.client.lib.UtilsFX;
 import thaumcraft.common.lib.SoundsTC;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-
-@Mod.EventBusSubscriber(modid = Tags.MODID, value = Side.CLIENT)
+@Mod.EventBusSubscriber(modid = OldResearch.MODID, value = Side.CLIENT)
 public class ProxyInventoryScanning {
     private static final int SCAN_TICKS = 25;
     private static final int SOUND_TICKS = 2;

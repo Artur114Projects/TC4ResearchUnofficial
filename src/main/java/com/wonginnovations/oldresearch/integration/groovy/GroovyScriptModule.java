@@ -2,7 +2,7 @@ package com.wonginnovations.oldresearch.integration.groovy;
 
 import com.cleanroommc.groovyscript.api.GroovyPlugin;
 import com.cleanroommc.groovyscript.compat.mods.GroovyContainer;
-import com.wonginnovations.oldresearch.Tags;
+import com.wonginnovations.oldresearch.OldResearch;
 import org.jetbrains.annotations.NotNull;
 
 public class GroovyScriptModule implements GroovyPlugin {
@@ -11,7 +11,7 @@ public class GroovyScriptModule implements GroovyPlugin {
 
     @Override
     public @NotNull String getModId() {
-        return Tags.MODID;
+        return OldResearch.MODID;
     }
 
     @Override

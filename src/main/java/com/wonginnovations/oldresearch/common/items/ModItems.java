@@ -1,6 +1,6 @@
 package com.wonginnovations.oldresearch.common.items;
 
-import com.wonginnovations.oldresearch.Tags;
+import com.wonginnovations.oldresearch.OldResearch;
 import com.wonginnovations.oldresearch.api.research.curio.BaseCurio;
 import com.wonginnovations.oldresearch.common.lib.research.OldResearchManager;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -13,7 +13,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.registries.IForgeRegistry;
 import thaumcraft.api.items.ItemsTC;
 
-@Mod.EventBusSubscriber(modid = Tags.MODID)
+@Mod.EventBusSubscriber(modid = OldResearch.MODID)
 public class ModItems {
 
     public static final Item RESEARCHNOTE = new ItemResearchNote();
