@@ -1,0 +1,99 @@
+######################################################################
+#-----------------------------DISCLAIMER-----------------------------#
+#          This is a raw aitranslation, read at your own risk!
+# (author is not liable for any mental or psychological harm caused)
+#######################################################################
+
+
+item.knowledgefragment.name=Wissensfragment
+item.researchnote.name=Forschungsnotiz
+item.researchnote.unknown.1=Unbekanntes Wissen
+item.researchnote.unknown.2=<Rechtsklick zum Enthüllen>
+item.discovery.name=§5Entdeckung
+item.curio.basic.name=Grundlegende Neugier
+item.curio.crimson.name=Blutrote Riten
+
+tc.research.copy=Kosten zum Kopieren dieser Forschung:
+tc.research.copy.failure=Nicht genug %s, um die Entdeckung zu kopieren.
+researchnote.complete=Forschungsnotiz abgeschlossen!
+researchnote.click=§o§7Klicken, um zu erhalten.
+researchnote.missing.tools=Schreibwerkzeuge werden benötigt, um Forschungsnotizen zu erstellen.
+researchnote.missing.paper=Papier wird benötigt, um Forschungsnotizen zu erstellen.
+tc.addaspectdiscovery=Sie haben %s entdeckt!
+tc.addaspectpool=%s Forschungspunkte für %s erhalten
+tc.discoveryerror=Um dies zu verstehen, müssen Sie %s studieren.
+tc.unknownobject=Daraus kann nichts gelernt werden.
+tc.researchtheory=%s Theorie
+
+tc.inventoryscan.scanning=Scannen
+tc.inventoryscan.tooltip=Inventarscan verfügbar
+tc.inventoryscan.tooltip.more=Mit dem Thaumometer über Gegenstände fahren, um zu scannen.
+
+tc.forbidden=§l§5Verbotenes Wissen (%n)§0
+tc.forbidden.level.1=Größtenteils harmlos
+tc.forbidden.level.2=Gering
+tc.forbidden.level.3=Mittel
+tc.forbidden.level.4=Gefährlich
+tc.forbidden.level.5=Tabu
+
+tc.aspect.help.aer=Luft
+tc.aspect.help.terra=Erde
+tc.aspect.help.ignis=Feuer
+tc.aspect.help.aqua=Wasser
+tc.aspect.help.ordo=Ordnung
+tc.aspect.help.perditio=Zerstörung
+tc.aspect.help.vacuos=Leere
+tc.aspect.help.praecantatio=Magie
+tc.aspect.help.auram=Knoten
+tc.aspect.help.vitium=Verderbnis
+tc.aspect.help.lux=Licht
+tc.aspect.help.potentia=Energie
+tc.aspect.help.motus=Bewegung
+tc.aspect.help.tempestas=Wetter
+tc.aspect.help.victus=Leben
+tc.aspect.help.mortuus=Tod
+tc.aspect.help.volatus=Flug
+tc.aspect.help.tenebrae=Dunkelheit
+tc.aspect.help.limus=Schleim
+tc.aspect.help.herba=Pflanzen
+tc.aspect.help.arbor=Bäume
+tc.aspect.help.spiritus=Geister
+tc.aspect.help.humanus=Mensch
+tc.aspect.help.bestia=Tier
+tc.aspect.help.exanimis=Untod
+tc.aspect.help.cognitio=Geist
+tc.aspect.help.sensus=Wahrnehmung
+tc.aspect.help.messis=Ernte
+tc.aspect.help.meto=Landwirtschaft
+tc.aspect.help.metallum=Metalle
+tc.aspect.help.perfodio=Bergbau
+tc.aspect.help.instrumentum=Werkzeuge
+tc.aspect.help.aversio=Waffen
+tc.aspect.help.gelum=Kälte
+tc.aspect.help.vitreus=Kristalle
+tc.aspect.help.sano=Heilung
+tc.aspect.help.iter=Reise
+tc.aspect.help.venenum=Gift
+tc.aspect.help.alienis=Fremdartiges
+tc.aspect.help.tutamen=Schutz
+tc.aspect.help.fames=Nahrung
+tc.aspect.help.fabrico=Handwerk
+tc.aspect.help.lucrum=Wertvolles
+tc.aspect.help.pannus=Stoff
+tc.aspect.help.machina=Mechanismen
+tc.aspect.help.vinculum=Fesseln
+tc.aspect.help.permutatio=Tausch
+tc.aspect.help.corpus=Fleisch
+
+research.RESEARCH.title=Forschung
+research.RESEARCH.stage.1=Bevor Sie die meisten thaumaturgischen Gegenstände und Blöcke bauen können, müssen Sie zuerst studieren, wie dies geschieht.<BR>Es gibt mehrere Schritte in diesem Prozess, aber bevor Sie sie erkunden, benötigen Sie zuerst einen geeigneten Ort für arkane Entdeckungen.<BR>Ein Holztisch und etwas Schreibwerkzeug sollten genügen!
+research.RESEARCH.stage.2=Bevor Sie die meisten thaumaturgischen Gegenstände und Blöcke bauen können, müssen Sie zuerst studieren, wie dies geschieht.<BR>Es gibt mehrere Schritte in diesem Prozess:<BR>(1) Erforschung der Welt und Untersuchung von Blöcken, Gegenständen und Kreaturen mit einem §5Thaumometer§0<BR>(2) Nutzung der gesammelten Forschungspunkte aus Schritt eins, um Ihr Aspektwissen mit dem §5Forschungstisch§0 zu erweitern<BR>(3) Nutzung der bekannten Aspekte und Entdeckung praktischen Wissens und Rezepte mit dem §5Forschungstisch§0.<BR>§l       §nErkundung§r<BR>Ohne Forschungspunkte können Sie keine Forschung betreiben, und der beste Weg, Forschungspunkte zu sammeln, ist die Erkundung und Untersuchung von Objekten in der Welt.<BR>Als erstes müssen Sie ein §5Thaumometer§0 konstruieren (siehe nächste Seite). Indem Sie das §5Thaumometer§0 auf Objekte oder Kreaturen richten und die rechte Maustaste gedrückt halten, beginnen Sie mit der Untersuchung. Der Vorgang dauert nicht lange, aber Ihre Bewegungsgeschwindigkeit ist währenddessen reduziert.<BR>Sobald abgeschlossen, zeigt das §5Thaumometer§0 an, welche Aspekte das Objekt enthält. In der unteren rechten Ecke des Bildschirms sehen Sie außerdem eine Zusammenfassung der Aspekte und entdeckten Forschungspunkte. Anfangs können Sie nicht alle Objekte untersuchen, da Sie deren Komponentenaspekte noch nicht entdeckt haben. Zum Beispiel kann ein Objekt, das den Lux-Aspekt enthält<IMG>oldresearch:textures/misc/research1.png:0:0:255:208:.5</IMG>nur untersucht werden, wenn Sie den Lux-Aspekt zuvor entdeckt haben oder die beiden Aspekte kennen, die ihn bilden.<BR><BR><BR><BR><BR>Wenn Sie einen Aspekt zum ersten Mal durch Untersuchung entdecken, erhalten Sie zwei zusätzliche Forschungspunkte.<BR>Objekte und Kreaturen können normalerweise nur einmal untersucht werden.<BR>Gelegentlich enthüllt die Untersuchung zusätzliche Hinweise und Einsichten in thaumaturgische Forschung und schaltet Themen frei, die Sie weiter erforschen können.<BR>Auf diese Weise entdeckte Forschung hat bernsteinfarbene Symbole.<BR><BR>§l   §nAspekte kombinieren§r<BR>Sobald Sie einige Forschungspunkte gesammelt haben, können Sie versuchen, sie im Forschungstisch zu zusammengesetzten Aspekten zu kombinieren.<BR>Um einen Forschungstisch zu bauen, platzieren Sie einfach einen §5Holztisch§0 und klicken Sie mit einem Satz Schreibwerkzeug darauf. Die Rezepte für Tische sind in der Forschungskategorie „Handwerk“ aufgeführt.<BR><BR><BR>Wenn Sie das Inventar des Forschungstisches öffnen, sehen Sie die rechts abgebildete Oberfläche.<BR>Das Schreibwerkzeug, mit dem Sie den Tisch gebaut haben, befindet sich in Slot §l1§r. Sie sollten alle Primäraspekte (und möglicherweise einige zusammengesetzte Aspekte) im Bereich §l3§r mit unterschiedlichen Mengen sehen. Wenn Sie eine Welt zum ersten Mal betreten, wird jedem Spieler ein kleiner Vorrat an Primäraspekten zugewiesen. Wenn Sie zuvor mit dem Thaumometer die Welt erkundet haben, könnten Sie eine<IMG>oldresearch:textures/misc/research2.png:0:0:128:83:1</IMG>beträchtliche Anzahl an Primär- und zusammengesetzten Aspekten hier aufgelistet haben.<BR>Sie können nun beginnen, Aspekte zu komplexeren zusammengesetzten Aspekten zu kombinieren, indem Sie einfach auf die gewünschten klicken oder sie in die Runenkreise in Bereich §l4§r ziehen. Die ausgewählten Aspekte erscheinen in Bereich §l4§r, und wenn Sie zwei ausgewählt haben, versucht ein Druck auf die violette Schaltfläche, sie zu kombinieren. Bei Erfolg sehen Sie unten rechts, was gewonnen wurde, und es erscheint in Bereich §l3§r.<BR>Die Komponentenaspekte werden auch dann verbraucht, wenn die Kombination keinen gültigen zusammengesetzten Aspekt ergibt.<BR>§l   §nPrimärforschung§r<BR>Für diesen Schritt benötigen Sie Schreibwerkzeug und Papier. Wenn Sie Ihr Thaumonomicon öffnen, sehen Sie<IMG>oldresearch:textures/misc/research2.png:0:88:255:158:.5</IMG>alles Wissen, das Sie besitzen, und auch alles Wissen, das Sie nun erforschen können.<BR>Blinkende quadratische oder runde Symbole stellen Primärforschungen dar. Wenn Sie deren Titel lesen können (anstelle seltsamer Runen), können Sie einfach darauf klicken. Papier und Tinte werden aus Ihrem Inventar verbraucht und Sie erhalten eine Forschungsnotiz. Sie können diese Notiz nun zum Forschungstisch bringen, um sie zu erforschen, indem Sie sie in Slot §l2§r legen.<BR>Bereich §l5§r zeigt nun ein Blatt Papier mit sechseckigen Feldern und Aspektsymbolen am äußeren Rand. Wenn Sie Fragezeichensymbole sehen, bedeutet das, dass Sie diesen Aspekt noch nicht kennen und ihn zuerst erlernen müssen. Um Ihre Forschung abzuschließen, müssen Sie einfach alle Aspekte verbinden und aktivieren. Dies tun Sie, indem Sie einen Aspekt auf ein angrenzendes Hexfeld ziehen, das entweder aus dem Zielaspekt besteht oder mit einem anderen Aspekt zum Zielaspekt kombiniert werden kann. Das Platzieren eines Aspekts verbraucht einen Forschungspunkt. Wenn Sie einen Fehler machen, können Sie auf den Aspekt klicken, um ihn zu entfernen, erhalten aber den Forschungspunkt nicht zurück. Fahren Sie fort, bis Sie ein Muster gebildet haben, das alle Startaspekte verbindet. Die äußeren Aspekte müssen nicht mit allen anderen verbunden sein, sie müssen lediglich ein zusammenhängendes Ganzes bilden.<BR>Sobald dies geschehen ist, wird die Forschung abgeschlossen und die Forschungsnotiz verwandelt sich in eine Entdeckung. HINWEIS: Das Platzieren und Entfernen von Aspekten aus dem Hex-Raster verbraucht Tinte aus Ihrem Schreibwerkzeug. Wenn sie aufgebraucht ist, können Sie nicht fortfahren, bis Sie sie wieder auffüllen.
+research.RESEARCHEXPERTISE.title=Forschungserfahrung
+research.RESEARCHEXPERTISE.stage.1=Während Ihrer arkanen Studien haben Sie bestimmte Muster bemerkt. Mit Übung wird die Kunst der Entdeckung zur zweiten Natur, da Sie sich die verschiedenen Runen dieser Welt einprägen.
+research.RESEARCHEXPERTISE.stage.2=Sie sind effizienter in der Forschung geworden.<BR>Wenn Sie einen Aspekt entfernen, den Sie in ein Hexfeld gesetzt haben, besteht eine 25%ige Chance, dass Sie den Forschungspunkt zurückbekommen.<BR>Sie können auch sehen, welche Aspekte Sie kombinieren müssen, um einen Aspekt zu erstellen, über dem Sie schweben.
+research.RESEARCHMASTERY.title=Forschungsmeisterschaft
+research.RESEARCHMASTERY.stage.1=Sie haben eine überirdische Ebene arkaner Inspiration erreicht. Es fühlt sich an, als könnten Sie Aspekte aus der Luft ziehen; weiteres Nachdenken könnte sich lohnen.
+research.RESEARCHMASTERY.stage.2=Sie sind noch effizienter in der Forschung geworden.<BR>Wenn Sie einen Aspekt entfernen, den Sie in ein Hexfeld gesetzt haben, besteht eine 50%ige Chance, dass Sie den Forschungspunkt zurückbekommen.<BR>Zusätzlich besteht eine 10%ige Chance, dass das Platzieren eines Aspekts keine Forschungspunkte kostet.<BR>Schließlich können Sie Aspekte im Forschungstisch kombinieren, indem Sie bei gedrückter Umschalttaste auf den Aspekt klicken, den Sie erstellen möchten. Wenn Sie genügend Komponentenaspekte haben, werden sie automatisch kombiniert, um den angeklickten Aspekt zu bilden.
+research.RESEARCHDUPE.title=Forschungsduplikation
+research.RESEARCHDUPE.stage.1=Sie sind versiert in arkaner Theorie; in Ihrer Freizeit beginnen Sie, Ihre Entdeckungen in einem standardisierten Format zu transkribieren, das andere Thaumaturgen verstehen können.
+research.RESEARCHDUPE.stage.2=Sie haben einen Weg entdeckt, abgeschlossene Forschungsnotizen zu kopieren.<BR>Wenn Sie eine Forschung abschließen oder eine abgeschlossene Forschungsnotiz in den Forschungstisch legen, sehen Sie ein Sternsymbol. Durch Anklicken wird eine Kopie dieser Forschung erstellt, solange Sie Papier und Tinte tragen und genügend Aspekte verfügbar sind.<BR>Je mehr Kopien von dieser Forschung erstellt werden, desto teurer wird das Kopieren.

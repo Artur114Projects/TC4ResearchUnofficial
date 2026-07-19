@@ -1,0 +1,99 @@
+######################################################################
+#-----------------------------DISCLAIMER-----------------------------#
+#          This is a raw aitranslation, read at your own risk!
+# (author is not liable for any mental or psychological harm caused)
+#######################################################################
+
+
+item.knowledgefragment.name=Fragmento de conocimiento
+item.researchnote.name=Nota de investigación
+item.researchnote.unknown.1=Conocimiento desconocido
+item.researchnote.unknown.2=<Clic derecho para revelar>
+item.discovery.name=§5Descubrimiento
+item.curio.basic.name=Curiosidad básica
+item.curio.crimson.name=Ritos carmesíes
+
+tc.research.copy=Coste para copiar esta investigación:
+tc.research.copy.failure=%s insuficiente para copiar el descubrimiento.
+researchnote.complete=¡Nota de investigación completada!
+researchnote.click=§o§7Haz clic para obtener.
+researchnote.missing.tools=Se requieren herramientas de escriba para crear notas de investigación.
+researchnote.missing.paper=Se requiere papel para crear notas de investigación.
+tc.addaspectdiscovery=¡Has descubierto %s!
+tc.addaspectpool=Has ganado %s puntos de investigación para %s
+tc.discoveryerror=Para entender esto necesitas estudiar %s.
+tc.unknownobject=No se puede aprender nada de esto.
+tc.researchtheory=Teoría de %s
+
+tc.inventoryscan.scanning=Escaneando
+tc.inventoryscan.tooltip=Escaneo de inventario disponible
+tc.inventoryscan.tooltip.more=Pasa el cursor sobre objetos con el Taumómetro para escanear.
+
+tc.forbidden=§l§5Conocimiento prohibido (%n)§0
+tc.forbidden.level.1=Mayormente inofensivo
+tc.forbidden.level.2=Menor
+tc.forbidden.level.3=Moderado
+tc.forbidden.level.4=Peligroso
+tc.forbidden.level.5=Tabú
+
+tc.aspect.help.aer=aire
+tc.aspect.help.terra=tierra
+tc.aspect.help.ignis=fuego
+tc.aspect.help.aqua=agua
+tc.aspect.help.ordo=orden
+tc.aspect.help.perditio=cosas rotas
+tc.aspect.help.vacuos=cosas vacías
+tc.aspect.help.praecantatio=cosas mágicas
+tc.aspect.help.auram=nodos
+tc.aspect.help.vitium=la influencia corruptora de la magia
+tc.aspect.help.lux=luz
+tc.aspect.help.potentia=energía
+tc.aspect.help.motus=cosas que se mueven
+tc.aspect.help.tempestas=clima
+tc.aspect.help.victus=fuentes de vida
+tc.aspect.help.mortuus=naturaleza de la muerte
+tc.aspect.help.volatus=vuelo
+tc.aspect.help.tenebrae=oscuridad
+tc.aspect.help.limus=cosas pegajosas
+tc.aspect.help.herba=plantas
+tc.aspect.help.arbor=árboles
+tc.aspect.help.spiritus=espíritus
+tc.aspect.help.humanus=hombre
+tc.aspect.help.bestia=bestia
+tc.aspect.help.exanimis=naturaleza de la no-muerte
+tc.aspect.help.cognitio=la mente
+tc.aspect.help.sensus=percepción
+tc.aspect.help.messis=cosechas
+tc.aspect.help.meto=agricultura
+tc.aspect.help.metallum=metales
+tc.aspect.help.perfodio=minería
+tc.aspect.help.instrumentum=herramientas
+tc.aspect.help.aversio=armas
+tc.aspect.help.gelum=cosas frías
+tc.aspect.help.vitreus=cristales
+tc.aspect.help.sano=objetos curativos
+tc.aspect.help.iter=viaje
+tc.aspect.help.venenum=cosas venenosas
+tc.aspect.help.alienis=cosas extrañas de otros mundos
+tc.aspect.help.tutamen=cosas protectoras
+tc.aspect.help.fames=comida
+tc.aspect.help.fabrico=artesanía
+tc.aspect.help.lucrum=cosas valiosas
+tc.aspect.help.pannus=tela
+tc.aspect.help.machina=cosas mecánicas
+tc.aspect.help.vinculum=cosas que atrapan
+tc.aspect.help.permutatio=comercio y trueque
+tc.aspect.help.corpus=carne
+
+research.RESEARCH.title=Investigación
+research.RESEARCH.stage.1=Antes de poder construir la mayoría de los objetos y bloques taumatúrgicos, primero debes estudiar cómo hacerlo.<BR>Hay varios pasos en este proceso, pero antes de explorarlos necesitarás un área adecuada para el descubrimiento arcano.<BR>¡Una mesa de madera y algunas herramientas de escriba deberían bastar!
+research.RESEARCH.stage.2=Antes de poder construir la mayoría de los objetos y bloques taumatúrgicos, primero debes estudiar cómo hacerlo.<BR>Hay varios pasos en este proceso:<BR>(1) Explorar el mundo y examinar bloques, objetos y criaturas con un §5Taumómetro§0<BR>(2) Usar los puntos de investigación reunidos en el primer paso para ampliar tu conocimiento de los aspectos con la §5Mesa de investigación§0<BR>(3) Usar los aspectos que conoces y descubrir conocimiento práctico y recetas con la §5Mesa de investigación§0.<BR>§l       §nExploración§r<BR>No puedes investigar sin puntos de investigación, y la mejor forma de conseguirlos es mediante la exploración y el examen de objetos en el mundo.<BR>Lo primero que necesitarás hacer es construir un §5Taumómetro§0 (ver página siguiente). Apuntando el §5Taumómetro§0 hacia objetos o criaturas y manteniendo el botón derecho del ratón comenzarás a examinarlos. El proceso no lleva mucho tiempo, pero tu velocidad de movimiento se reduce mientras ocurre.<BR>Una vez completado, el §5Taumómetro§0 mostrará los aspectos que contiene el objeto. En la esquina inferior derecha de la pantalla también verás un resumen de los aspectos y puntos de investigación descubiertos. Inicialmente no podrás examinar todos los objetos ya que no has descubierto sus aspectos componentes. Por ejemplo, un objeto que contenga el aspecto Lux<IMG>oldresearch:textures/misc/research1.png:0:0:255:208:.5</IMG>solo puede ser examinado si has descubierto previamente el aspecto Lux, o conoces los dos aspectos que se combinan para crearlo.<BR><BR><BR><BR><BR>La primera vez que descubres un aspecto examinando algo ganas dos puntos de investigación más de lo normal.<BR>Los objetos y criaturas normalmente solo pueden ser examinados una vez.<BR>Ocasionalmente, examinar algo revelará pistas y percepciones adicionales sobre la investigación taumatúrgica, desbloqueando temas que puedes investigar más.<BR>Las investigaciones descubiertas de esta manera tendrán iconos ámbar.<BR><BR>§l   §nCombinación de aspectos§r<BR>Una vez que hayas reunido algunos puntos de investigación, puedes intentar combinarlos en aspectos compuestos dentro de una mesa de investigación.<BR>Para crear una mesa de investigación simplemente coloca una §5mesa de madera§0 y haz clic sobre ella con un conjunto de herramientas de escriba. La receta para mesas se encuentra en la categoría de investigación «Artefacto».<BR><BR><BR>Si abres el inventario de la mesa de investigación, verás una interfaz como la de la derecha.<BR>Las herramientas de escriba que usaste para crear la mesa estarán ubicadas en la ranura §l1§r. Deberías ver todos los aspectos primarios (y posiblemente algunos aspectos compuestos) listados en el área marcada §l3§r con cantidades variables. Cuando entras a un mundo por primera vez, a cada jugador se le asigna una pequeña reserva de aspectos primarios para empezar. Si habías estado explorando con el taumómetro de antemano, podrías tener un<IMG>oldresearch:textures/misc/research2.png:0:0:128:83:1</IMG>número significativo de aspectos primarios y compuestos listados aquí.<BR>Ahora puedes comenzar a combinar aspectos en aspectos compuestos más complejos simplemente haciendo clic en aquellos que deseas combinar o arrastrándolos a los círculos rúnicos en el área §l4§r. Los aspectos seleccionados aparecerán en el área §l4§r y cuando tengas dos seleccionados, presionar el botón púrpura intentará combinarlos. Si tiene éxito, verás lo que se ha ganado en la esquina inferior derecha y debería aparecer en el área §l3§r.<BR>Los aspectos componentes se consumen incluso si la combinación no resultó en un aspecto compuesto válido.<BR>§l   §nInvestigación primaria§r<BR>Necesitas llevar herramientas de escriba y papel para este paso. Si abres tu Taumonomicón, verás<IMG>oldresearch:textures/misc/research2.png:0:88:255:158:.5</IMG>todo el conocimiento que posees y también todo el conocimiento que ahora puedes perseguir.<BR>Los iconos cuadrados o redondos intermitentes representan investigaciones primarias. Si puedes leer su título (en lugar de ver runas extrañas) simplemente puedes hacer clic en ellos. Se consumirán papel y tinta de tu inventario y obtendrás una nota de investigación. Ahora puedes llevar esta nota de investigación a la mesa para comenzar a investigarla colocándola en la ranura §l2§r.<BR>La sección §l5§r mostrará entonces una hoja de papel cubierta de baldosas hexagonales con iconos de aspectos en el borde exterior. Si ves iconos de interrogación significa que aún no conoces ese aspecto y necesitarás aprenderlo primero. Para completar tu investigación simplemente necesitas conectar y activar todos los aspectos. Haces esto arrastrando un aspecto a un hexágono adyacente que esté compuesto del aspecto objetivo, o que pueda combinarse con otro aspecto para formar el aspecto objetivo. Colocar un aspecto consume un punto de investigación. Si cometes un error, puedes hacer clic en el aspecto para eliminarlo, pero no recuperarás el punto de investigación. Continúas haciendo esto hasta que hayas formado un patrón que conecte todos los aspectos iniciales. Los aspectos exteriores no necesitan estar conectados a todos los demás, simplemente deben formar un todo conectado.<BR>Una vez hecho esto, la investigación se completará y la nota de investigación se convertirá en un descubrimiento. NOTA: Colocar y eliminar aspectos de la cuadrícula hexagonal consume tinta de tus herramientas de escriba. Si se agota, no podrás continuar hasta que la recargues.
+research.RESEARCHEXPERTISE.title=Pericia en investigación
+research.RESEARCHEXPERTISE.stage.1=Has notado que surgen ciertos patrones durante tus estudios arcanos. Con la práctica, el arte del descubrimiento se está convirtiendo en algo natural a medida que memorizas las diversas runas de este mundo.
+research.RESEARCHEXPERTISE.stage.2=Te has vuelto más eficiente realizando investigaciones.<BR>Cada vez que eliminas un aspecto que colocaste en un hexágono, hay un 25% de probabilidad de que recuperes el punto de investigación.<BR>También puedes ver qué aspectos necesitas combinar para crear un aspecto sobre el que pasas el cursor.
+research.RESEARCHMASTERY.title=Maestría en investigación
+research.RESEARCHMASTERY.stage.1=Has alcanzado un nivel sobrenatural de inspiración arcana. Empieza a sentirse como si pudieras extraer aspectos de la nada; seguir reflexionando sobre este asunto podría ser fructífero.
+research.RESEARCHMASTERY.stage.2=Te has vuelto aún más eficiente realizando investigaciones.<BR>Cada vez que eliminas un aspecto que colocaste en un hexágono, hay un 50% de probabilidad de que recuperes el punto de investigación.<BR>Además, hay un 10% de probabilidad de que cada vez que coloques un aspecto no cueste ningún punto de investigación.<BR>Por último, puedes combinar aspectos en la mesa de investigación haciendo mayús+clic en el aspecto que deseas crear. Si tienes suficientes aspectos componentes, se combinarán automáticamente para crear el aspecto pulsado.
+research.RESEARCHDUPE.title=Duplicación de investigación
+research.RESEARCHDUPE.stage.1=Te has vuelto competente en teoría arcana; en tu tiempo libre comienzas a transcribir tus descubrimientos en un formato estandarizado que otros taumaturgos puedan comprender.
+research.RESEARCHDUPE.stage.2=Has descubierto una forma de copiar notas de investigación completadas.<BR>Cuando completas una investigación o colocas una nota de investigación completada en la mesa de investigación, verás un icono de estrella. Al hacer clic se creará una copia de esta investigación siempre que lleves papel y tinta y tengas suficientes aspectos disponibles.<BR>Cuantas más copias se creen de esa investigación, más costoso será copiarla.

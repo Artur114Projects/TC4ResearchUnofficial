@@ -1,0 +1,99 @@
+######################################################################
+#-----------------------------DISCLAIMER-----------------------------#
+#          This is a raw aitranslation, read at your own risk!
+# (author is not liable for any mental or psychological harm caused)
+#######################################################################
+
+
+item.knowledgefragment.name=Frammento di conoscenza
+item.researchnote.name=Nota di ricerca
+item.researchnote.unknown.1=Conoscenza sconosciuta
+item.researchnote.unknown.2=<Click destro per rivelare>
+item.discovery.name=§5Scoperta
+item.curio.basic.name=Curiosità di base
+item.curio.crimson.name=Riti cremisi
+
+tc.research.copy=Costo per copiare questa ricerca:
+tc.research.copy.failure=%s insufficiente per copiare la scoperta.
+researchnote.complete=Nota di ricerca completata!
+researchnote.click=§o§7Clicca per ottenere.
+researchnote.missing.tools=Strumenti da scriba necessari per creare note di ricerca.
+researchnote.missing.paper=Carta necessaria per creare note di ricerca.
+tc.addaspectdiscovery=Hai scoperto %s!
+tc.addaspectpool=Hai guadagnato %s punti ricerca per %s
+tc.discoveryerror=Per capire questo devi studiare %s.
+tc.unknownobject=Non si può imparare nulla da questo.
+tc.researchtheory=Teoria %s
+
+tc.inventoryscan.scanning=Scansione in corso
+tc.inventoryscan.tooltip=Scansione dell'inventario disponibile
+tc.inventoryscan.tooltip.more=Passa il mouse sugli oggetti con il Taumometro per scansionarli.
+
+tc.forbidden=§l§5Conoscenza proibita (%n)§0
+tc.forbidden.level.1=Per lo più innocua
+tc.forbidden.level.2=Minore
+tc.forbidden.level.3=Moderata
+tc.forbidden.level.4=Pericolosa
+tc.forbidden.level.5=Tabù
+
+tc.aspect.help.aer=aria
+tc.aspect.help.terra=terra
+tc.aspect.help.ignis=fuoco
+tc.aspect.help.aqua=acqua
+tc.aspect.help.ordo=ordine
+tc.aspect.help.perditio=cose rotte
+tc.aspect.help.vacuos=cose vuote
+tc.aspect.help.praecantatio=cose magiche
+tc.aspect.help.auram=nodi
+tc.aspect.help.vitium=l'influenza corruttrice della magia
+tc.aspect.help.lux=luce
+tc.aspect.help.potentia=energia
+tc.aspect.help.motus=cose che si muovono
+tc.aspect.help.tempestas=tempo atmosferico
+tc.aspect.help.victus=fonti di vita
+tc.aspect.help.mortuus=la natura della morte
+tc.aspect.help.volatus=volo
+tc.aspect.help.tenebrae=oscurità
+tc.aspect.help.limus=cose appiccicose
+tc.aspect.help.herba=piante
+tc.aspect.help.arbor=alberi
+tc.aspect.help.spiritus=spiriti
+tc.aspect.help.humanus=uomo
+tc.aspect.help.bestia=bestia
+tc.aspect.help.exanimis=la natura della non-morte
+tc.aspect.help.cognitio=la mente
+tc.aspect.help.sensus=percezione
+tc.aspect.help.messis=raccolti
+tc.aspect.help.meto=agricoltura
+tc.aspect.help.metallum=metalli
+tc.aspect.help.perfodio=estrazione mineraria
+tc.aspect.help.instrumentum=strumenti
+tc.aspect.help.aversio=armi
+tc.aspect.help.gelum=cose fredde
+tc.aspect.help.vitreus=cristalli
+tc.aspect.help.sano=oggetti curativi
+tc.aspect.help.iter=viaggio
+tc.aspect.help.venenum=cose velenose
+tc.aspect.help.alienis=cose strane da altri mondi
+tc.aspect.help.tutamen=cose protettive
+tc.aspect.help.fames=cibo
+tc.aspect.help.fabrico=lavorazione
+tc.aspect.help.lucrum=cose di valore
+tc.aspect.help.pannus=stoffa
+tc.aspect.help.machina=cose meccaniche
+tc.aspect.help.vinculum=cose che intrappolano
+tc.aspect.help.permutatio=commercio e baratto
+tc.aspect.help.corpus=carne
+
+research.RESEARCH.title=Ricerca
+research.RESEARCH.stage.1=Prima di poter costruire la maggior parte degli oggetti e blocchi taumaturgici, devi prima studiare come farlo.<BR>Ci sono diversi passaggi in questo processo, ma prima di esplorarli avrai bisogno di un'area adatta alla scoperta arcana.<BR>Un tavolo di legno e degli strumenti da scriba dovrebbero bastare!
+research.RESEARCH.stage.2=Prima di poter costruire la maggior parte degli oggetti e blocchi taumaturgici, devi prima studiare come farlo.<BR>Ci sono diversi passaggi in questo processo:<BR>(1) Esplorare il mondo ed esaminare blocchi, oggetti e creature con un §5Taumometro§0<BR>(2) Usare i punti ricerca raccolti dal primo passaggio ed espandere la conoscenza degli aspetti con il §5Tavolo di ricerca§0<BR>(3) Usare gli aspetti che conosci e scoprire conoscenze pratiche e ricette con il §5Tavolo di ricerca§0.<BR>§l       §nEsplorazione§r<BR>Non puoi fare ricerca senza punti ricerca, e il modo migliore per ottenere punti ricerca è l'esplorazione e l'esame degli oggetti nel mondo.<BR>La prima cosa che devi fare è costruire un §5Taumometro§0 (vedi pagina successiva). Puntando il §5Taumometro§0 verso oggetti o creature e tenendo premuto il tasto destro del mouse inizierai ad esaminarli. Il processo non richiede molto tempo, ma la velocità di movimento è ridotta durante l'operazione.<BR>Una volta completato, il §5Taumometro§0 mostrerà gli aspetti contenuti nell'oggetto. Nell'angolo in basso a destra dello schermo vedrai anche un riepilogo degli aspetti e dei punti ricerca scoperti. Inizialmente non potrai esaminare tutti gli oggetti poiché non hai ancora scoperto i loro aspetti componenti. Per esempio, un oggetto contenente l'aspetto Lux<IMG>oldresearch:textures/misc/research1.png:0:0:255:208:.5</IMG>può essere esaminato solo se hai precedentemente scoperto l'aspetto Lux, o conosci i due aspetti che si combinano per crearlo.<BR><BR><BR><BR><BR>La prima volta che scopri un aspetto esaminando qualcosa guadagni due punti ricerca in più del normale.<BR>Oggetti e creature di solito possono essere esaminati solo una volta.<BR>Occasionalmente l'esame rivelerà indizi e approfondimenti aggiuntivi sulla ricerca taumaturgica, sbloccando argomenti che puoi approfondire.<BR>Le ricerche scoperte in questo modo avranno icone ambrate.<BR><BR>§l   §nCombinare gli aspetti§r<BR>Dopo aver raccolto alcuni punti ricerca, puoi tentare di combinarli in aspetti composti all'interno di un tavolo di ricerca.<BR>Per fabbricare un tavolo di ricerca, posiziona semplicemente un §5tavolo di legno§0 e cliccalo con un set di strumenti da scriba. La ricetta per i tavoli è elencata nella categoria di ricerca «Artificio».<BR><BR><BR>Se apri l'inventario del tavolo di ricerca, vedrai un'interfaccia come mostrato a destra.<BR>Gli strumenti da scriba che hai usato per fabbricare il tavolo si troveranno nello slot §l1§r. Dovresti vedere tutti gli aspetti primari (e forse alcuni aspetti composti) elencati nell'area contrassegnata §l3§r con quantità variabili. Quando entri in un mondo per la prima volta, a ogni giocatore viene assegnato un piccolo pool di aspetti primari per iniziare. Se avevi già esplorato il mondo con il taumometro, potresti avere un<IMG>oldresearch:textures/misc/research2.png:0:0:128:83:1</IMG>numero significativo di aspetti primari e composti elencati qui.<BR>Ora puoi iniziare a combinare gli aspetti in aspetti composti più complessi semplicemente cliccando su quelli che desideri combinare o trascinandoli nei cerchi runici nell'area §l4§r. Gli aspetti selezionati appariranno nell'area §l4§r e quando ne hai due selezionati, premere il pulsante viola tenterà di combinarli. In caso di successo, vedrai ciò che hai guadagnato in basso a destra e apparirà nell'area §l3§r.<BR>Gli aspetti componenti vengono consumati anche se la combinazione non ha prodotto un aspetto composto valido.<BR>§l   §nRicerca primaria§r<BR>Devi portare con te strumenti da scriba e carta per questo passaggio. Se apri il Thaumonomicon, vedrai<IMG>oldresearch:textures/misc/research2.png:0:88:255:158:.5</IMG>tutta la conoscenza che possiedi e anche tutta la conoscenza che ora sei in grado di perseguire.<BR>Le icone quadrate o rotonde lampeggianti rappresentano le ricerche primarie. Se riesci a leggere il loro titolo (invece di vedere strane rune), puoi semplicemente cliccarci sopra. Carta e inchiostro verranno consumati dal tuo inventario e otterrai una nota di ricerca. Ora puoi portare questa nota di ricerca al tavolo per iniziare a studiarla inserendola nello slot §l2§r.<BR>La sezione §l5§r mostrerà un foglio di carta coperto da tessere esagonali con icone degli aspetti sul bordo esterno. Se vedi icone a punto interrogativo, significa che non conosci ancora quell'aspetto e dovrai apprenderlo prima. Per completare la tua ricerca devi semplicemente connettere e attivare tutti gli aspetti. Lo fai trascinando un aspetto su un esagono adiacente che sia composto dall'aspetto bersaglio, o che possa essere combinato con un altro aspetto per formare l'aspetto bersaglio. Posizionare un aspetto consuma un punto ricerca. Se commetti un errore, puoi cliccare sull'aspetto per rimuoverlo, ma non riavrai indietro il punto ricerca. Continua così finché non hai formato uno schema che connetta tutti gli aspetti iniziali. Gli aspetti esterni non devono essere connessi a tutti gli altri, devono semplicemente formare un insieme connesso.<BR>Fatto ciò, la ricerca sarà completata e la nota di ricerca si trasformerà in una scoperta. NOTA: Posizionare e rimuovere aspetti dalla griglia esagonale consuma inchiostro dai tuoi strumenti da scriba. Se si esaurisce, non potrai procedere fino a quando non lo ricaricherai.
+research.RESEARCHEXPERTISE.title=Competenza nella ricerca
+research.RESEARCHEXPERTISE.stage.1=Hai notato certi schemi emergere durante i tuoi studi arcani. Con la pratica, l'arte della scoperta sta diventando una seconda natura, man mano che memorizzi le varie rune di questo mondo.
+research.RESEARCHEXPERTISE.stage.2=Sei diventato più efficiente nell'eseguire ricerche.<BR>Ogni volta che rimuovi un aspetto che avevi posizionato in un esagono, c'è una probabilità del 25% di recuperare il punto ricerca.<BR>Sei anche in grado di vedere quali aspetti devi combinare per creare un aspetto su cui passi il mouse.
+research.RESEARCHMASTERY.title=Maestria nella ricerca
+research.RESEARCHMASTERY.stage.1=Hai raggiunto un livello di ispirazione arcana ultraterreno. Inizi a sentire come se potessi estrarre aspetti dal nulla; meditare ulteriormente su questa questione potrebbe rivelarsi fruttuoso.
+research.RESEARCHMASTERY.stage.2=Sei diventato ancora più efficiente nell'eseguire ricerche.<BR>Ogni volta che rimuovi un aspetto che avevi posizionato in un esagono, c'è una probabilità del 50% di recuperare il punto ricerca.<BR>Inoltre c'è una probabilità del 10% che ogni volta che posizioni un aspetto non costi alcun punto ricerca.<BR>Infine, puoi combinare gli aspetti nel tavolo di ricerca facendo shift+clic sull'aspetto che desideri creare. Se hai abbastanza aspetti componenti, questi si combineranno automaticamente per creare l'aspetto cliccato.
+research.RESEARCHDUPE.title=Duplicazione della ricerca
+research.RESEARCHDUPE.stage.1=Sei diventato esperto nella teoria arcana; nel tuo tempo libero inizi a trascrivere le tue scoperte in un formato standardizzato comprensibile agli altri taumaturghi.
+research.RESEARCHDUPE.stage.2=Hai scoperto un modo per copiare le note di ricerca completate.<BR>Quando completi una ricerca o posizioni una nota di ricerca completata nel tavolo di ricerca, vedrai un'icona a stella. Cliccandola creerai una copia di questa ricerca purché tu abbia con te carta e inchiostro e abbia abbastanza aspetti disponibili.<BR>Più copie vengono create di quella ricerca, più costoso diventerà copiarla.
