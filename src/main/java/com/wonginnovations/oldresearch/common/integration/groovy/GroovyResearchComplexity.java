@@ -14,10 +14,10 @@ public class GroovyResearchComplexity extends DefaultResearchComplexity {
     }
 
     @Override
-    public Integer get(EntityPlayer player, String key) {
-        if (function == null) return super.get(player, key);
-        int groovy = ClosureHelper.call(super.get(player, key), function, player, key);
-        return groovy > 0 ? groovy : super.get(player, key);
+    public int calculateComplexity(EntityPlayer player, String key) {
+        if (function == null) return super.calculateComplexity(player, key);
+        int groovy = ClosureHelper.call(super.calculateComplexity(player, key), function, player, key);
+        return groovy > 0 ? groovy : super.calculateComplexity(player, key);
     }
 
 }

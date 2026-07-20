@@ -15,16 +15,12 @@ import thaumcraft.api.items.ItemsTC;
 
 @Mod.EventBusSubscriber(modid = OldResearch.MODID)
 public class ModItems {
-
-    public static final Item RESEARCHNOTE = new ItemResearchNote();
+    public static final Item RESEARCH_NOTE = new ItemResearchNote();
 
     @SubscribeEvent
     public static void registerItems(RegistryEvent.Register<Item> event) {
-
         IForgeRegistry<Item> r = event.getRegistry();
-
-        r.register(RESEARCHNOTE);
-
+        r.register(RESEARCH_NOTE);
     }
 
     @SubscribeEvent
@@ -34,5 +30,4 @@ public class ModItems {
             ModelLoader.setCustomModelResourceLocation(ItemsTC.curio, i++, new ModelResourceLocation(curio.getTexture().toString()));
         }
     }
-
 }

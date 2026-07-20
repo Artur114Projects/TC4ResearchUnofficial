@@ -24,13 +24,15 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import thaumcraft.Thaumcraft;
 
+//TODO: Перенести регистрацию в ManualRegister
+//TODO: Сделать консольные команды для исследований
+//TODO: Использование curios умножает количество аспектов, починить
 @Mod(modid = OldResearch.MODID, useMetadata = true)
 @Mod.EventBusSubscriber(modid = OldResearch.MODID)
 public class OldResearch {
-    public static boolean aspectShift = false; // this may have to be non-static
+    public static final SimpleNetworkWrapper NETWORK = NetworkRegistry.INSTANCE.newSimpleChannel("oldresearch");
     public static final Logger LOGGER = LogManager.getLogger("OldResearchUn");
     public static final String MODID = "oldresearch";
-    public static final SimpleNetworkWrapper NETWORK = NetworkRegistry.INSTANCE.newSimpleChannel(MODID.toLowerCase());
 
     @Instance
     public static OldResearch INSTANCE;
@@ -74,7 +76,7 @@ public class OldResearch {
     @SubscribeEvent
     @SideOnly(Side.CLIENT)
     public static void onColorHandlerEvent(ColorHandlerEvent.Item event) { // TODO перенести
-        event.getItemColors().registerItemColorHandler(new ResearchNoteColorHandler(), ModItems.RESEARCHNOTE);
+        event.getItemColors().registerItemColorHandler(new ResearchNoteColorHandler(), ModItems.RESEARCH_NOTE);
     }
 
     public static ResourceLocation loc(String loc) {

@@ -1,5 +1,6 @@
 package com.wonginnovations.oldresearch.common.items;
 
+import com.wonginnovations.oldresearch.api.OldResearchApi;
 import com.wonginnovations.oldresearch.main.OldResearch;
 import com.wonginnovations.oldresearch.api.registration.IModelRegister;
 import com.wonginnovations.oldresearch.common.network.PacketAspectPool;
@@ -40,8 +41,8 @@ public class ItemKnowledgeFragment extends Item implements IModelRegister {
         if(!world.isRemote) {
             for(Aspect a : Aspect.getPrimalAspects()) {
                 int q = world.rand.nextInt(2) + 1;
-                OldResearch.proxy.playerKnowledge.addAspectPool(player.getGameProfile().getName(), a, q);
-                OldResearch.NETWORK.sendTo(new PacketAspectPool(a.getTag(), q, OldResearch.proxy.playerKnowledge.getAspectPoolFor(player.getGameProfile().getName(), a)), (EntityPlayerMP)player);
+                OldResearchApi.oldResStorage(player).addToAspectPool(a, q);
+                OldResearch.NETWORK.sendTo(new PacketAspectPool(a.getTag(), q, OldResearchApi.oldResStorage(player).aspectCount(a)), (EntityPlayerMP)player);
             }
         }
         return new ActionResult<>(EnumActionResult.SUCCESS, stack);

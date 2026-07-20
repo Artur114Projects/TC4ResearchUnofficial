@@ -1,12 +1,11 @@
 package com.wonginnovations.oldresearch.proxy;
 
 import com.wonginnovations.oldresearch.main.OldResearch;
-import com.wonginnovations.oldresearch.api.capabilities.PlayerAspects;
 import com.wonginnovations.oldresearch.common.blocks.ModBlocks;
 import com.wonginnovations.oldresearch.common.network.PacketHandler;
-import com.wonginnovations.oldresearch.common.research.PlayerKnowledge;
 import com.wonginnovations.oldresearch.common.research.OldResearchManager;
 import com.wonginnovations.oldresearch.common.tiles.TileResearchTable;
+import com.wonginnovations.oldresearch.registry.ManualRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -27,33 +26,9 @@ import thaumcraft.api.crafting.IDustTrigger;
 import thaumcraft.api.research.ResearchCategories;
 import thaumcraft.common.lib.crafting.DustTriggerSimple;
 
-import java.util.ArrayList;
-import java.util.Map;
-
 public class Proxy implements IGuiHandler {
+    public final ManualRegister register = new ManualRegister();
     ProxyGUI proxyGUI = new ProxyGUI();
-
-    public PlayerKnowledge playerKnowledge = new PlayerKnowledge();
-
-    public PlayerKnowledge getPlayerKnowledge() {
-        return this.playerKnowledge;
-    }
-
-    public Map<String, ArrayList<String>> getScannedObjects() {
-        return this.playerKnowledge.objectsScanned;
-    }
-
-    public Map<String, ArrayList<String>> getScannedEntities() {
-        return this.playerKnowledge.entitiesScanned;
-    }
-
-    public Map<String, ArrayList<String>> getScannedPhenomena() {
-        return this.playerKnowledge.phenomenaScanned;
-    }
-
-    public Map<String, AspectList> getKnownAspects() {
-        return this.playerKnowledge.aspectsDiscovered;
-    }
 
     public void registerModel(ItemBlock itemBlock) {
     }
@@ -64,8 +39,8 @@ public class Proxy implements IGuiHandler {
     public void preInit(FMLPreInitializationEvent event) {
         OldResearchManager.initCurios();
         PacketHandler.preInit();
-        PlayerAspects.preInit();
         GameRegistry.registerTileEntity(TileResearchTable.class, new ResourceLocation("oldresearch:TileResearchTable"));
+        register.preInit();
 
         MinecraftForge.EVENT_BUS.register(OldResearch.INSTANCE);
     }

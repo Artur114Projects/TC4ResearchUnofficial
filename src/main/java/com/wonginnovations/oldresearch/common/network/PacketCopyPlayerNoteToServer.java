@@ -1,5 +1,6 @@
 package com.wonginnovations.oldresearch.common.network;
 
+import com.wonginnovations.oldresearch.api.OldResearchApi;
 import com.wonginnovations.oldresearch.main.OldResearch;
 import com.wonginnovations.oldresearch.common.OldResearchUtils;
 import com.wonginnovations.oldresearch.common.items.ModItems;
@@ -57,7 +58,7 @@ public class PacketCopyPlayerNoteToServer implements IMessage, IMessageHandler<P
 
                 ItemStack tools = ((IInventory) te).getStackInSlot(0);
                 ItemStack note = ((IInventory) te).getStackInSlot(1);
-                if (note == null || note.isEmpty() || note.getItem() != ModItems.RESEARCHNOTE) return;
+                if (note == null || note.isEmpty() || note.getItem() != ModItems.RESEARCH_NOTE) return;
 
                 boolean failed = false;
                 if (tools == null || tools.isEmpty()) {
@@ -74,9 +75,7 @@ public class PacketCopyPlayerNoteToServer implements IMessage, IMessageHandler<P
                 }
                 ResearchNoteData data = OldResearchManager.getData(note);
                 for (Aspect aspect : data.aspects.getAspects()) {
-                    if (OldResearch.proxy.playerKnowledge.getAspectPoolFor(player.getGameProfile().getName(), aspect) < 1
-                        && ((TileResearchTable) te).bonusAspects.getAmount(aspect) < 1
-                    ) {
+                    if (OldResearchApi.oldResStorage(player).aspectCount(aspect) < 1 && ((TileResearchTable) te).bonusAspects.getAmount(aspect) < 1) {
                         player.sendMessage(new TextComponentString("§c" + I18n.format("tc.research.copy.failure", aspect.getName())));
                         failed = true;
                     }
@@ -86,9 +85,9 @@ public class PacketCopyPlayerNoteToServer implements IMessage, IMessageHandler<P
                     OldResearchUtils.consumeInventoryItem(player, Items.PAPER);
 
                     for (Aspect aspect : data.aspects.getAspects()) {
-                        if (OldResearch.proxy.playerKnowledge.getAspectPoolFor(player.getGameProfile().getName(), aspect) >= 1) {
-                            OldResearch.proxy.playerKnowledge.addAspectPool(player.getGameProfile().getName(), aspect, -1);
-                            OldResearch.NETWORK.sendTo(new PacketAspectPool(aspect.getTag(), 0, OldResearch.proxy.playerKnowledge.getAspectPoolFor(player.getGameProfile().getName(), aspect)), player);
+                        if (OldResearchApi.oldResStorage(player).aspectCount(aspect) >= 1) {
+                            OldResearchApi.oldResStorage(player).addToAspectPool(aspect, -1);
+                            OldResearch.NETWORK.sendTo(new PacketAspectPool(aspect.getTag(), 0, OldResearchApi.oldResStorage(player).aspectCount(aspect)), player);
                         } else {
                             ((TileResearchTable) te).bonusAspects.remove(aspect, 1);
                             player.world.notifyBlockUpdate(blockPos, world.getBlockState(blockPos), world.getBlockState(blockPos), 3);

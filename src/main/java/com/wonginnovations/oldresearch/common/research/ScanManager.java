@@ -1,5 +1,6 @@
 package com.wonginnovations.oldresearch.common.research;
 
+import com.wonginnovations.oldresearch.api.OldResearchApi;
 import com.wonginnovations.oldresearch.main.OldResearch;
 import com.wonginnovations.oldresearch.common.network.PacketAspectDiscovery;
 import com.wonginnovations.oldresearch.common.network.PacketAspectDiscoveryError;
@@ -62,29 +63,28 @@ public class ScanManager {
 //    }
 
     public static int checkAndSyncAspectKnowledge(EntityPlayer player, Aspect aspect, int amount) {
-        PlayerKnowledge rp = OldResearch.proxy.getPlayerKnowledge();
         int save = 0;
-        if(!rp.hasDiscoveredAspect(player.getGameProfile().getName(), aspect)) {
-            OldResearch.NETWORK.sendTo(new PacketAspectDiscovery(aspect.getTag()), (EntityPlayerMP)player);
+        if (!OldResearchApi.oldResStorage(player).isKnowAspect(aspect)) {
+            OldResearch.NETWORK.sendTo(new PacketAspectDiscovery(aspect.getTag()), (EntityPlayerMP) player);
             amount += 2;
             save = amount;
         }
 
-        if(rp.getAspectPoolFor(player.getGameProfile().getName(), aspect) >= ModConfig.aspectTotalCap) {
+        if (OldResearchApi.oldResStorage(player).aspectCount(aspect) >= ModConfig.aspectTotalCap) {
             amount = (int)Math.sqrt(amount);
         }
 
-        if(amount > 1 && (float)rp.getAspectPoolFor(player.getGameProfile().getName(), aspect) >= (float)ModConfig.aspectTotalCap * 1.25F) {
+        if (amount > 1 && (float)OldResearchApi.oldResStorage(player).aspectCount(aspect) >= (float)ModConfig.aspectTotalCap * 1.25F) {
             amount = 1;
         }
 
-        if(rp.addAspectPool(player.getGameProfile().getName(), aspect, amount)) {
-            OldResearch.NETWORK.sendTo(new PacketAspectPool(aspect.getTag(), amount, rp.getAspectPoolFor(player.getGameProfile().getName(), aspect)), (EntityPlayerMP)player);
+        if (OldResearchApi.oldResStorage(player).addToAspectPool(aspect, amount)) {
+            OldResearch.NETWORK.sendTo(new PacketAspectPool(aspect.getTag(), amount, OldResearchApi.oldResStorage(player).aspectCount(aspect)), (EntityPlayerMP)player);
             save = amount;
         }
 
-        if(save > 0) {
-            OldResearchManager.completeAspect(player, aspect, rp.getAspectPoolFor(player.getGameProfile().getName(), aspect));
+        if (save > 0) {
+            OldResearchManager.completeAspect(player, aspect, OldResearchApi.oldResStorage(player).aspectCount(aspect));
         }
 
         return save;
@@ -105,11 +105,10 @@ public class ScanManager {
     public static boolean canScanThing(EntityPlayer player, Object thing, boolean notify) {
         AspectList al = getScanAspects(player, thing);
         if (al == null || al.size() < 0) return true;
-        PlayerKnowledge rp = OldResearch.proxy.getPlayerKnowledge();
         for (Aspect aspect : al.getAspects()) {
             if (aspect.getComponents() != null) {
                 for (Aspect component : aspect.getComponents()) {
-                    if (!rp.hasDiscoveredAspect(player.getGameProfile().getName(), component)) {
+                    if (!OldResearchApi.oldResStorage(player).isKnowAspect(component)) {
                         if (notify && player instanceof EntityPlayerMP) OldResearch.NETWORK.sendTo(new PacketAspectDiscoveryError(component.getTag()), (EntityPlayerMP) player);
                         return false;
                     }

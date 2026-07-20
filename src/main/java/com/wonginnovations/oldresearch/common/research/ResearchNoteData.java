@@ -2,10 +2,10 @@ package com.wonginnovations.oldresearch.common.research;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 
-import com.wonginnovations.oldresearch.main.OldResearch;
+import com.wonginnovations.oldresearch.api.OldResearchApi;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.world.World;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.common.lib.utils.HexUtils;
 
@@ -23,11 +23,11 @@ public class ResearchNoteData {
         return this.complete;
     }
 
-    public void generateHexes(World world, EntityPlayer player, AspectList aspects, int complexity) {
+    public void generateHexes(Random rand, EntityPlayer player, AspectList aspects, int complexity) {
         this.aspects = aspects;
         int radius = 1 + Math.min(3, complexity);
         HashMap<String, HexUtils.Hex> hexLocs = HexUtils.generateHexes(radius);
-        ArrayList<HexUtils.Hex> outerRing = HexUtils.distributeRingRandomly(radius, aspects.size(), world.rand);
+        ArrayList<HexUtils.Hex> outerRing = HexUtils.distributeRingRandomly(radius, aspects.size(), rand);
 
         for(HexUtils.Hex hex : hexLocs.values()) {
             hexes.put(hex.toString(), hex);
@@ -43,14 +43,12 @@ public class ResearchNoteData {
         }
 
         if(complexity > 1) {
-            int researchCompleted = OldResearch.proxy.getPlayerKnowledge().getResearchCompleted(player.getGameProfile().getName());
-            int blanks = (researchCompleted % 10 < 2) ? 0
-                            : (researchCompleted % 10 < 5) ? 1 : 2;
-            blanks = blanks * (radius - 3);
+            int researchCompleted = OldResearchApi.oldResStorage(player).finishedNotes();
+            int blanks = ((researchCompleted % 10 < 2) ? 0 : (researchCompleted % 10 < 5) ? 1 : 2) * radius - 3;
             HexUtils.Hex[] temp = hexes.values().toArray(new HexUtils.Hex[0]);
 
             while(blanks > 0) {
-                int indx = world.rand.nextInt(temp.length);
+                int indx = rand.nextInt(temp.length);
                 if(hexEntries.get(temp[indx].toString()) != null && hexEntries.get(temp[indx].toString()).type == 0) {
                     boolean gtg = true;
 

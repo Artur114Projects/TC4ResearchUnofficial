@@ -1,5 +1,6 @@
 package com.wonginnovations.oldresearch.common.network;
 
+import com.wonginnovations.oldresearch.api.OldResearchApi;
 import com.wonginnovations.oldresearch.main.OldResearch;
 import com.wonginnovations.oldresearch.tc4legacy.client.PlayerNotifications;
 import io.netty.buffer.ByteBuf;
@@ -39,7 +40,7 @@ public class PacketAspectDiscovery implements IMessage, IMessageHandler<PacketAs
         Minecraft.getMinecraft().addScheduledTask(new Runnable() {
             public void run() {
                 if(Aspect.getAspect(message.key) != null) {
-                    OldResearch.proxy.getPlayerKnowledge().addDiscoveredAspect(Minecraft.getMinecraft().player.getGameProfile().getName(), Aspect.getAspect(message.key));
+                    OldResearchApi.oldResStorage(Minecraft.getMinecraft().player).researchAspect(Aspect.getAspect(message.key));
                     String text = I18n.format("tc.addaspectdiscovery", Aspect.getAspect(message.key).getName());
                     PlayerNotifications.addNotification(TextFormatting.GOLD + text, Aspect.getAspect(message.key));
                     Minecraft.getMinecraft().player.playSound(new SoundEvent(new ResourceLocation("entity.experience_orb.pickup")), 0.2F, 0.5F + OldResearch.proxy.getClientWorld().rand.nextFloat() * 0.2F);

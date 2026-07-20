@@ -1,5 +1,6 @@
 package com.wonginnovations.oldresearch.common.network;
 
+import com.wonginnovations.oldresearch.api.OldResearchApi;
 import com.wonginnovations.oldresearch.main.OldResearch;
 import com.wonginnovations.oldresearch.common.research.OldResearchManager;
 import com.wonginnovations.oldresearch.common.research.ScanManager;
@@ -77,9 +78,9 @@ public class PacketAspectCombinationToServer implements IMessage, IMessageHandle
                 if (world != null && player != null) {
                     if (message.aspect1 != null) {
                         Aspect combo = OldResearchManager.getCombinationResult(message.aspect1, message.aspect2);
-                        if ((OldResearch.proxy.playerKnowledge.getAspectPoolFor(player.getGameProfile().getName(), message.aspect1) > 0 || message.ab1) && (OldResearch.proxy.playerKnowledge.getAspectPoolFor(player.getGameProfile().getName(), message.aspect2) > 0 || message.ab2)) {
+                        if ((OldResearchApi.oldResStorage(player).aspectCount(message.aspect1) > 0 || message.ab1) && (OldResearchApi.oldResStorage(player).aspectCount(message.aspect2) > 0 || message.ab2)) {
                             TileEntity rt = player.world.getTileEntity(new BlockPos(message.x, message.y, message.z));
-                            if(OldResearch.proxy.playerKnowledge.getAspectPoolFor(player.getGameProfile().getName(), message.aspect1) <= 0 && message.ab1) {
+                            if(OldResearchApi.oldResStorage(player).aspectCount(message.aspect1) <= 0 && message.ab1) {
                                 if(rt instanceof TileResearchTable) {
                                     ((TileResearchTable)rt).bonusAspects.remove(message.aspect1, 1);
                                     BlockPos pos = new BlockPos(message.x, message.y, message.z);
@@ -87,11 +88,11 @@ public class PacketAspectCombinationToServer implements IMessage, IMessageHandle
                                     rt.markDirty();
                                 }
                             } else {
-                                OldResearch.proxy.playerKnowledge.addAspectPool(player.getGameProfile().getName(), message.aspect1, -1);
-                                OldResearch.NETWORK.sendTo(new PacketAspectPool(message.aspect1.getTag(), 0, OldResearch.proxy.playerKnowledge.getAspectPoolFor(player.getGameProfile().getName(), message.aspect1)), player);
+                                OldResearchApi.oldResStorage(player).addToAspectPool(message.aspect1, -1);
+                                OldResearch.NETWORK.sendTo(new PacketAspectPool(message.aspect1.getTag(), 0, OldResearchApi.oldResStorage(player).aspectCount(message.aspect1)), player);
                             }
 
-                            if(OldResearch.proxy.playerKnowledge.getAspectPoolFor(player.getGameProfile().getName(), message.aspect2) <= 0 && message.ab2) {
+                            if(OldResearchApi.oldResStorage(player).aspectCount(message.aspect2) <= 0 && message.ab2) {
                                 if(rt instanceof TileResearchTable) {
                                     ((TileResearchTable)rt).bonusAspects.remove(message.aspect2, 1);
                                     BlockPos pos = new BlockPos(message.x, message.y, message.z);
@@ -99,8 +100,8 @@ public class PacketAspectCombinationToServer implements IMessage, IMessageHandle
                                     rt.markDirty();
                                 }
                             } else {
-                                OldResearch.proxy.playerKnowledge.addAspectPool(player.getGameProfile().getName(), message.aspect2, -1);
-                                OldResearch.NETWORK.sendTo(new PacketAspectPool(message.aspect2.getTag(), 0, OldResearch.proxy.playerKnowledge.getAspectPoolFor(player.getGameProfile().getName(), message.aspect2)), player);
+                                OldResearchApi.oldResStorage(player).addToAspectPool(message.aspect2, -1);
+                                OldResearch.NETWORK.sendTo(new PacketAspectPool(message.aspect2.getTag(), 0, OldResearchApi.oldResStorage(player).aspectCount(message.aspect2)), player);
                             }
 
                             if (combo != null) {

@@ -1,6 +1,6 @@
 package com.wonginnovations.oldresearch.api.research.curio;
 
-import com.wonginnovations.oldresearch.main.OldResearch;
+import com.wonginnovations.oldresearch.api.OldResearchApi;
 import com.wonginnovations.oldresearch.common.research.ScanManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumHand;
@@ -85,7 +85,7 @@ public class BaseCurio {
                     ? ResearchCategories.getResearchCategory(this.category).formula
                     : aspects;
             for (Aspect aspect : aspectList.getAspects()) {
-                if (OldResearch.proxy.playerKnowledge.hasDiscoveredParentAspects(player.getGameProfile().getName(), aspect)) {
+                if (OldResearchApi.oldResStorage(player).isKnowParentAspect(aspect)) {
                     ScanManager.checkAndSyncAspectKnowledge(player, aspect, (int) Math.floor(aspectList.getAmount(aspect) * (player.getRNG().nextFloat() / 2.0F)));
                 }
             }
@@ -99,5 +99,4 @@ public class BaseCurio {
         }
         return true;
     }
-
 }

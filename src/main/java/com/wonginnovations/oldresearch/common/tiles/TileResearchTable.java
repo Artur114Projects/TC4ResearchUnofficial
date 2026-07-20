@@ -1,5 +1,6 @@
 package com.wonginnovations.oldresearch.common.tiles;
 
+import com.wonginnovations.oldresearch.api.OldResearchApi;
 import com.wonginnovations.oldresearch.main.OldResearch;
 import com.wonginnovations.oldresearch.common.blocks.ModBlocks;
 import com.wonginnovations.oldresearch.common.items.ItemResearchNote;
@@ -136,21 +137,21 @@ public class TileResearchTable extends TileThaumcraftInventory {
                     he = new OldResearchManager.HexEntry(aspect, 2);
                     if(r2 && this.world.rand.nextFloat() < 0.1F) {
                         this.world.playSound(player.posX, player.posY, player.posZ, new SoundEvent(new ResourceLocation("entity.experience_orb.pickup")), SoundCategory.PLAYERS, 0.2F, 0.9F + player.world.rand.nextFloat() * 0.2F, false);
-                    } else if(OldResearch.proxy.playerKnowledge.getAspectPoolFor(player.getGameProfile().getName(), aspect) <= 0) {
+                    } else if(OldResearchApi.oldResStorage(player).aspectCount(aspect) <= 0) {
                         this.bonusAspects.remove(aspect, 1);
                         // this will cause problems later
                         player.world.notifyBlockUpdate(this.pos, world.getBlockState(this.pos), world.getBlockState(this.pos), 3);
                         this.markDirty();
                     } else {
-                        OldResearch.proxy.playerKnowledge.addAspectPool(player.getGameProfile().getName(), aspect, -1);
-                        OldResearch.NETWORK.sendTo(new PacketAspectPool(aspect.getTag(), 0, OldResearch.proxy.playerKnowledge.getAspectPoolFor(player.getGameProfile().getName(), aspect)), (EntityPlayerMP)player);
+                        OldResearchApi.oldResStorage(player).addToAspectPool(aspect, -1);
+                        OldResearch.NETWORK.sendTo(new PacketAspectPool(aspect.getTag(), 0, OldResearchApi.oldResStorage(player).aspectCount(aspect)), (EntityPlayerMP)player);
                     }
                 } else {
                     float f = this.world.rand.nextFloat();
                     if(this.note.hexEntries.get(hex.toString()).aspect != null && (r1 && f < 0.25F || r2 && f < 0.5F)) {
                         this.world.playSound(player.posX, player.posY, player.posZ, new SoundEvent(new ResourceLocation("entity.experience_orb.pickup")), SoundCategory.PLAYERS, 0.2F, 0.9F + player.world.rand.nextFloat() * 0.2F, false);
-                        OldResearch.proxy.playerKnowledge.addAspectPool(player.getGameProfile().getName(), this.note.hexEntries.get(hex.toString()).aspect, 1);
-                        OldResearch.NETWORK.sendTo(new PacketAspectPool(this.note.hexEntries.get(hex.toString()).aspect.getTag(), 0, OldResearch.proxy.playerKnowledge.getAspectPoolFor(player.getGameProfile().getName(), this.note.hexEntries.get(hex.toString()).aspect)), (EntityPlayerMP)player);
+                        OldResearchApi.oldResStorage(player).addToAspectPool(this.note.hexEntries.get(hex.toString()).aspect, 1);
+                        OldResearch.NETWORK.sendTo(new PacketAspectPool(this.note.hexEntries.get(hex.toString()).aspect.getTag(), 0, OldResearchApi.oldResStorage(player).aspectCount(this.note.hexEntries.get(hex.toString()).aspect)), (EntityPlayerMP)player);
                     }
 
                     he = new OldResearchManager.HexEntry(null, 0);
@@ -160,7 +161,7 @@ public class TileResearchTable extends TileThaumcraftInventory {
                 this.note.hexes.put(hex.toString(), hex);
                 OldResearchManager.updateData(this.getStackInSlot(1), this.note);
                 this.consumeInkFromTable();
-                if(!this.world.isRemote && OldResearchManager.checkResearchCompletion(this.getStackInSlot(1), this.note, player.getGameProfile().getName())) {
+                if(!this.world.isRemote && OldResearchManager.checkResearchCompletion(this.getStackInSlot(1), this.note, player)) {
                     this.getStackInSlot(1).setItemDamage(64);
                     this.world.addBlockEvent(this.pos, ModBlocks.RESEARCHTABLE, 1, 1);
                     this.syncTile(false);
@@ -281,7 +282,7 @@ public class TileResearchTable extends TileThaumcraftInventory {
                     return true;
                 }
             case 1:
-                if (itemstack.getItem() == ModItems.RESEARCHNOTE) {
+                if (itemstack.getItem() == ModItems.RESEARCH_NOTE) {
                     return true;
                 }
         }

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
+import com.wonginnovations.oldresearch.api.OldResearchApi;
 import com.wonginnovations.oldresearch.main.OldResearch;
 import com.wonginnovations.oldresearch.common.container.ContainerResearchTable;
 import com.wonginnovations.oldresearch.common.network.PacketCopyPlayerNoteToServer;
@@ -16,7 +17,6 @@ import com.wonginnovations.oldresearch.common.tiles.TileResearchTable;
 import com.wonginnovations.oldresearch.tc4legacy.client.Tessellator;
 import com.wonginnovations.oldresearch.tc4legacy.client.UtilsFX;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
@@ -49,9 +49,7 @@ public class GuiResearchTable extends GuiContainer {
     private int lastPage = 0;
     private int isMouseButtonDown = 0;
     private TileResearchTable tileEntity;
-    private final FontRenderer galFontRenderer;
-    private final String username;
-    EntityPlayer player;
+    private final EntityPlayer player;
     public Aspect select1 = null;
     public Aspect select2 = null;
     private final HashMap<String, GuiResearchTable.Rune> runes = new HashMap<>();
@@ -67,8 +65,6 @@ public class GuiResearchTable extends GuiContainer {
         this.tileEntity = e;
         this.xSize = 256;
         this.ySize = 256;
-        this.galFontRenderer = FMLClientHandler.instance().getClient().standardGalacticFontRenderer;
-        this.username = player.getGameProfile().getName();
         this.player = player;
         RESEARCHEXPERTISE = ThaumcraftCapabilities.getKnowledge(player).isResearchComplete("RESEARCHEXPERTISE");
         RESEARCHMASTERY = ThaumcraftCapabilities.getKnowledge(player).isResearchComplete("RESEARCHMASTERY");
@@ -223,7 +219,7 @@ public class GuiResearchTable extends GuiContainer {
     }
 
     private void drawAspects(int x, int y) {
-        AspectList aspects = OldResearch.proxy.getPlayerKnowledge().getAspectsDiscovered(this.username);
+        AspectList aspects = OldResearchApi.oldResStorage(this.player).aspectsPool();
         if(aspects != null) {
             int count = aspects.size();
             this.lastPage = (count - 20) / 5;
@@ -242,11 +238,11 @@ public class GuiResearchTable extends GuiContainer {
             }
         }
 
-        if(this.select1 != null && OldResearch.proxy.playerKnowledge.getAspectPoolFor(this.player.getGameProfile().getName(), this.select1) <= 0 && this.tileEntity.bonusAspects.getAmount(this.select1) <= 0) {
+        if(this.select1 != null && OldResearchApi.oldResStorage(this.player).aspectCount(this.select1) <= 0 && this.tileEntity.bonusAspects.getAmount(this.select1) <= 0) {
             this.select1 = null;
         }
 
-        if(this.select2 != null && OldResearch.proxy.playerKnowledge.getAspectPoolFor(this.player.getGameProfile().getName(), this.select2) <= 0 && this.tileEntity.bonusAspects.getAmount(this.select2) <= 0) {
+        if(this.select2 != null && OldResearchApi.oldResStorage(this.player).aspectCount(this.select2) <= 0 && this.tileEntity.bonusAspects.getAmount(this.select2) <= 0) {
             this.select2 = null;
         }
 
@@ -263,7 +259,7 @@ public class GuiResearchTable extends GuiContainer {
     private void drawAspectText(int x, int y, int mx, int my) {
         int var7;
         int var8;
-        AspectList aspects = OldResearch.proxy.getPlayerKnowledge().getAspectsDiscovered(this.username);
+        AspectList aspects = OldResearchApi.oldResStorage(this.player).aspectsPool();
         if(aspects != null) {
             int count = 0;
             int drawn = 0;
@@ -441,7 +437,7 @@ public class GuiResearchTable extends GuiContainer {
             this.highlight.clear();
 
             for(HexUtils.Hex hex : this.tileEntity.note.hexes.values()) {
-                if(this.tileEntity.note.hexEntries.get(hex.toString()).type == 1 && OldResearch.proxy.getPlayerKnowledge().hasDiscoveredAspect(this.username, this.tileEntity.note.hexEntries.get(hex.toString()).aspect)) {
+                if(this.tileEntity.note.hexEntries.get(hex.toString()).type == 1 && OldResearchApi.oldResStorage(this.player).isKnowAspect(this.tileEntity.note.hexEntries.get(hex.toString()).aspect)) {
                     this.checkConnections(hex);
                 }
             }
@@ -471,7 +467,7 @@ public class GuiResearchTable extends GuiContainer {
             }
 
             for(HexUtils.Hex hex : this.tileEntity.note.hexes.values()) {
-                if(this.tileEntity.note.hexEntries.get(hex.toString()).aspect != null && !OldResearch.proxy.getPlayerKnowledge().hasDiscoveredAspect(this.username, this.tileEntity.note.hexEntries.get(hex.toString()).aspect)) {
+                if(this.tileEntity.note.hexEntries.get(hex.toString()).aspect != null && !OldResearchApi.oldResStorage(this.player).isKnowAspect(this.tileEntity.note.hexEntries.get(hex.toString()).aspect)) {
                     HexUtils.Pixel pix = hex.toPixel(HEX_SIZE);
                     UtilsFX.bindTexture(new ResourceLocation("thaumcraft", "textures/aspects/_unknown.png"));
                     GlStateManager.pushMatrix();
@@ -507,7 +503,7 @@ public class GuiResearchTable extends GuiContainer {
             if(!this.checked.contains(target.toString()) && this.tileEntity.note.hexEntries.containsKey(target.toString()) && this.tileEntity.note.hexEntries.get(target.toString()).type >= 1) {
                 Aspect aspect1 = (this.tileEntity.note.hexEntries.get(hex.toString())).aspect;
                 Aspect aspect2 = (this.tileEntity.note.hexEntries.get(target.toString())).aspect;
-                if(OldResearch.proxy.getPlayerKnowledge().hasDiscoveredAspect(this.username, aspect1) && OldResearch.proxy.getPlayerKnowledge().hasDiscoveredAspect(this.username, aspect2) && (!aspect1.isPrimal() && (aspect1.getComponents()[0] == aspect2 || aspect1.getComponents()[1] == aspect2) || !aspect2.isPrimal() && (aspect2.getComponents()[0] == aspect1 || aspect2.getComponents()[1] == aspect1))) {
+                if(OldResearchApi.oldResStorage(this.player).isKnowAspect(aspect1) && OldResearchApi.oldResStorage(this.player).isKnowAspect(aspect2) && (!aspect1.isPrimal() && (aspect1.getComponents()[0] == aspect2 || aspect1.getComponents()[1] == aspect2) || !aspect2.isPrimal() && (aspect2.getComponents()[0] == aspect1 || aspect2.getComponents()[1] == aspect1))) {
                     String k1 = hex + ":" + target;
                     String k2 = target + ":" + hex;
                     if(!this.lines.containsKey(k1) && !this.lines.containsKey(k2)) {
@@ -611,7 +607,7 @@ public class GuiResearchTable extends GuiContainer {
                         if(isShiftKeyDown() && RESEARCHMASTERY) {
                             Aspect aspect = this.getClickedAspect(mx, my, gx, gy, true);
                             if(aspect != null && !aspect.isPrimal()) {
-                                AspectList aspects = OldResearch.proxy.getPlayerKnowledge().getAspectsDiscovered(this.username);
+                                AspectList aspects = OldResearchApi.oldResStorage(this.player).aspectsPool();
                                 if(aspects != null && (aspects.getAmount(aspect.getComponents()[0]) > 0 || this.tileEntity.bonusAspects.getAmount(aspect.getComponents()[0]) > 0) && (aspects.getAmount(aspect.getComponents()[1]) > 0 || this.tileEntity.bonusAspects.getAmount(aspect.getComponents()[1]) > 0)) {
                                     this.draggedAspect = null;
                                     this.playButtonCombine();
@@ -638,7 +634,7 @@ public class GuiResearchTable extends GuiContainer {
     }
 
     private Aspect getClickedAspect(int mx, int my, int gx, int gy, boolean ignoreZero) {
-        AspectList aspects = OldResearch.proxy.getPlayerKnowledge().getAspectsDiscovered(this.username);
+        AspectList aspects = OldResearchApi.oldResStorage(this.player).aspectsPool();
         if(aspects != null) {
             int count = 0;
             int drawn = 0;

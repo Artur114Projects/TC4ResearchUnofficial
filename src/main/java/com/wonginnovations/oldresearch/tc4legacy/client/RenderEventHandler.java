@@ -1,5 +1,6 @@
 package com.wonginnovations.oldresearch.tc4legacy.client;
 
+import com.wonginnovations.oldresearch.api.OldResearchApi;
 import com.wonginnovations.oldresearch.main.OldResearch;
 import com.wonginnovations.oldresearch.common.research.ScanManager;
 import net.minecraft.client.Minecraft;
@@ -214,7 +215,7 @@ public abstract class RenderEventHandler {
                 GlStateManager.translate(shift, 0.0D, 0.0D);
                 GlStateManager.rotate(180.0F, 0.0F, 0.0F, 1.0F);
                 GlStateManager.scale(tagscale, tagscale, tagscale);
-                if(!OldResearch.proxy.playerKnowledge.hasDiscoveredAspect(player.getGameProfile().getName(), tag)) {
+                if(!OldResearchApi.oldResStorage(player).isKnowAspect(tag)) {
                     color = new Color(11184810);
                     UtilsFX.renderQuadCenteredFromTexture(OldResearch.thaumLoc("textures/aspects/_unknown.png"), 1.0F, (float)color.getRed() / 255.0F, (float)color.getGreen() / 255.0F, (float)color.getBlue() / 255.0F, bright, 771, 0.75F);
                 } else {

@@ -1,4 +1,4 @@
-package com.wonginnovations.oldresearch.core;
+package com.wonginnovations.oldresearch.main;
 
 import com.google.common.collect.ImmutableList;
 import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin;

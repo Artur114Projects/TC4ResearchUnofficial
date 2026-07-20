@@ -43,10 +43,7 @@ public class ClientProxy extends Proxy {
 
     @Override
     public void registerDisplayInformation() {
-        OldResearch.aspectShift = FMLClientHandler.instance().hasOptifine();
-        if(Loader.isModLoaded("JustEnoughItems")) {
-            OldResearch.aspectShift = true;
-        }
+
     }
 
     @Override

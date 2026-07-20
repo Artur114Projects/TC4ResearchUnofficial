@@ -1,5 +1,6 @@
 package com.wonginnovations.oldresearch.core.mixin;
 
+import com.wonginnovations.oldresearch.api.OldResearchApi;
 import com.wonginnovations.oldresearch.main.OldResearch;
 import com.wonginnovations.oldresearch.common.OldResearchUtils;
 import com.wonginnovations.oldresearch.common.network.PacketGivePlayerNoteToServer;
@@ -421,7 +422,7 @@ public abstract class GuiResearchPageMixin extends GuiScreen {
     public void ctorInjection(ResearchEntry research, ResourceLocation recipe, double x, double y, CallbackInfo ci) {
         this.knownPlayerAspects = new AspectList();
 
-        for (Aspect a : OldResearch.proxy.getPlayerKnowledge().getAspectsDiscovered(this.mc.player.getGameProfile().getName()).getAspects()) {
+        for (Aspect a : OldResearchApi.oldResStorage(this.mc.player).aspectsPool().getAspects()) {
             this.knownPlayerAspects.add(a, OldResearchManager.getAspectComplexity(a));
         }
 
@@ -475,7 +476,7 @@ public abstract class GuiResearchPageMixin extends GuiScreen {
                             GlStateManager.pushMatrix();
                             GlStateManager.translate(x + 60, y + 4 + count % 5 * 40, 0.0);
                             GlStateManager.scale(1.25F, 1.25F, 1.25F);
-                            if (OldResearch.proxy.getPlayerKnowledge().hasDiscoveredAspect(this.mc.player.getGameProfile().getName(), aspect.getComponents()[0])) {
+                            if (OldResearchApi.oldResStorage(this.mc.player).isKnowAspect(aspect.getComponents()[0])) {
                                 UtilsFX.drawTag(0, 0, aspect.getComponents()[0], 0.0F, 0, this.zLevel);
                             } else {
                                 this.mc.renderEngine.bindTexture(this.dummyResearch);
@@ -487,7 +488,7 @@ public abstract class GuiResearchPageMixin extends GuiScreen {
                             GlStateManager.pushMatrix();
                             GlStateManager.translate(x + 102, y + 4 + count % 5 * 40, 0.0);
                             GlStateManager.scale(1.25F, 1.25F, 1.25F);
-                            if (OldResearch.proxy.getPlayerKnowledge().hasDiscoveredAspect(this.mc.player.getGameProfile().getName(), aspect.getComponents()[1])) {
+                            if (OldResearchApi.oldResStorage(this.mc.player).isKnowAspect(aspect.getComponents()[1])) {
                                 UtilsFX.drawTag(0, 0, aspect.getComponents()[1], 0.0F, 0, this.zLevel);
                             } else {
                                 this.mc.renderEngine.bindTexture(this.dummyResearch);
@@ -496,7 +497,7 @@ public abstract class GuiResearchPageMixin extends GuiScreen {
                             }
 
                             GlStateManager.popMatrix();
-                            if (OldResearch.proxy.getPlayerKnowledge().hasDiscoveredAspect(this.mc.player.getGameProfile().getName(), aspect.getComponents()[0])) {
+                            if (OldResearchApi.oldResStorage(this.mc.player).isKnowAspect(aspect.getComponents()[0])) {
                                 text = aspect.getComponents()[0].getName();
                                 offset = this.mc.fontRenderer.getStringWidth(text) / 2;
                                 GlStateManager.pushMatrix();
@@ -506,7 +507,7 @@ public abstract class GuiResearchPageMixin extends GuiScreen {
                                 GlStateManager.popMatrix();
                             }
 
-                            if (OldResearch.proxy.getPlayerKnowledge().hasDiscoveredAspect(this.mc.player.getGameProfile().getName(), aspect.getComponents()[1])) {
+                            if (OldResearchApi.oldResStorage(this.mc.player).isKnowAspect(aspect.getComponents()[1])) {
                                 text = aspect.getComponents()[1].getName();
                                 offset = this.mc.fontRenderer.getStringWidth(text) / 2;
                                 GlStateManager.pushMatrix();
