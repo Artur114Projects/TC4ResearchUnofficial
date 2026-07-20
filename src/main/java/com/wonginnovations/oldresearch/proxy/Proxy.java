@@ -1,11 +1,11 @@
 package com.wonginnovations.oldresearch.proxy;
 
-import com.wonginnovations.oldresearch.OldResearch;
+import com.wonginnovations.oldresearch.main.OldResearch;
 import com.wonginnovations.oldresearch.api.capabilities.PlayerAspects;
 import com.wonginnovations.oldresearch.common.blocks.ModBlocks;
-import com.wonginnovations.oldresearch.common.lib.network.PacketHandler;
-import com.wonginnovations.oldresearch.common.lib.research.PlayerKnowledge;
-import com.wonginnovations.oldresearch.common.lib.research.OldResearchManager;
+import com.wonginnovations.oldresearch.common.network.PacketHandler;
+import com.wonginnovations.oldresearch.common.research.PlayerKnowledge;
+import com.wonginnovations.oldresearch.common.research.OldResearchManager;
 import com.wonginnovations.oldresearch.common.tiles.TileResearchTable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;

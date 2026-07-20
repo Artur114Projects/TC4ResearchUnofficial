@@ -1,6 +1,6 @@
 package com.wonginnovations.oldresearch.common.items;
 
-import com.wonginnovations.oldresearch.common.lib.research.OldResearchManager;
+import com.wonginnovations.oldresearch.common.research.OldResearchManager;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
@@ -38,18 +38,21 @@ public class ItemCurio extends Item {
         return EnumRarity.UNCOMMON;
     }
 
+    @Override
     @SideOnly(Side.CLIENT)
     public void addInformation(@NotNull ItemStack stack, World worldIn, List<String> tooltip, @NotNull ITooltipFlag flagIn) {
         tooltip.add(I18n.format("item.curio.text"));
     }
 
+    @Override
     public @NotNull String getTranslationKey(ItemStack itemStack) {
         return super.getTranslationKey() + "." + OldResearchManager.CURIOS.get(itemStack.getMetadata()).getName().toLowerCase();
     }
 
+    @Override
     public void getSubItems(@NotNull CreativeTabs tab, @NotNull NonNullList<ItemStack> items) {
         if (tab == ConfigItems.TABTC || tab == CreativeTabs.SEARCH) {
-            for(int meta = 0; meta < OldResearchManager.CURIOS.size(); ++meta) {
+            for(int meta = 0; meta != OldResearchManager.CURIOS.size(); meta++) {
                 items.add(new ItemStack(this, 1, meta));
             }
         }
@@ -68,5 +71,4 @@ public class ItemCurio extends Item {
 
         return new ActionResult<>(EnumActionResult.SUCCESS, stack);
     }
-
 }

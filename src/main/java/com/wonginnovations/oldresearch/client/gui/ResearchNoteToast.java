@@ -5,6 +5,8 @@
 
 package com.wonginnovations.oldresearch.client.gui;
 
+import com.wonginnovations.oldresearch.main.OldResearch;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.toasts.GuiToast;
 import net.minecraft.client.gui.toasts.IToast;
@@ -19,10 +21,10 @@ import thaumcraft.client.gui.GuiResearchBrowser;
 
 @SideOnly(Side.CLIENT)
 public class ResearchNoteToast implements IToast {
-    ResearchEntry entry;
+    private static final ResourceLocation tex = OldResearch.loc("textures/gui/toast.png");
+    private final ResearchEntry entry;
     private long firstDrawTime;
     private boolean newDisplay;
-    ResourceLocation tex = new ResourceLocation("oldresearch", "textures/gui/toast.png");
 
     public ResearchNoteToast(ResearchEntry entry) {
         this.entry = entry;
@@ -35,23 +37,23 @@ public class ResearchNoteToast implements IToast {
         }
 
         int shift = -20;
-
-        toastGui.getMinecraft().getTextureManager().bindTexture(this.tex);
+        Minecraft mc = toastGui.getMinecraft();
+        mc.getTextureManager().bindTexture(tex);
         GlStateManager.color(1.0F, 1.0F, 1.0F);
         Gui.drawModalRectWithCustomSizedTexture(shift, 0, 0, 0, 180, 32, 180, 32);
         GuiResearchBrowser.drawResearchIcon(this.entry, 6 + shift, 8, 0.0F, false);
-        toastGui.getMinecraft().fontRenderer.drawString(I18n.format("researchnote.complete"), 30 + shift, 7, 10631665);
+        mc.fontRenderer.drawString(I18n.format("researchnote.complete"), 30 + shift, 7, 10631665);
         String s = this.entry.getLocalizedName();
-        float w = (float)toastGui.getMinecraft().fontRenderer.getStringWidth(s);
+        float w = (float)mc.fontRenderer.getStringWidth(s);
         if (w > 150.0F) {
             w = 150.0F / w;
             GlStateManager.pushMatrix();
             GlStateManager.translate(30.0F, 18.0F, 0.0F);
             GlStateManager.scale(w, w, w);
-            toastGui.getMinecraft().fontRenderer.drawString(s, shift, 0, 16755465);
+            mc.fontRenderer.drawString(s, shift, 0, 16755465);
             GlStateManager.popMatrix();
         } else {
-            toastGui.getMinecraft().fontRenderer.drawString(s, 30 + shift, 18, 16755465);
+            mc.fontRenderer.drawString(s, 30 + shift, 18, 16755465);
         }
 
         return delta - this.firstDrawTime < 5000L ? Visibility.SHOW : Visibility.HIDE;

@@ -1,6 +1,6 @@
 package com.wonginnovations.oldresearch.api.capabilities;
 
-import com.wonginnovations.oldresearch.common.lib.network.PacketSyncAspects;
+import com.wonginnovations.oldresearch.common.network.PacketSyncAspects;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;

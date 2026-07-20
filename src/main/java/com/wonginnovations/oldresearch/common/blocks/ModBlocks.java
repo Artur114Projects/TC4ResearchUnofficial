@@ -1,6 +1,6 @@
 package com.wonginnovations.oldresearch.common.blocks;
 
-import com.wonginnovations.oldresearch.OldResearch;
+import com.wonginnovations.oldresearch.main.OldResearch;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -11,26 +11,18 @@ import net.minecraftforge.registries.IForgeRegistry;
 
 @Mod.EventBusSubscriber(modid = OldResearch.MODID)
 public class ModBlocks {
-
     public static final Block RESEARCHTABLE = new BlockResearchTable();
 
     @SubscribeEvent
     public static void registerItems(RegistryEvent.Register<Block> event) {
-
         IForgeRegistry<Block> r = event.getRegistry();
-
         r.register(RESEARCHTABLE);
-
     }
 
     @SubscribeEvent
     public static void registerBlockItems(RegistryEvent.Register<Item> event) {
-
         IForgeRegistry<Item> r = event.getRegistry();
-
         r.register(makeItem(RESEARCHTABLE).setTranslationKey("research_table"));
-
-
     }
 
     private static ItemBlock makeItem(Block block) {
@@ -39,5 +31,4 @@ public class ModBlocks {
         OldResearch.proxy.registerModel(itemBlock);
         return itemBlock;
     }
-
 }

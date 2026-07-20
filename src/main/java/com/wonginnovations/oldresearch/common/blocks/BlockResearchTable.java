@@ -2,7 +2,7 @@ package com.wonginnovations.oldresearch.common.blocks;
 
 import java.util.Random;
 
-import com.wonginnovations.oldresearch.OldResearch;
+import com.wonginnovations.oldresearch.main.OldResearch;
 import com.wonginnovations.oldresearch.common.tiles.TileResearchTable;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -28,27 +28,30 @@ public class BlockResearchTable extends BlockTCDevice implements IBlockFacingHor
         this.setSoundType(SoundType.WOOD);
     }
 
+    @Override
     public boolean isOpaqueCube(@NotNull IBlockState state) {
         return false;
     }
 
+    @Override
     public boolean isFullCube(@NotNull IBlockState state) {
         return false;
     }
 
+    @Override
     public boolean isSideSolid(@NotNull IBlockState state, @NotNull IBlockAccess world, @NotNull BlockPos pos, @NotNull EnumFacing side) {
         return false;
     }
 
+    @Override
     public boolean onBlockActivated(World world, @NotNull BlockPos pos, @NotNull IBlockState state, @NotNull EntityPlayer player, @NotNull EnumHand hand, @NotNull EnumFacing side, float hitX, float hitY, float hitZ) {
-        if (world.isRemote) {
-            return true;
-        } else {
+        if (!world.isRemote) {
             player.openGui(OldResearch.INSTANCE, 1, world, pos.getX(), pos.getY(), pos.getZ());
-            return true;
         }
+        return true;
     }
 
+    @Override
     public IBlockState getStateForPlacement(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
         IBlockState bs = this.getDefaultState();
         bs = bs.withProperty(IBlockFacingHorizontal.FACING, placer.getHorizontalFacing());
@@ -58,8 +61,7 @@ public class BlockResearchTable extends BlockTCDevice implements IBlockFacingHor
     @SideOnly(Side.CLIENT)
     public void randomDisplayTick(@NotNull IBlockState state, World world, @NotNull BlockPos pos, Random rand) {
         TileEntity te = world.getTileEntity(pos);
-//        if (te != null) te.invalidate();
-        if (rand.nextInt(5) == 0 && te != null && ((TileResearchTable)te).hasResearchNote()) {
+        if (rand.nextInt(5) == 0 && te != null && ((TileResearchTable) te).hasResearchNote()) {
             double xx = rand.nextGaussian() / 2.0;
             double zz = rand.nextGaussian() / 2.0;
             double yy = 1.5 + (double)rand.nextFloat();
@@ -73,13 +75,10 @@ public class BlockResearchTable extends BlockTCDevice implements IBlockFacingHor
             fb.setLayer(0);
             ParticleEngine.addEffect(world, fb);
         }
-
     }
 
     @Override
-    public @NotNull String getTranslationKey()
-    {
+    public @NotNull String getTranslationKey() {
         return "tile.research_table";
     }
-
 }

@@ -13,8 +13,8 @@ import thaumcraft.common.lib.utils.BlockStateUtils;
 
 @SideOnly(Side.CLIENT)
 public class TileResearchTableRenderer extends TileEntitySpecialRenderer<TileResearchTable> {
-    private final ModelResearchTable tableModel = new ModelResearchTable();
     private static final ResourceLocation TEX = new ResourceLocation("thaumcraft", "textures/blocks/research_table_model.png");
+    private final ModelResearchTable tableModel = new ModelResearchTable();
 
     public void render(TileResearchTable table, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
         GlStateManager.pushMatrix();

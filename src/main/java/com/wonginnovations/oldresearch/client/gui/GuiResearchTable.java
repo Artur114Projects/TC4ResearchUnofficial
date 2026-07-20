@@ -6,17 +6,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
-import com.wonginnovations.oldresearch.OldResearch;
+import com.wonginnovations.oldresearch.main.OldResearch;
 import com.wonginnovations.oldresearch.common.container.ContainerResearchTable;
-import com.wonginnovations.oldresearch.common.lib.network.PacketCopyPlayerNoteToServer;
-import com.wonginnovations.oldresearch.common.lib.network.PacketHandler;
-import com.wonginnovations.oldresearch.common.lib.network.PacketAspectCombinationToServer;
-import com.wonginnovations.oldresearch.common.lib.network.PacketAspectPlaceToServer;
-import com.wonginnovations.oldresearch.common.lib.research.OldResearchManager;
-import com.wonginnovations.oldresearch.common.lib.research.ResearchNoteData;
+import com.wonginnovations.oldresearch.common.network.PacketCopyPlayerNoteToServer;
+import com.wonginnovations.oldresearch.common.network.PacketAspectCombinationToServer;
+import com.wonginnovations.oldresearch.common.network.PacketAspectPlaceToServer;
+import com.wonginnovations.oldresearch.common.research.OldResearchManager;
 import com.wonginnovations.oldresearch.common.tiles.TileResearchTable;
-import com.wonginnovations.oldresearch.client.lib.Tessellator;
-import com.wonginnovations.oldresearch.client.lib.UtilsFX;
+import com.wonginnovations.oldresearch.tc4legacy.client.Tessellator;
+import com.wonginnovations.oldresearch.tc4legacy.client.UtilsFX;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -34,7 +32,6 @@ import org.lwjgl.input.Mouse;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.capabilities.ThaumcraftCapabilities;
-import thaumcraft.common.config.ModConfig;
 import thaumcraft.common.lib.SoundsTC;
 import thaumcraft.common.lib.utils.HexUtils;
 
@@ -78,10 +75,12 @@ public class GuiResearchTable extends GuiContainer {
         RESEARCHDUPE = ThaumcraftCapabilities.getKnowledge(player).isResearchComplete("RESEARCHDUPE");
     }
 
+    @Override
     public void drawScreen(int mx, int my, float par3) {
+        this.drawDefaultBackground();
         super.drawScreen(mx, my, par3);
-        this.xSize_lo = (float)mx;
-        this.ySize_lo = (float)my;
+        this.xSize_lo = (float) mx;
+        this.ySize_lo = (float) my;
         int gx = (this.width - this.xSize) / 2;
         int gy = (this.height - this.ySize) / 2;
         if(this.tileEntity.note != null && RESEARCHDUPE && this.tileEntity.note.isComplete()) {
@@ -138,7 +137,7 @@ public class GuiResearchTable extends GuiContainer {
                     if(this.tileEntity.note.hexEntries.containsKey(hp.toString()) && (this.tileEntity.note.hexEntries.get(hp.toString())).type == 0) {
                         this.playButtonCombine();
                         this.playButtonWrite();
-                        PacketHandler.INSTANCE.sendToServer(new PacketAspectPlaceToServer(this.player, (byte)hp.q, (byte)hp.r, this.tileEntity.getPos().getX(), this.tileEntity.getPos().getY(), this.tileEntity.getPos().getZ(), this.draggedAspect));
+                        OldResearch.NETWORK.sendToServer(new PacketAspectPlaceToServer(this.player, (byte)hp.q, (byte)hp.r, this.tileEntity.getPos().getX(), this.tileEntity.getPos().getY(), this.tileEntity.getPos().getZ(), this.draggedAspect));
                         this.draggedAspect = null;
                     }
                 }
@@ -185,14 +184,17 @@ public class GuiResearchTable extends GuiContainer {
         }
 
         this.renderHoveredToolTip(mx, my);
+
+        RenderHelper.enableStandardItemLighting();
     }
 
+    @Override
     protected void drawGuiContainerBackgroundLayer(float par1, int par2, int par3) {
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         GlStateManager.enableBlend();
         UtilsFX.bindTexture("textures/gui/guiresearchtable2.png");
         this.drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, 255, 167);
-        this.drawTexturedModalRect(this.guiLeft + 40, this.guiTop + 167, 0, 166, 184, 88);
+        this.drawTexturedModalRect(this.guiLeft + 40, this.guiTop + 167, 0, 166, 184, 90);
         if(this.page < this.lastPage) {
             this.drawTexturedModalRect(this.guiLeft + 51, this.guiTop + 121, 208, 208, 24, 8);
         }
@@ -558,7 +560,7 @@ public class GuiResearchTable extends GuiContainer {
                 this.butcount2 = System.nanoTime() + 200000000L;
                 this.playButtonClick();
                 this.playButtonCombine();
-                PacketHandler.INSTANCE.sendToServer(new PacketAspectCombinationToServer(this.player, this.tileEntity.getPos().getX(), this.tileEntity.getPos().getY(), this.tileEntity.getPos().getZ(), this.select1, this.select2, this.tileEntity.bonusAspects.getAmount(this.select1) > 0, this.tileEntity.bonusAspects.getAmount(this.select2) > 0, true));
+                OldResearch.NETWORK.sendToServer(new PacketAspectCombinationToServer(this.player, this.tileEntity.getPos().getX(), this.tileEntity.getPos().getY(), this.tileEntity.getPos().getZ(), this.select1, this.select2, this.tileEntity.bonusAspects.getAmount(this.select1) > 0, this.tileEntity.bonusAspects.getAmount(this.select2) > 0, true));
             } else {
                 var7 = mx - (gx + 27);
                 var8 = my - (gy + 121);
@@ -598,7 +600,7 @@ public class GuiResearchTable extends GuiContainer {
                                 var7 = mx - (gx + 37);
                                 var8 = my - (gy + 5);
                                 if(var7 >= 0 && var8 >= 0 && var7 < 24 && var8 < 24) {
-                                    PacketHandler.INSTANCE.sendToServer(new PacketCopyPlayerNoteToServer(this.tileEntity.getPos()));
+                                    OldResearch.NETWORK.sendToServer(new PacketCopyPlayerNoteToServer(this.tileEntity.getPos()));
 //                                    this.mc.playerController.sendEnchantPacket(this.inventorySlots.windowId, 5);
                                     this.playButtonClick();
                                     return;
@@ -613,7 +615,7 @@ public class GuiResearchTable extends GuiContainer {
                                 if(aspects != null && (aspects.getAmount(aspect.getComponents()[0]) > 0 || this.tileEntity.bonusAspects.getAmount(aspect.getComponents()[0]) > 0) && (aspects.getAmount(aspect.getComponents()[1]) > 0 || this.tileEntity.bonusAspects.getAmount(aspect.getComponents()[1]) > 0)) {
                                     this.draggedAspect = null;
                                     this.playButtonCombine();
-                                    PacketHandler.INSTANCE.sendToServer(new PacketAspectCombinationToServer(this.player, this.tileEntity.getPos().getX(), this.tileEntity.getPos().getY(), this.tileEntity.getPos().getZ(), aspect.getComponents()[0], aspect.getComponents()[1], this.tileEntity.bonusAspects.getAmount(aspect.getComponents()[0]) > 0, this.tileEntity.bonusAspects.getAmount(aspect.getComponents()[1]) > 0, true));
+                                    OldResearch.NETWORK.sendToServer(new PacketAspectCombinationToServer(this.player, this.tileEntity.getPos().getX(), this.tileEntity.getPos().getY(), this.tileEntity.getPos().getZ(), aspect.getComponents()[0], aspect.getComponents()[1], this.tileEntity.bonusAspects.getAmount(aspect.getComponents()[0]) > 0, this.tileEntity.bonusAspects.getAmount(aspect.getComponents()[1]) > 0, true));
                                 }
                             }
                         }
@@ -631,7 +633,7 @@ public class GuiResearchTable extends GuiContainer {
         if(this.tileEntity.note.hexes.containsKey(hp.toString()) && this.tileEntity.note.hexEntries.get(hp.toString()).type == 2) {
             this.playButtonCombine();
             this.playButtonErase();
-            PacketHandler.INSTANCE.sendToServer(new PacketAspectPlaceToServer(this.player, (byte)hp.q, (byte)hp.r, this.tileEntity.getPos().getX(), this.tileEntity.getPos().getY(), this.tileEntity.getPos().getZ(), null));
+            OldResearch.NETWORK.sendToServer(new PacketAspectPlaceToServer(this.player, (byte)hp.q, (byte)hp.r, this.tileEntity.getPos().getX(), this.tileEntity.getPos().getY(), this.tileEntity.getPos().getZ(), null));
         }
     }
 

@@ -1,7 +1,6 @@
 package com.wonginnovations.oldresearch.core.mixin;
 
-import com.wonginnovations.oldresearch.OldResearch;
-import com.wonginnovations.oldresearch.common.lib.research.ScanManager;
+import com.wonginnovations.oldresearch.common.research.ScanManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;

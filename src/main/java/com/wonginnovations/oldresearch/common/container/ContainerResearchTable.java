@@ -13,14 +13,12 @@ import thaumcraft.api.items.IScribeTools;
 import thaumcraft.common.container.slot.SlotLimitedByClass;
 
 public class ContainerResearchTable extends Container {
-    public TileResearchTable tileEntity;
-    String[] aspects;
-    EntityPlayer player;
+    public final TileResearchTable tileEntity;
+    public final EntityPlayer player;
 
     public ContainerResearchTable(InventoryPlayer playerInventory, TileResearchTable tableInventory) {
         this.player = playerInventory.player;
         this.tileEntity = tableInventory;
-        this.aspects = Aspect.aspects.keySet().toArray(new String[0]);
         this.addSlotToContainer(new SlotLimitedByClass(IScribeTools.class, tableInventory, 0, 14, 10));
         this.addSlotToContainer(new SlotLimitedByClass(ItemResearchNote.class, tableInventory, 1, 70, 10));
         this.bindPlayerInventory(playerInventory);
@@ -36,7 +34,6 @@ public class ContainerResearchTable extends Container {
         for(int i = 0; i < 9; ++i) {
             this.addSlotToContainer(new Slot(inventoryPlayer, i, 48 + i * 18, 233));
         }
-
     }
 
     @Override
@@ -68,5 +65,4 @@ public class ContainerResearchTable extends Container {
     public boolean canInteractWith(@NotNull EntityPlayer player) {
         return this.tileEntity.isUsableByPlayer(player);
     }
-
 }

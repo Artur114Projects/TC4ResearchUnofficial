@@ -66,3 +66,5 @@ jar {
         )
     }
 }
+
+apply from: file("scripts/fixes.gradle")

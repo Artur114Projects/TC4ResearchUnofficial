@@ -1,0 +1,16 @@
+import java.nio.file.CopyOption
+import java.nio.file.Files
+import java.nio.file.StandardCopyOption
+
+for (runTask in ['runClient', 'runServer']) {
+    tasks.named(runTask).configure {
+        doFirst {
+            def jar = file("build/libs/OldResearchUnoff-1.0.0-dev.jar")
+            def mods = file("run/mods").with {it.mkdirs(); it}
+
+            if (jar.exists()) {
+                Files.copy(jar.toPath(), mods.toPath().resolve("OldResearchUnoff-1.0.0-dev.jar"), StandardCopyOption.REPLACE_EXISTING)
+            }
+        }
+    }
+}

@@ -1,10 +1,9 @@
 package com.wonginnovations.oldresearch.core.mixin;
 
-import com.wonginnovations.oldresearch.OldResearch;
+import com.wonginnovations.oldresearch.main.OldResearch;
 import com.wonginnovations.oldresearch.common.OldResearchUtils;
-import com.wonginnovations.oldresearch.common.lib.network.PacketHandler;
-import com.wonginnovations.oldresearch.common.lib.network.PacketGivePlayerNoteToServer;
-import com.wonginnovations.oldresearch.common.lib.research.OldResearchManager;
+import com.wonginnovations.oldresearch.common.network.PacketGivePlayerNoteToServer;
+import com.wonginnovations.oldresearch.common.research.OldResearchManager;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
@@ -105,6 +104,7 @@ public abstract class GuiResearchPageMixin extends GuiScreen {
         }
     }
 
+    //TODO: Переписать!!!
     @Inject(method = "drawRequirements", at = @At("HEAD"), cancellable = true, remap = false)
     public void drawRequirementsInjection(int x, int mx, int my, ResearchStage stage, CallbackInfo ci) {
         int y = (this.height - this.paneHeight) / 2 - 16 + 210;
@@ -394,19 +394,20 @@ public abstract class GuiResearchPageMixin extends GuiScreen {
     public void mouseClickedInjection(int mx, int my, int button, CallbackInfo ci) {
         for (Point p : oldresearch$renderedNotes.keySet()) {
             if ((mx >= p.x && mx <= p.x + 16) && (my >= p.y && my <= p.y + 16)) {
-                if (!OldResearchUtils.isPlayerCarrying(this.mc.player, ItemsTC.scribingTools)) {
+                // TODO: Добавить возможность локализировать
+                // TODO: Переписать!
+                if (!this.mc.player.isCreative() && !OldResearchUtils.isPlayerCarrying(this.mc.player, ItemsTC.scribingTools)) {
                     this.mc.player.sendMessage(new TextComponentString("§cScribing tools required to create research notes."));
                     this.mc.displayGuiScreen(null);
-                } else if (!OldResearchUtils.isPlayerCarrying(this.mc.player, Items.PAPER)) {
+                } else if (!this.mc.player.isCreative() && !OldResearchUtils.isPlayerCarrying(this.mc.player, Items.PAPER)) {
                     this.mc.player.sendMessage(new TextComponentString("§cPaper required to create research notes."));
                     this.mc.displayGuiScreen(null);
-                } else if (!OldResearchManager.consumeInkFromPlayer(this.mc.player, false)) {
+                } else if (!this.mc.player.isCreative() && !OldResearchManager.consumeInkFromPlayer(this.mc.player, false)) {
                     this.mc.player.sendMessage(new TextComponentString("§c" + I18n.format("tile.researchtable.noink.0")));
                     this.mc.player.sendMessage(new TextComponentString("§c" + I18n.format("tile.researchtable.noink.1")));
                     this.mc.displayGuiScreen(null);
                 } else {
-
-                    PacketHandler.INSTANCE.sendToServer(
+                    OldResearch.NETWORK.sendToServer(
                         new PacketGivePlayerNoteToServer(OldResearchManager.getData(oldresearch$renderedNotes.get(p)).key)
                     );
                 }
@@ -436,7 +437,7 @@ public abstract class GuiResearchPageMixin extends GuiScreen {
             Aspect[] var9 = this.knownPlayerAspects.getAspectsSortedByAmount();
             int var10 = var9.length;
 
-            for(int var11 = 0; var11 < var10; ++var11) {
+            for (int var11 = 0; var11 < var10; ++var11) {
                 Aspect aspect = var9[var11];
                 ++count;
                 if (count >= start) {

@@ -215,7 +215,7 @@ public abstract class RenderEventHandlerMixin {
     private static boolean oldresearch$shouldRenderAspects(GuiScreen gui, EntityPlayer player, ItemStack stack) {
         if (!(gui instanceof GuiContainer)) return false;
         if ((GuiScreen.isShiftKeyDown() != ModConfig.CONFIG_GRAPHICS.showTags && !Mouse.isGrabbed())
-                || (com.wonginnovations.oldresearch.config.ModConfig.inventoryScanning && ProxyInventoryScanning.isHoldingThaumometer())
+                || (com.wonginnovations.oldresearch.common.config.ModConfig.inventoryScanning && ProxyInventoryScanning.isHoldingThaumometer())
         ){
             return !ScanningManager.isThingStillScannable(player, stack);
         }

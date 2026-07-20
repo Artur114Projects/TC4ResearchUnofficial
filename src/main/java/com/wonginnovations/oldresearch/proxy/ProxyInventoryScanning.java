@@ -1,10 +1,9 @@
 package com.wonginnovations.oldresearch.proxy;
 
-import com.wonginnovations.oldresearch.OldResearch;
-import com.wonginnovations.oldresearch.common.lib.network.PacketHandler;
-import com.wonginnovations.oldresearch.common.lib.network.PacketScanSelfToServer;
-import com.wonginnovations.oldresearch.common.lib.network.PacketScanSlotToServer;
-import com.wonginnovations.oldresearch.config.ModConfig;
+import com.wonginnovations.oldresearch.main.OldResearch;
+import com.wonginnovations.oldresearch.common.network.PacketScanSelfToServer;
+import com.wonginnovations.oldresearch.common.network.PacketScanSlotToServer;
+import com.wonginnovations.oldresearch.common.config.ModConfig;
 import com.wonginnovations.oldresearch.core.mixin.vanilla.GuiScreenAccessor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
@@ -80,9 +79,9 @@ public class ProxyInventoryScanning {
 
                         if (ticksHovered >= SCAN_TICKS) {
                             if (currentScan instanceof EntityPlayer) {
-                                PacketHandler.INSTANCE.sendToServer(new PacketScanSelfToServer());
+                                OldResearch.NETWORK.sendToServer(new PacketScanSelfToServer());
                             } else {
-                                PacketHandler.INSTANCE.sendToServer(new PacketScanSlotToServer(mouseSlot.slotNumber));
+                                OldResearch.NETWORK.sendToServer(new PacketScanSlotToServer(mouseSlot.slotNumber));
                             }
 
                             ticksHovered = 0;
@@ -183,7 +182,7 @@ public class ProxyInventoryScanning {
 //            if (hudHandlerInstance == null) {
 //                try {
 //                    Class renderEventHandler = Class.forName("thaumcraft.client.lib.events.RenderEventHandler");
-//                    Object instance = renderEventHandler.getField("INSTANCE").get((Object)null);
+//                    Object instance = renderEventHandler.getField("NETWORK").get((Object)null);
 //                    hudHandlerInstance = renderEventHandler.getField("hudHandler").get(instance);
 //                    Class hudHandler = Class.forName("thaumcraft.client.lib.events.HudHandler");
 //                    renderAspectsInGuiMethod = hudHandler.getMethod("renderAspectsInGui", GuiContainer.class, EntityPlayer.class, ItemStack.class, Integer.TYPE, Integer.TYPE, Integer.TYPE);

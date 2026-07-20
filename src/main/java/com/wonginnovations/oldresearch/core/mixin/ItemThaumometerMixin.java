@@ -1,7 +1,8 @@
 package com.wonginnovations.oldresearch.core.mixin;
 
-import com.wonginnovations.oldresearch.common.lib.research.ScanManager;
-import com.wonginnovations.oldresearch.config.ModConfig;
+import com.wonginnovations.oldresearch.common.research.ScanManager;
+import com.wonginnovations.oldresearch.common.config.ModConfig;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -12,9 +13,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.*;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -28,7 +32,6 @@ import thaumcraft.common.lib.utils.EntityUtils;
 
 @Mixin(ItemThaumometer.class)
 public abstract class ItemThaumometerMixin extends Item {
-
     @Shadow(remap = false)
     protected abstract RayTraceResult getRayTraceResultFromPlayerWild(World worldIn, EntityPlayer playerIn, boolean useLiquids);
 
@@ -38,39 +41,47 @@ public abstract class ItemThaumometerMixin extends Item {
     @Shadow(remap = false)
     public abstract void doScan(World worldIn, EntityPlayer playerIn);
 
-    @Inject(method = "onItemRightClick", at = @At("HEAD"), cancellable = true)
-    public void onItemRightClickInject(World world, EntityPlayer p, EnumHand hand, CallbackInfoReturnable<ActionResult<ItemStack>> cir) {
-        if (ModConfig.instantScans) {
-            if (world.isRemote) {
-//                this.drawFX(world, p);
-                p.world.playSound(p.posX, p.posY, p.posZ, SoundsTC.scan, SoundCategory.PLAYERS, 0.5F, 1.0F, false);
-            } else {
-                this.doScan(world, p);
-            }
+    @Shadow(remap = false)
+    protected abstract void drawFX(World worldIn, EntityPlayer playerIn);
 
-            cir.setReturnValue(new ActionResult<>(EnumActionResult.SUCCESS, p.getHeldItem(hand)));
+    @Inject(method = "onItemRightClick", at = @At("HEAD"), cancellable = true)
+    public void onItemRightClickInject(World world, EntityPlayer player, EnumHand hand, CallbackInfoReturnable<ActionResult<ItemStack>> cir) {
+        if (!ModConfig.instantScans) {
+            ItemStack stack = player.getHeldItem(hand);
+            player.setActiveHand(hand);
+            cir.setReturnValue(new ActionResult<>(EnumActionResult.PASS, stack));
         }
-        ItemStack stack = p.getHeldItem(hand);
-        p.setActiveHand(hand);
-        cir.setReturnValue(new ActionResult<>(EnumActionResult.PASS, stack));
     }
 
     @Override
-    public void onUsingTick(@NotNull ItemStack stack, @NotNull EntityLivingBase p, int count) {
-        if (!(p instanceof EntityPlayer) || ModConfig.instantScans) return;
-        if(p.world.isRemote) {
+    public void onUsingTick(@NotNull ItemStack stack, @NotNull EntityLivingBase entity, int count) {
+        if (!(entity instanceof EntityPlayer) || ModConfig.instantScans) {
+            return;
+        }
+        EntityPlayer player = (EntityPlayer) entity;
+        if(player.world.isRemote) {
             if (count <= 1) {
-                p.stopActiveHand();
-                p.world.playSound(p.posX, p.posY, p.posZ, SoundsTC.scan, SoundCategory.MASTER, 1F, 1F, false);
+                this.oldresearch$updatePickUp();
             }
-            if (count % 2 == 0) {
-                p.world.playSound(p.posX, p.posY, p.posZ, SoundsTC.ticks, SoundCategory.MASTER, 0.2F, 0.45F + p.world.rand.nextFloat() * 0.1F, false);
+            if (count % 5 == 0) {
+                this.drawFX(player.world, player);
             }
         } else {
             if (count <= 1) {
-                this.doScan(p.world, (EntityPlayer) p);
+                player.world.playSound(null, player.posX, player.posY, player.posZ, SoundsTC.scan, SoundCategory.PLAYERS, 1F, 1F);
+                this.doScan(player.world, player);
+            }
+            if (count % 2 == 0) {
+                player.world.playSound(null, player.posX, player.posY, player.posZ, SoundsTC.ticks, SoundCategory.PLAYERS, 0.2F, 0.45F + player.world.rand.nextFloat() * 0.1F);
             }
         }
+    }
+
+    @Unique
+    @SideOnly(Side.CLIENT)
+    private void oldresearch$updatePickUp() {
+        Minecraft mc = Minecraft.getMinecraft();
+        mc.entityRenderer.itemRenderer.resetEquippedProgress(mc.player.getActiveHand());
     }
 
     @Override
@@ -125,5 +136,4 @@ public abstract class ItemThaumometerMixin extends Item {
         }
         ci.cancel();
     }
-
 }

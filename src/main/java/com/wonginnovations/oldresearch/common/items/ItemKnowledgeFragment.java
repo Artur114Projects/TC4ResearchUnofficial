@@ -1,9 +1,8 @@
 package com.wonginnovations.oldresearch.common.items;
 
-import com.wonginnovations.oldresearch.OldResearch;
+import com.wonginnovations.oldresearch.main.OldResearch;
 import com.wonginnovations.oldresearch.api.registration.IModelRegister;
-import com.wonginnovations.oldresearch.common.lib.network.PacketAspectPool;
-import com.wonginnovations.oldresearch.common.lib.network.PacketHandler;
+import com.wonginnovations.oldresearch.common.network.PacketAspectPool;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -34,7 +33,7 @@ public class ItemKnowledgeFragment extends Item implements IModelRegister {
     @Override
     public @NotNull ActionResult<ItemStack> onItemRightClick(@NotNull World world, EntityPlayer player, @NotNull EnumHand hand) {
         ItemStack stack = player.getHeldItem(hand);
-        if(!player.capabilities.isCreativeMode) {
+        if (!player.capabilities.isCreativeMode) {
             stack.setCount(stack.getCount()-1);
         }
 
@@ -42,7 +41,7 @@ public class ItemKnowledgeFragment extends Item implements IModelRegister {
             for(Aspect a : Aspect.getPrimalAspects()) {
                 int q = world.rand.nextInt(2) + 1;
                 OldResearch.proxy.playerKnowledge.addAspectPool(player.getGameProfile().getName(), a, q);
-                PacketHandler.INSTANCE.sendTo(new PacketAspectPool(a.getTag(), q, OldResearch.proxy.playerKnowledge.getAspectPoolFor(player.getGameProfile().getName(), a)), (EntityPlayerMP)player);
+                OldResearch.NETWORK.sendTo(new PacketAspectPool(a.getTag(), q, OldResearch.proxy.playerKnowledge.getAspectPoolFor(player.getGameProfile().getName(), a)), (EntityPlayerMP)player);
             }
         }
         return new ActionResult<>(EnumActionResult.SUCCESS, stack);
@@ -54,5 +53,4 @@ public class ItemKnowledgeFragment extends Item implements IModelRegister {
         ModelResourceLocation location0 = new ModelResourceLocation(OldResearch.MODID + ":knowledgefragment", "inventory");
         ModelLoader.setCustomModelResourceLocation(this, 0, location0);
     }
-
 }

@@ -1,10 +1,10 @@
 package com.wonginnovations.oldresearch.common.items;
 
-import com.wonginnovations.oldresearch.OldResearch;
+import com.wonginnovations.oldresearch.main.OldResearch;
 import com.wonginnovations.oldresearch.api.registration.IModelRegister;
 import com.wonginnovations.oldresearch.client.gui.ResearchNoteToast;
-import com.wonginnovations.oldresearch.common.lib.research.OldResearchManager;
-import com.wonginnovations.oldresearch.common.lib.research.ResearchNoteData;
+import com.wonginnovations.oldresearch.common.research.OldResearchManager;
+import com.wonginnovations.oldresearch.common.research.ResearchNoteData;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.resources.I18n;
@@ -30,7 +30,6 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 public class ItemResearchNote extends Item implements IModelRegister {
-
     public ItemResearchNote() {
         this.setRegistryName(OldResearch.MODID + ":researchnote");
         this.setTranslationKey("researchnote");
@@ -44,18 +43,19 @@ public class ItemResearchNote extends Item implements IModelRegister {
     public @NotNull ActionResult<ItemStack> onItemRightClick(@NotNull World world, EntityPlayer player, @NotNull EnumHand hand) {
         ItemStack stack = player.getHeldItem(hand);
 
-        if(OldResearchManager.getData(stack) != null && OldResearchManager.getData(stack).isComplete() && !ThaumcraftCapabilities.getKnowledge(player).isResearchComplete(OldResearchManager.getData(stack).key)) {
+        if (OldResearchManager.getData(stack) != null && OldResearchManager.getData(stack).isComplete() && !ThaumcraftCapabilities.getKnowledge(player).isResearchComplete(OldResearchManager.getData(stack).key)) {
             if (!world.isRemote) {
                 OldResearch.proxy.getPlayerKnowledge().incrementResearchCompleted(player.getGameProfile().getName());
                 ResearchManager.progressResearch(player, OldResearchManager.getData(stack).key);
+                world.playSound(null, player.posX, player.posY, player.posZ, SoundsTC.learn, SoundCategory.MASTER, 0.75F, 1.0F);
             } else {
                 displayToast(ResearchCategories.getResearch(OldResearchManager.getStrippedKey(stack)));
-                world.playSound(player.posX, player.posY, player.posZ, SoundsTC.learn, SoundCategory.MASTER, 0.75F, 1.0F, false);
             }
-            stack = ItemStack.EMPTY;
+
+            return new ActionResult<>(EnumActionResult.SUCCESS, ItemStack.EMPTY);
         }
 
-        return new ActionResult<>(EnumActionResult.SUCCESS, stack);
+        return new ActionResult<>(EnumActionResult.FAIL, stack);
     }
 
     @SideOnly(Side.CLIENT)
@@ -90,7 +90,7 @@ public class ItemResearchNote extends Item implements IModelRegister {
 
         ResearchNoteData rd = OldResearchManager.getData(stack);
         ResearchEntry re = ResearchCategories.getResearch(OldResearchManager.getStrippedKey(stack));
-        if(rd != null && rd.key != null && re != null) {
+        if (rd != null && rd.key != null && re != null) {
             tooltip.add(TextFormatting.GOLD + re.getLocalizedName());
 //            int warp = OldResearchApi.getWarp(rd.key);
 //            if(warp > 0) {
@@ -104,9 +104,9 @@ public class ItemResearchNote extends Item implements IModelRegister {
 //                tooltip.add(TextFormatting.DARK_PURPLE + wte);
 //            }
         }
-
     }
 
+    @Override
     public @NotNull EnumRarity getRarity(ItemStack itemstack) {
         return itemstack.getItemDamage() < 64 ? EnumRarity.RARE : EnumRarity.EPIC;
     }
@@ -120,6 +120,5 @@ public class ItemResearchNote extends Item implements IModelRegister {
         ModelResourceLocation location2 = new ModelResourceLocation(OldResearch.MODID + ":discovery", "inventory");
         ModelLoader.setCustomModelResourceLocation(this, 64, location2);
     }
-
 }
 

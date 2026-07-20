@@ -1,7 +1,7 @@
 package com.wonginnovations.oldresearch.api.research.curio;
 
-import com.wonginnovations.oldresearch.OldResearch;
-import com.wonginnovations.oldresearch.common.lib.research.ScanManager;
+import com.wonginnovations.oldresearch.main.OldResearch;
+import com.wonginnovations.oldresearch.common.research.ScanManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;

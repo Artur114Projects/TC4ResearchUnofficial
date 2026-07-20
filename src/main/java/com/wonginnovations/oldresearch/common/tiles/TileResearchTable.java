@@ -1,14 +1,13 @@
 package com.wonginnovations.oldresearch.common.tiles;
 
-import com.wonginnovations.oldresearch.OldResearch;
+import com.wonginnovations.oldresearch.main.OldResearch;
 import com.wonginnovations.oldresearch.common.blocks.ModBlocks;
 import com.wonginnovations.oldresearch.common.items.ItemResearchNote;
 import com.wonginnovations.oldresearch.common.items.ModItems;
-import com.wonginnovations.oldresearch.common.lib.network.PacketAspectPool;
-import com.wonginnovations.oldresearch.common.lib.network.PacketHandler;
-import com.wonginnovations.oldresearch.common.lib.network.PacketSyncResearchTableAspects;
-import com.wonginnovations.oldresearch.common.lib.research.OldResearchManager;
-import com.wonginnovations.oldresearch.common.lib.research.ResearchNoteData;
+import com.wonginnovations.oldresearch.common.network.PacketAspectPool;
+import com.wonginnovations.oldresearch.common.network.PacketSyncResearchTableAspects;
+import com.wonginnovations.oldresearch.common.research.OldResearchManager;
+import com.wonginnovations.oldresearch.common.research.ResearchNoteData;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -105,7 +104,7 @@ public class TileResearchTable extends TileThaumcraftInventory {
         if(!this.world.isRemote && this.nextRecalc++ > 600) {
             this.nextRecalc = 0;
             this.recalculateBonus();
-            PacketHandler.INSTANCE.sendToAllAround(new PacketSyncResearchTableAspects(this.getPos(), this.bonusAspects), new NetworkRegistry.TargetPoint(this.getWorld().provider.getDimension(), (double)this.pos.getX() + 0.5, (double)this.pos.getY() + 0.5, (double)this.pos.getZ() + 0.5, 128.0));
+            OldResearch.NETWORK.sendToAllAround(new PacketSyncResearchTableAspects(this.getPos(), this.bonusAspects), new NetworkRegistry.TargetPoint(this.getWorld().provider.getDimension(), (double)this.pos.getX() + 0.5, (double)this.pos.getY() + 0.5, (double)this.pos.getZ() + 0.5, 128.0));
             this.markDirty();
         }
     }
@@ -144,14 +143,14 @@ public class TileResearchTable extends TileThaumcraftInventory {
                         this.markDirty();
                     } else {
                         OldResearch.proxy.playerKnowledge.addAspectPool(player.getGameProfile().getName(), aspect, -1);
-                        PacketHandler.INSTANCE.sendTo(new PacketAspectPool(aspect.getTag(), 0, OldResearch.proxy.playerKnowledge.getAspectPoolFor(player.getGameProfile().getName(), aspect)), (EntityPlayerMP)player);
+                        OldResearch.NETWORK.sendTo(new PacketAspectPool(aspect.getTag(), 0, OldResearch.proxy.playerKnowledge.getAspectPoolFor(player.getGameProfile().getName(), aspect)), (EntityPlayerMP)player);
                     }
                 } else {
                     float f = this.world.rand.nextFloat();
                     if(this.note.hexEntries.get(hex.toString()).aspect != null && (r1 && f < 0.25F || r2 && f < 0.5F)) {
                         this.world.playSound(player.posX, player.posY, player.posZ, new SoundEvent(new ResourceLocation("entity.experience_orb.pickup")), SoundCategory.PLAYERS, 0.2F, 0.9F + player.world.rand.nextFloat() * 0.2F, false);
                         OldResearch.proxy.playerKnowledge.addAspectPool(player.getGameProfile().getName(), this.note.hexEntries.get(hex.toString()).aspect, 1);
-                        PacketHandler.INSTANCE.sendTo(new PacketAspectPool(this.note.hexEntries.get(hex.toString()).aspect.getTag(), 0, OldResearch.proxy.playerKnowledge.getAspectPoolFor(player.getGameProfile().getName(), this.note.hexEntries.get(hex.toString()).aspect)), (EntityPlayerMP)player);
+                        OldResearch.NETWORK.sendTo(new PacketAspectPool(this.note.hexEntries.get(hex.toString()).aspect.getTag(), 0, OldResearch.proxy.playerKnowledge.getAspectPoolFor(player.getGameProfile().getName(), this.note.hexEntries.get(hex.toString()).aspect)), (EntityPlayerMP)player);
                     }
 
                     he = new OldResearchManager.HexEntry(null, 0);
