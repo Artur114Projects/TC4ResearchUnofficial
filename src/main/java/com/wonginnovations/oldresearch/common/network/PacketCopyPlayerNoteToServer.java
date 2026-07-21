@@ -4,7 +4,7 @@ import com.wonginnovations.oldresearch.api.OldResearchApi;
 import com.wonginnovations.oldresearch.common.items.ItemResearchNote;
 import com.wonginnovations.oldresearch.main.OldResearch;
 import com.wonginnovations.oldresearch.common.OldResearchUtils;
-import com.wonginnovations.oldresearch.common.init.ModItems;
+import com.wonginnovations.oldresearch.common.init.InitItems;
 import com.wonginnovations.oldresearch.common.research.ResearchNoteData;
 import com.wonginnovations.oldresearch.common.tiles.TileResearchTable;
 import io.netty.buffer.ByteBuf;
@@ -58,7 +58,7 @@ public class PacketCopyPlayerNoteToServer implements IMessage, IMessageHandler<P
 
                 ItemStack tools = ((IInventory) te).getStackInSlot(0);
                 ItemStack note = ((IInventory) te).getStackInSlot(1);
-                if (note == null || note.isEmpty() || note.getItem() != ModItems.RESEARCH_NOTE) return;
+                if (note == null || note.isEmpty() || note.getItem() != InitItems.RESEARCH_NOTE) return;
 
                 boolean failed = false;
                 if (tools == null || tools.isEmpty()) {

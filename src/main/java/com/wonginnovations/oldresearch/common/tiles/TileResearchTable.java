@@ -2,9 +2,9 @@ package com.wonginnovations.oldresearch.common.tiles;
 
 import com.wonginnovations.oldresearch.api.OldResearchApi;
 import com.wonginnovations.oldresearch.main.OldResearch;
-import com.wonginnovations.oldresearch.common.init.ModBlocks;
+import com.wonginnovations.oldresearch.common.init.InitBlocks;
 import com.wonginnovations.oldresearch.common.items.ItemResearchNote;
-import com.wonginnovations.oldresearch.common.init.ModItems;
+import com.wonginnovations.oldresearch.common.init.InitItems;
 import com.wonginnovations.oldresearch.common.network.PacketAspectPool;
 import com.wonginnovations.oldresearch.common.network.PacketSyncResearchTableAspects;
 import com.wonginnovations.oldresearch.common.research.OldResearchManager;
@@ -163,7 +163,7 @@ public class TileResearchTable extends TileThaumcraftInventory {
                 this.consumeInkFromTable();
                 if(!this.world.isRemote && OldResearchManager.checkResearchCompletion(this.getStackInSlot(1), this.note, player)) {
                     this.getStackInSlot(1).setItemDamage(64);
-                    this.world.addBlockEvent(this.pos, ModBlocks.RESEARCH_TABLE, 1, 1);
+                    this.world.addBlockEvent(this.pos, InitBlocks.RESEARCH_TABLE, 1, 1);
                     this.syncTile(false);
                 }
             }
@@ -282,7 +282,7 @@ public class TileResearchTable extends TileThaumcraftInventory {
                     return true;
                 }
             case 1:
-                if (itemstack.getItem() == ModItems.RESEARCH_NOTE) {
+                if (itemstack.getItem() == InitItems.RESEARCH_NOTE) {
                     return true;
                 }
         }

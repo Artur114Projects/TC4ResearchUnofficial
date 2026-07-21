@@ -13,7 +13,7 @@ import com.wonginnovations.oldresearch.common.research.curio.BaseCurio;
 import com.wonginnovations.oldresearch.common.research.curio.RitesCurio;
 import com.wonginnovations.oldresearch.common.OldResearchUtils;
 import com.wonginnovations.oldresearch.common.items.ItemResearchNote;
-import com.wonginnovations.oldresearch.common.init.ModItems;
+import com.wonginnovations.oldresearch.common.init.InitItems;
 import com.wonginnovations.oldresearch.core.mixin.ResearchManagerAccessor;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
@@ -111,7 +111,7 @@ public class OldResearchManager {
     }
 
     private static ItemStack createNote(String key) {
-        ItemStack note = new ItemStack(ModItems.RESEARCH_NOTE);
+        ItemStack note = new ItemStack(InitItems.RESEARCH_NOTE);
         ResearchNoteData data = new ResearchNoteData();
         data.key = key;
         Aspect[] asps = Aspect.aspects.values().toArray(new Aspect[0]);
@@ -189,7 +189,7 @@ public class OldResearchManager {
     public static boolean hasResearchNote(EntityPlayer player, String key) {
         ItemStack[] inv = player.inventory.mainInventory.toArray(new ItemStack[0]);
         for (ItemStack itemStack : inv) {
-            if (itemStack != null && itemStack.getItem() == ModItems.RESEARCH_NOTE && ItemResearchNote.noteData(itemStack) != null && ItemResearchNote.noteData(itemStack).key.equals(key)) {
+            if (itemStack != null && itemStack.getItem() == InitItems.RESEARCH_NOTE && ItemResearchNote.noteData(itemStack) != null && ItemResearchNote.noteData(itemStack).key.equals(key)) {
                 return true;
             }
         }

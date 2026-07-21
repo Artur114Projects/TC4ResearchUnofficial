@@ -5,8 +5,8 @@ import com.wonginnovations.oldresearch.api.OldResearchApi;
 import com.wonginnovations.oldresearch.common.research.curio.BaseCurio;
 import com.wonginnovations.oldresearch.client.renderer.TileResearchTableRenderer;
 import com.wonginnovations.oldresearch.common.container.OldResearchGuiHandler;
-import com.wonginnovations.oldresearch.common.init.ModBlocks;
-import com.wonginnovations.oldresearch.common.init.ModItems;
+import com.wonginnovations.oldresearch.common.init.InitBlocks;
+import com.wonginnovations.oldresearch.common.init.InitItems;
 import com.wonginnovations.oldresearch.common.items.ItemResearchNote;
 import com.wonginnovations.oldresearch.common.network.*;
 import com.wonginnovations.oldresearch.common.research.OldResearchManager;
@@ -68,7 +68,7 @@ public class ManualRegister {
         OldResearchManager.parseJsonResearch(new ResourceLocation("oldresearch", "research.json"));
         OldResearchManager.patchResearch();
         this.initPatterns();
-        ThaumcraftApi.registerObjectTag(new ItemStack(ModBlocks.RESEARCH_TABLE, 1, 32767), new AspectList(new ItemStack(BlocksTC.researchTable)));
+        ThaumcraftApi.registerObjectTag(new ItemStack(InitBlocks.RESEARCH_TABLE, 1, 32767), new AspectList(new ItemStack(BlocksTC.researchTable)));
         OldResearchManager.computeAspectComplexity();
         IDustTrigger.registerDustTrigger(new DustTriggerSimple("", BlocksTC.tableWood, new ItemStack(BlocksTC.researchTable)));
     }
@@ -110,13 +110,13 @@ public class ManualRegister {
 
     @SubscribeEvent
     public void registerItems(RegistryEvent.Register<Item> e) {
-        e.getRegistry().register(ModBlocks.RESEARCH_TABLE.item);
-        e.getRegistry().register(ModItems.RESEARCH_NOTE);
+        e.getRegistry().register(InitBlocks.RESEARCH_TABLE.item);
+        e.getRegistry().register(InitItems.RESEARCH_NOTE);
     }
 
     @SubscribeEvent
     public void registerBlocks(RegistryEvent.Register<Block> e) {
-        e.getRegistry().register(ModBlocks.RESEARCH_TABLE);
+        e.getRegistry().register(InitBlocks.RESEARCH_TABLE);
     }
 
     @SubscribeEvent
@@ -124,8 +124,8 @@ public class ManualRegister {
     public void registerModels(ModelRegistryEvent e) {
         int i = 0;
         for (BaseCurio curio : OldResearchManager.CURIOS) ModelLoader.setCustomModelResourceLocation(ItemsTC.curio, i++, new ModelResourceLocation(curio.getTexture().toString()));
-        ModelLoader.setCustomModelResourceLocation(ModBlocks.RESEARCH_TABLE.item, 0, new ModelResourceLocation(Objects.requireNonNull(ModBlocks.RESEARCH_TABLE.item.getRegistryName()), "inventory"));
-        ModItems.RESEARCH_NOTE.registerModels();
+        ModelLoader.setCustomModelResourceLocation(InitBlocks.RESEARCH_TABLE.item, 0, new ModelResourceLocation(Objects.requireNonNull(InitBlocks.RESEARCH_TABLE.item.getRegistryName()), "inventory"));
+        InitItems.RESEARCH_NOTE.registerModels();
     }
 
     @SubscribeEvent
@@ -133,20 +133,17 @@ public class ManualRegister {
     public void onColorHandlerEvent(ColorHandlerEvent.Item event) {
         event.getItemColors().registerItemColorHandler(((stack, tintIndex) -> {
             switch (tintIndex) {
-                case 0: return Color.WHITE.getRGB();
-                case 1: {
-                    int c = 10066329;
+                case 0:
+                    return Color.WHITE.getRGB();
+                case 1:
+                    int color = 10066329;
                     ResearchNoteData rd = ItemResearchNote.noteData(stack);
-                    if (rd != null) {
-                        c = rd.color;
-                    }
-
-                    return c;
-                }
-                default: {
+                    if (rd != null) color = rd.color;
+                    return color;
+                default:
                     return Color.BLACK.getRGB();
-                }
+
             }
-        }), ModItems.RESEARCH_NOTE);
+        }), InitItems.RESEARCH_NOTE);
     }
 }

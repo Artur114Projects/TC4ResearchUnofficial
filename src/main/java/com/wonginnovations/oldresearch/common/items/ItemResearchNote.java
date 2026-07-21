@@ -1,7 +1,7 @@
 package com.wonginnovations.oldresearch.common.items;
 
 import com.wonginnovations.oldresearch.api.OldResearchApi;
-import com.wonginnovations.oldresearch.common.init.ModItems;
+import com.wonginnovations.oldresearch.common.init.InitItems;
 import com.wonginnovations.oldresearch.main.OldResearch;
 import com.wonginnovations.oldresearch.client.gui.ResearchNoteToast;
 import com.wonginnovations.oldresearch.common.research.OldResearchManager;
@@ -129,7 +129,7 @@ public class ItemResearchNote extends Item {
     }
 
     public static ResearchNoteData noteData(ItemStack stack) {
-        if (stack != null && stack.getItem() == ModItems.RESEARCH_NOTE) {
+        if (stack != null && stack.getItem() == InitItems.RESEARCH_NOTE) {
             ResearchNoteData data = new ResearchNoteData();
             if (stack.getTagCompound() == null) {
                 return null;
