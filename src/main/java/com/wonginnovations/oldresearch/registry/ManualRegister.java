@@ -1,6 +1,7 @@
 package com.wonginnovations.oldresearch.registry;
 
 import com.artur114.bananalib.mc.cap.BananaCapStorage;
+import com.wonginnovations.oldresearch.api.OldResearchApi;
 import com.wonginnovations.oldresearch.common.research.curio.BaseCurio;
 import com.wonginnovations.oldresearch.client.renderer.TileResearchTableRenderer;
 import com.wonginnovations.oldresearch.common.container.OldResearchGuiHandler;
@@ -65,6 +66,7 @@ public class ManualRegister {
         ResearchCategories.getResearchCategory("BASICS").research.remove("THEORYRESEARCH");
         ResearchCategories.getResearchCategory("BASICS").research.remove("CELESTIALSCANNING");
         OldResearchManager.parseJsonResearch(new ResourceLocation("oldresearch", "research.json"));
+        OldResearchApi.registerOldResearch(new ResourceLocation("oldresearch", "oldresearch.json"));
         OldResearchManager.patchResearch();
         ThaumcraftApi.registerObjectTag(new ItemStack(ModBlocks.RESEARCH_TABLE, 1, 32767), new AspectList(new ItemStack(BlocksTC.researchTable)));
         OldResearchManager.computeAspectComplexity();
@@ -90,8 +92,6 @@ public class ManualRegister {
         OldResearch.NETWORK.registerMessage(PacketCopyPlayerNoteToServer.class, PacketCopyPlayerNoteToServer.class, discriminator++, Side.SERVER);
         OldResearch.NETWORK.registerMessage(PacketSyncAspects.HandlerSA.class, PacketSyncAspects.class, discriminator++, Side.CLIENT);
         OldResearch.NETWORK.registerMessage(PacketSyncResearchTableAspects.class, PacketSyncResearchTableAspects.class, discriminator++, Side.CLIENT);
-        OldResearch.NETWORK.registerMessage(PacketScanSelfToServer.class, PacketScanSelfToServer.class, discriminator++, Side.SERVER);
-        OldResearch.NETWORK.registerMessage(PacketScanSlotToServer.class, PacketScanSlotToServer.class, discriminator++, Side.SERVER);
     }
 
     @SideOnly(Side.CLIENT)
@@ -121,7 +121,7 @@ public class ManualRegister {
 
     @SubscribeEvent
     @SideOnly(Side.CLIENT)
-    public static void onColorHandlerEvent(ColorHandlerEvent.Item event) {
+    public void onColorHandlerEvent(ColorHandlerEvent.Item event) {
         event.getItemColors().registerItemColorHandler(((stack, tintIndex) -> {
             switch (tintIndex) {
                 case 0: return Color.WHITE.getRGB();

@@ -1,6 +1,5 @@
 package com.wonginnovations.oldresearch.core.mixin;
 
-import com.wonginnovations.oldresearch.common.event.legacy.InventoryScanningEvents;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -214,9 +213,7 @@ public abstract class RenderEventHandlerMixin {
     @Unique
     private static boolean oldresearch$shouldRenderAspects(GuiScreen gui, EntityPlayer player, ItemStack stack) {
         if (!(gui instanceof GuiContainer)) return false;
-        if ((GuiScreen.isShiftKeyDown() != ModConfig.CONFIG_GRAPHICS.showTags && !Mouse.isGrabbed())
-                || (com.wonginnovations.oldresearch.common.config.ModConfig.inventoryScanning && InventoryScanningEvents.isHoldingThaumometer())
-        ){
+        if ((GuiScreen.isShiftKeyDown() != ModConfig.CONFIG_GRAPHICS.showTags && !Mouse.isGrabbed())) {
             return !ScanningManager.isThingStillScannable(player, stack);
         }
         return false;

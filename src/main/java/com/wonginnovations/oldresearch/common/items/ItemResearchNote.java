@@ -50,11 +50,12 @@ public class ItemResearchNote extends Item {
     public @NotNull ActionResult<ItemStack> onItemRightClick(@NotNull World world, EntityPlayer player, @NotNull EnumHand hand) {
         ItemStack stack = player.getHeldItem(hand);
 
-        if (noteData(stack) != null && noteData(stack).isComplete() && !ThaumcraftCapabilities.getKnowledge(player).isResearchComplete(noteData(stack).key)) {
+        ResearchNoteData data = noteData(stack);
+        if (data != null && data.isComplete() && !ThaumcraftCapabilities.getKnowledge(player).isResearchComplete(data.key)) {
             if (!world.isRemote) {
                 OldResearchApi.oldResStorage(player).incrementFinishedNotes();
-                ResearchManager.progressResearch(player, noteData(stack).key);
-                world.playSound(null, player.posX, player.posY, player.posZ, SoundsTC.learn, SoundCategory.MASTER, 0.75F, 1.0F);
+                ResearchManager.progressResearch(player, data.key);
+                world.playSound(null, player.posX, player.posY, player.posZ, SoundsTC.learn, SoundCategory.PLAYERS, 0.75F, 1.0F);
             } else {
                 displayToast(ResearchCategories.getResearch(OldResearchManager.getStrippedKey(stack)));
             }

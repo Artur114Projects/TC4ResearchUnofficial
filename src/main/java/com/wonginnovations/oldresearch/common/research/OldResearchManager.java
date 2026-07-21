@@ -35,15 +35,22 @@ import thaumcraft.api.research.ResearchEntry;
 import thaumcraft.api.research.ResearchStage;
 import thaumcraft.common.lib.utils.HexUtils;
 
-public abstract class OldResearchManager {
-    public static ArrayList<BaseCurio> CURIOS = new ArrayList<>();
+public class OldResearchManager {
     private static final Map<String, ItemStack> NOTES = new HashMap<>();
+    private static final Map<String, ResearchNotePattern> NOTE_PATTERNS = new HashMap<>();
+    public static ArrayList<BaseCurio> CURIOS = new ArrayList<>();
     public static final Map<Aspect, Integer> ASPECT_COMPLEXITY = new HashMap<>();
-
     public static IResearchComplexity RESEARCH_COMPLEXITY_FUNCTION = new DefaultResearchComplexity();
-    public static Map<String, AspectList> RESEARCH_ASPECTS = new HashMap<>(); // to be populated by external libs like GrS or CT
 
     private static final Random RANDOM = new Random(69420);
+
+    public static void registerNotePattern(ResearchNotePattern pattern) {
+        NOTE_PATTERNS.put(pattern.oldResKey(), pattern);
+    }
+
+    public static void registerNotePatterns(List<ResearchNotePattern> patterns) {
+        patterns.forEach(OldResearchManager::registerNotePattern);
+    }
 
     public static void computeAspectComplexity() {
         for (Aspect aspect : Aspect.aspects.values()) {
@@ -124,19 +131,43 @@ public abstract class OldResearchManager {
     public static void givePlayerResearchNote(World world, EntityPlayer player, String key) {
         if (!hasResearchNote(player, key) && (player.isCreative() || (consumeInkFromPlayer(player, false) && OldResearchUtils.consumeInventoryItem(player, Items.PAPER)))) {
             consumeInkFromPlayer(player, true);
-            ItemStack note = noteStack(key);
-            int complexity = getResearchComplexity(player, key);
-            ResearchNoteData data = ItemResearchNote.noteData(note);
-            Random rand = new Random(world.getSeed());
-            AspectList aspects = (RESEARCH_ASPECTS.containsKey(key)) ? RESEARCH_ASPECTS.get(key) : getRandomAspects(rand, complexity, complexity + 2);
-            data.generateHexes(rand, aspects, complexity);
-            ItemResearchNote.setNoteData(note, data);
+
+
+            ResearchNotePattern pattern = NOTE_PATTERNS.get(key);
+            ItemStack note;
+
+            if (pattern != null) {
+                note = createNoteFromPattern(pattern, key);
+            } else {
+                note = createNoteFromRandom(player, world, key);
+            }
+
             if (!player.inventory.addItemStackToInventory(note)) {
                 ForgeHooks.onPlayerTossEvent(player, note, false);
             }
 
             player.inventoryContainer.detectAndSendChanges();
         }
+    }
+
+    private static ItemStack createNoteFromPattern(ResearchNotePattern pattern, String key) {
+        ItemStack note = noteStack(key);
+        ResearchNoteData data = ItemResearchNote.noteData(note);
+        Random rand = new Random(pattern.seed());
+        data.generateHexes(rand, pattern.aspects(), pattern.complexity());
+        ItemResearchNote.setNoteData(note, data);
+        return note;
+    }
+
+    private static ItemStack createNoteFromRandom(EntityPlayer player, World world, String key) {
+        ItemStack note = noteStack(key);
+        ResearchNoteData data = ItemResearchNote.noteData(note);
+        Random rand = new Random(31 * ((31 * world.getSeed()) + key.hashCode()) + data.color);
+        int complexity = getResearchComplexity(player, key);
+        AspectList aspects = getRandomAspects(rand, complexity, complexity + 2);
+        data.generateHexes(rand, aspects, complexity);
+        ItemResearchNote.setNoteData(note, data);
+        return note;
     }
 
     public static boolean consumeInkFromPlayer(EntityPlayer player, boolean doit) {
@@ -179,13 +210,13 @@ public abstract class OldResearchManager {
         ArrayList<String> main = new ArrayList<>();
         ArrayList<String> remains = new ArrayList<>();
 
-        for(HexUtils.Hex hex : note.hexes.values()) {
+        for (HexUtils.Hex hex : note.hexes.values()) {
             if(note.hexEntries.get(hex.toString()).type == 1) {
                 main.add(hex.toString());
             }
         }
 
-        for(HexUtils.Hex hex : note.hexes.values()) {
+        for (HexUtils.Hex hex : note.hexes.values()) {
             if(note.hexEntries.get(hex.toString()).type == 1) {
                 main.remove(hex.toString());
                 checkConnections(note, hex, checked, main, remains, player);
@@ -193,18 +224,18 @@ public abstract class OldResearchManager {
             }
         }
 
-        if(!main.isEmpty()) {
+        if (!main.isEmpty()) {
             return false;
         } else {
             ArrayList<String> remove = new ArrayList<>();
 
-            for(HexUtils.Hex hex : note.hexes.values()) {
+            for (HexUtils.Hex hex : note.hexes.values()) {
                 if(note.hexEntries.get(hex.toString()).type != 1 && !remains.contains(hex.toString())) {
                     remove.add(hex.toString());
                 }
             }
 
-            for(String s : remove) {
+            for (String s : remove) {
                 note.hexEntries.remove(s);
                 note.hexes.remove(s);
             }
@@ -218,14 +249,14 @@ public abstract class OldResearchManager {
     private static void checkConnections(ResearchNoteData note, HexUtils.Hex hex, ArrayList<String> checked, ArrayList<String> main, ArrayList<String> remains, EntityPlayer player) {
         checked.add(hex.toString());
 
-        for(int a = 0; a < 6; ++a) {
+        for (int a = 0; a < 6; ++a) {
             HexUtils.Hex target = hex.getNeighbour(a);
-            if(!checked.contains(target.toString()) && note.hexEntries.containsKey(target.toString()) && note.hexEntries.get(target.toString()).type >= 1) {
+            if (!checked.contains(target.toString()) && note.hexEntries.containsKey(target.toString()) && note.hexEntries.get(target.toString()).type >= 1) {
                 Aspect aspect1 = note.hexEntries.get(hex.toString()).aspect;
                 Aspect aspect2 = note.hexEntries.get(target.toString()).aspect;
                 if (OldResearchApi.oldResStorage(player).isKnowAspect(aspect1) && OldResearchApi.oldResStorage(player).isKnowAspect(aspect2) && (!aspect1.isPrimal() && (aspect1.getComponents()[0] == aspect2 || aspect1.getComponents()[1] == aspect2) || !aspect2.isPrimal() && (aspect2.getComponents()[0] == aspect1 || aspect2.getComponents()[1] == aspect1))) {
                     remains.add(target.toString());
-                    if(note.hexEntries.get(target.toString()).type == 1) {
+                    if (note.hexEntries.get(target.toString()).type == 1) {
                         main.remove(target.toString());
                     }
 
@@ -237,8 +268,8 @@ public abstract class OldResearchManager {
     }
 
     public static Aspect getCombinationResult(Aspect aspect1, Aspect aspect2) {
-        for(Aspect aspect : Aspect.aspects.values()) {
-            if(aspect.getComponents() != null && (aspect.getComponents()[0] == aspect1 && aspect.getComponents()[1] == aspect2 || aspect.getComponents()[0] == aspect2 && aspect.getComponents()[1] == aspect1)) {
+        for (Aspect aspect : Aspect.aspects.values()) {
+            if (aspect.getComponents() != null && (aspect.getComponents()[0] == aspect1 && aspect.getComponents()[1] == aspect2 || aspect.getComponents()[0] == aspect2 && aspect.getComponents()[1] == aspect1)) {
                 return aspect;
             }
         }

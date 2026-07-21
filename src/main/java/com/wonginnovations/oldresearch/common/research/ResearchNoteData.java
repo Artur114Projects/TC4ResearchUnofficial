@@ -40,7 +40,8 @@ public class ResearchNoteData {
         }
 
         if (complexity > 1) {
-            int blanks = rand.nextInt(3) * (radius - 3);
+//            int blanks = (rand.nextInt(2) + 1) * (complexity / 2);
+            int blanks = 3 * (complexity / 2);
             HexUtils.Hex[] temp = this.hexes.values().toArray(new HexUtils.Hex[0]);
 
             while (blanks > 0) {
