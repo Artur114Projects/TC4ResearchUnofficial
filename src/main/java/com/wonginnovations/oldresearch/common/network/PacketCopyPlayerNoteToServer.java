@@ -1,10 +1,10 @@
 package com.wonginnovations.oldresearch.common.network;
 
 import com.wonginnovations.oldresearch.api.OldResearchApi;
+import com.wonginnovations.oldresearch.common.items.ItemResearchNote;
 import com.wonginnovations.oldresearch.main.OldResearch;
 import com.wonginnovations.oldresearch.common.OldResearchUtils;
-import com.wonginnovations.oldresearch.common.items.ModItems;
-import com.wonginnovations.oldresearch.common.research.OldResearchManager;
+import com.wonginnovations.oldresearch.common.init.ModItems;
 import com.wonginnovations.oldresearch.common.research.ResearchNoteData;
 import com.wonginnovations.oldresearch.common.tiles.TileResearchTable;
 import io.netty.buffer.ByteBuf;
@@ -73,7 +73,7 @@ public class PacketCopyPlayerNoteToServer implements IMessage, IMessageHandler<P
                     player.sendMessage(new TextComponentString("§c" + I18n.format("researchnote.missing.paper")));
                     failed = true;
                 }
-                ResearchNoteData data = OldResearchManager.getData(note);
+                ResearchNoteData data = ItemResearchNote.noteData(note);
                 for (Aspect aspect : data.aspects.getAspects()) {
                     if (OldResearchApi.oldResStorage(player).aspectCount(aspect) < 1 && ((TileResearchTable) te).bonusAspects.getAmount(aspect) < 1) {
                         player.sendMessage(new TextComponentString("§c" + I18n.format("tc.research.copy.failure", aspect.getName())));
@@ -96,7 +96,7 @@ public class PacketCopyPlayerNoteToServer implements IMessage, IMessageHandler<P
                     }
 
                     data.copies = data.copies + 1;
-                    OldResearchManager.updateData(note, data);
+                    ItemResearchNote.setNoteData(note, data);
                     if(!player.inventory.addItemStackToInventory(note.copy())) {
                         ForgeHooks.onPlayerTossEvent(player, note.copy(), false);
                     }

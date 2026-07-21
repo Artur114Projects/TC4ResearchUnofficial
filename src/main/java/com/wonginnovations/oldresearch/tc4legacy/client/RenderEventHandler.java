@@ -54,7 +54,7 @@ public abstract class RenderEventHandler {
                 && (event.getPlayer().getHeldItemMainhand().getItem() == ItemsTC.thaumometer
                     || event.getPlayer().getHeldItemOffhand().getItem() == ItemsTC.thaumometer)
                 && !ScanningManager.isThingStillScannable(event.getPlayer(), target.getBlockPos())) {
-            AspectList ot = ScanManager.getScanAspects(event.getPlayer(), target.getBlockPos());
+            AspectList ot = ScanManager.objScanAspects(event.getPlayer(), target.getBlockPos());
             boolean spaceAbove = event.getPlayer().world.isAirBlock(target.getBlockPos().up());
             EnumFacing dir = spaceAbove ? EnumFacing.UP : target.sideHit;
             if(tagscale < 0.5F) {

@@ -10,75 +10,73 @@ import thaumcraft.api.aspects.AspectList;
 import thaumcraft.common.lib.utils.HexUtils;
 
 public class ResearchNoteData {
-
-    public String key;
-    public int color;
-    public AspectList aspects = new AspectList();
     public HashMap<String, OldResearchManager.HexEntry> hexEntries = new HashMap<>();
     public HashMap<String, HexUtils.Hex> hexes = new HashMap<>();
+    public AspectList aspects = new AspectList();
     public boolean complete;
+    public String key;
     public int copies;
+    public int color;
 
     public boolean isComplete() {
         return this.complete;
     }
 
-    public void generateHexes(Random rand, EntityPlayer player, AspectList aspects, int complexity) {
-        this.aspects = aspects;
+    public void generateHexes(Random rand, AspectList aspects, int complexity) {
         int radius = 1 + Math.min(3, complexity);
-        HashMap<String, HexUtils.Hex> hexLocs = HexUtils.generateHexes(radius);
         ArrayList<HexUtils.Hex> outerRing = HexUtils.distributeRingRandomly(radius, aspects.size(), rand);
+        HashMap<String, HexUtils.Hex> hexLocations = HexUtils.generateHexes(radius);
+        this.aspects = aspects;
 
-        for(HexUtils.Hex hex : hexLocs.values()) {
-            hexes.put(hex.toString(), hex);
-            hexEntries.put(hex.toString(), new OldResearchManager.HexEntry(null, 0));
+        for (HexUtils.Hex hex : hexLocations.values()) {
+            this.hexEntries.put(hex.toString(), new OldResearchManager.HexEntry(null, 0));
+            this.hexes.put(hex.toString(), hex);
         }
 
-        int count = 0;
-
-        for(HexUtils.Hex hex : outerRing) {
-            hexes.put(hex.toString(), hex);
-            hexEntries.put(hex.toString(), new OldResearchManager.HexEntry(aspects.getAspects()[count], 1));
-            ++count;
+        for (int i = 0; i != Math.min(outerRing.size(), aspects.size()); i++) {
+            HexUtils.Hex hex = outerRing.get(i);
+            this.hexEntries.put(hex.toString(), new OldResearchManager.HexEntry(aspects.getAspects()[i], 1));
+            this.hexes.put(hex.toString(), hex);
         }
 
-        if(complexity > 1) {
-            int researchCompleted = OldResearchApi.oldResStorage(player).finishedNotes();
-            int blanks = ((researchCompleted % 10 < 2) ? 0 : (researchCompleted % 10 < 5) ? 1 : 2) * radius - 3;
-            HexUtils.Hex[] temp = hexes.values().toArray(new HexUtils.Hex[0]);
+        if (complexity > 1) {
+            int blanks = rand.nextInt(3) * (radius - 3);
+            HexUtils.Hex[] temp = this.hexes.values().toArray(new HexUtils.Hex[0]);
 
-            while(blanks > 0) {
-                int indx = rand.nextInt(temp.length);
-                if(hexEntries.get(temp[indx].toString()) != null && hexEntries.get(temp[indx].toString()).type == 0) {
-                    boolean gtg = true;
+            while (blanks > 0) {
+                int randHex = rand.nextInt(temp.length);
+                OldResearchManager.HexEntry randEntry = this.hexEntries.get(temp[randHex].toString());
+                if (randEntry != null && randEntry.type == 0) {
+                    boolean doRemove = true;
 
-                    for(int n = 0; n < 6; ++n) {
-                        HexUtils.Hex neighbour = temp[indx].getNeighbour(n);
-                        if(hexes.containsKey(neighbour.toString()) && hexEntries.get(neighbour.toString()).type == 1) {
-                            int cc = 0;
+                    for (int n = 0; n != 6; n++) {
+                        HexUtils.Hex neighbour = temp[randHex].getNeighbour(n);
+                        OldResearchManager.HexEntry neighbourEntry = this.hexEntries.get(neighbour.toString());
+                        if (neighbourEntry != null && neighbourEntry.type == 1) {
+                            int collidedHexes = 0;
 
-                            for(int q = 0; q < 6; ++q) {
-                                if(hexes.containsKey(hexes.get(neighbour.toString()).getNeighbour(q).toString())) {
-                                    ++cc;
+                            for (int q = 0; q != 6; q++) {
+                                if (this.hexes.containsKey(neighbour.getNeighbour(q).toString())) {
+                                    collidedHexes++;
                                 }
 
-                                if(cc >= 2) {
+                                if (collidedHexes >= 2) {
                                     break;
                                 }
                             }
 
-                            if(cc < 2) {
-                                gtg = false;
+                            if (collidedHexes < 2) {
+                                doRemove = false;
                                 break;
                             }
                         }
                     }
 
-                    if(gtg) {
-                        hexes.remove(temp[indx].toString());
-                        hexEntries.remove(temp[indx].toString());
-                        temp = hexes.values().toArray(new HexUtils.Hex[0]);
-                        --blanks;
+                    if (doRemove) {
+                        this.hexes.remove(temp[randHex].toString());
+                        this.hexEntries.remove(temp[randHex].toString());
+                        temp = this.hexes.values().toArray(new HexUtils.Hex[0]);
+                        blanks--;
                     }
                 }
             }

@@ -3,7 +3,7 @@ package com.wonginnovations.oldresearch.common.integration.groovy;
 import com.cleanroommc.groovyscript.api.GroovyBlacklist;
 import com.cleanroommc.groovyscript.compat.mods.thaumcraft.aspect.AspectStack;
 import com.cleanroommc.groovyscript.registry.VirtualizedRegistry;
-import com.wonginnovations.oldresearch.common.blocks.ModBlocks;
+import com.wonginnovations.oldresearch.common.init.ModBlocks;
 import com.wonginnovations.oldresearch.common.research.DefaultResearchComplexity;
 import com.wonginnovations.oldresearch.common.research.OldResearchManager;
 import groovy.lang.Closure;
@@ -33,7 +33,7 @@ public class GroovyRegistry extends VirtualizedRegistry<Boolean> {
         ResearchCategories.getResearchCategory("BASICS").research.remove("CELESTIALSCANNING");
         OldResearchManager.parseJsonResearch(new ResourceLocation("oldresearch", "research.json"));
         OldResearchManager.patchResearch();
-        ThaumcraftApi.registerObjectTag(new ItemStack(ModBlocks.RESEARCHTABLE, 1, 32767), new AspectList(new ItemStack(BlocksTC.researchTable)));
+        ThaumcraftApi.registerObjectTag(new ItemStack(ModBlocks.RESEARCH_TABLE, 1, 32767), new AspectList(new ItemStack(BlocksTC.researchTable)));
         OldResearchManager.computeAspectComplexity();
     }
 

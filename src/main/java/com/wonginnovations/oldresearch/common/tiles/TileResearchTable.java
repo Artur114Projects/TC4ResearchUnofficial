@@ -2,9 +2,9 @@ package com.wonginnovations.oldresearch.common.tiles;
 
 import com.wonginnovations.oldresearch.api.OldResearchApi;
 import com.wonginnovations.oldresearch.main.OldResearch;
-import com.wonginnovations.oldresearch.common.blocks.ModBlocks;
+import com.wonginnovations.oldresearch.common.init.ModBlocks;
 import com.wonginnovations.oldresearch.common.items.ItemResearchNote;
-import com.wonginnovations.oldresearch.common.items.ModItems;
+import com.wonginnovations.oldresearch.common.init.ModItems;
 import com.wonginnovations.oldresearch.common.network.PacketAspectPool;
 import com.wonginnovations.oldresearch.common.network.PacketSyncResearchTableAspects;
 import com.wonginnovations.oldresearch.common.research.OldResearchManager;
@@ -118,7 +118,7 @@ public class TileResearchTable extends TileThaumcraftInventory {
     public void gatherResults() {
         this.note = null;
         if(this.getStackInSlot(1).getItem() instanceof ItemResearchNote) {
-            this.note = OldResearchManager.getData(this.getStackInSlot(1));
+            this.note = ItemResearchNote.noteData(this.getStackInSlot(1));
         }
     }
 
@@ -159,11 +159,11 @@ public class TileResearchTable extends TileThaumcraftInventory {
 
                 this.note.hexEntries.put(hex.toString(), he);
                 this.note.hexes.put(hex.toString(), hex);
-                OldResearchManager.updateData(this.getStackInSlot(1), this.note);
+                ItemResearchNote.setNoteData(this.getStackInSlot(1), this.note);
                 this.consumeInkFromTable();
                 if(!this.world.isRemote && OldResearchManager.checkResearchCompletion(this.getStackInSlot(1), this.note, player)) {
                     this.getStackInSlot(1).setItemDamage(64);
-                    this.world.addBlockEvent(this.pos, ModBlocks.RESEARCHTABLE, 1, 1);
+                    this.world.addBlockEvent(this.pos, ModBlocks.RESEARCH_TABLE, 1, 1);
                     this.syncTile(false);
                 }
             }

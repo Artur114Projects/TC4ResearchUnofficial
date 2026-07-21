@@ -20,8 +20,7 @@ import thaumcraft.api.aspects.Aspect;
 public class PacketAspectDiscovery implements IMessage, IMessageHandler<PacketAspectDiscovery, IMessage> {
     private String key;
 
-    public PacketAspectDiscovery() {
-    }
+    public PacketAspectDiscovery() {}
 
     public PacketAspectDiscovery(String key) {
         this.key = key;
@@ -37,15 +36,12 @@ public class PacketAspectDiscovery implements IMessage, IMessageHandler<PacketAs
 
     @SideOnly(Side.CLIENT)
     public IMessage onMessage(PacketAspectDiscovery message, MessageContext ctx) {
-        Minecraft.getMinecraft().addScheduledTask(new Runnable() {
-            public void run() {
-                if(Aspect.getAspect(message.key) != null) {
-                    OldResearchApi.oldResStorage(Minecraft.getMinecraft().player).researchAspect(Aspect.getAspect(message.key));
-                    String text = I18n.format("tc.addaspectdiscovery", Aspect.getAspect(message.key).getName());
-                    PlayerNotifications.addNotification(TextFormatting.GOLD + text, Aspect.getAspect(message.key));
-                    Minecraft.getMinecraft().player.playSound(new SoundEvent(new ResourceLocation("entity.experience_orb.pickup")), 0.2F, 0.5F + OldResearch.proxy.getClientWorld().rand.nextFloat() * 0.2F);
-                }
-
+        Minecraft.getMinecraft().addScheduledTask(() -> {
+            if(Aspect.getAspect(message.key) != null) {
+                OldResearchApi.oldResStorage(Minecraft.getMinecraft().player).researchAspect(Aspect.getAspect(message.key));
+                String text = I18n.format("tc.addaspectdiscovery", Aspect.getAspect(message.key).getName());
+                PlayerNotifications.addNotification(TextFormatting.GOLD + text, Aspect.getAspect(message.key));
+                Minecraft.getMinecraft().player.playSound(new SoundEvent(new ResourceLocation("entity.experience_orb.pickup")), 0.2F, 0.5F + Minecraft.getMinecraft().world.rand.nextFloat() * 0.2F);
             }
         });
         return null;

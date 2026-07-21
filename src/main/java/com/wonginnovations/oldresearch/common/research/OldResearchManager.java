@@ -9,17 +9,17 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import com.wonginnovations.oldresearch.api.OldResearchApi;
-import com.wonginnovations.oldresearch.api.research.curio.BaseCurio;
-import com.wonginnovations.oldresearch.api.research.curio.RitesCurio;
+import com.wonginnovations.oldresearch.common.research.curio.BaseCurio;
+import com.wonginnovations.oldresearch.common.research.curio.RitesCurio;
 import com.wonginnovations.oldresearch.common.OldResearchUtils;
-import com.wonginnovations.oldresearch.common.items.ModItems;
+import com.wonginnovations.oldresearch.common.items.ItemResearchNote;
+import com.wonginnovations.oldresearch.common.init.ModItems;
 import com.wonginnovations.oldresearch.core.mixin.ResearchManagerAccessor;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
 import org.apache.commons.lang3.ArrayUtils;
@@ -109,28 +109,28 @@ public abstract class OldResearchManager {
         data.key = key;
         Aspect[] asps = Aspect.aspects.values().toArray(new Aspect[0]);
         data.color =  asps[RANDOM.nextInt(asps.length)].getColor();
-        updateData(note, data);
+        ItemResearchNote.setNoteData(note, data);
         return note;
     }
 
-    public static ItemStack getNote(String key) {
-        return NOTES.get(key);
+    public static ItemStack noteStack(String key) {
+        return NOTES.get(key).copy();
     }
 
     public static int getResearchComplexity(EntityPlayer player, String key) {
-        return 14; //return RESEARCH_COMPLEXITY_FUNCTION.get(player, key);
+        return MathHelper.clamp(RESEARCH_COMPLEXITY_FUNCTION.calculateComplexity(player, key), 0, 10);
     }
 
     public static void givePlayerResearchNote(World world, EntityPlayer player, String key) {
         if (!hasResearchNote(player, key) && (player.isCreative() || (consumeInkFromPlayer(player, false) && OldResearchUtils.consumeInventoryItem(player, Items.PAPER)))) {
             consumeInkFromPlayer(player, true);
-            ItemStack note = NOTES.get(key).copy();
+            ItemStack note = noteStack(key);
             int complexity = getResearchComplexity(player, key);
-            ResearchNoteData data = getData(note);
+            ResearchNoteData data = ItemResearchNote.noteData(note);
             Random rand = new Random(world.getSeed());
             AspectList aspects = (RESEARCH_ASPECTS.containsKey(key)) ? RESEARCH_ASPECTS.get(key) : getRandomAspects(rand, complexity, complexity + 2);
-            data.generateHexes(rand, player, aspects, complexity);
-            updateData(note, data);
+            data.generateHexes(rand, aspects, complexity);
+            ItemResearchNote.setNoteData(note, data);
             if (!player.inventory.addItemStackToInventory(note)) {
                 ForgeHooks.onPlayerTossEvent(player, note, false);
             }
@@ -158,7 +158,7 @@ public abstract class OldResearchManager {
     public static boolean hasResearchNote(EntityPlayer player, String key) {
         ItemStack[] inv = player.inventory.mainInventory.toArray(new ItemStack[0]);
         for (ItemStack itemStack : inv) {
-            if (itemStack != null && itemStack.getItem() == ModItems.RESEARCH_NOTE && getData(itemStack) != null && getData(itemStack).key.equals(key)) {
+            if (itemStack != null && itemStack.getItem() == ModItems.RESEARCH_NOTE && ItemResearchNote.noteData(itemStack) != null && ItemResearchNote.noteData(itemStack).key.equals(key)) {
                 return true;
             }
         }
@@ -166,7 +166,7 @@ public abstract class OldResearchManager {
     }
 
     public static String getStrippedKey(ItemStack stack) {
-        ResearchNoteData data = getData(stack);
+        ResearchNoteData data = ItemResearchNote.noteData(stack);
         return (data != null)? getStrippedKey(data.key) : null;
     }
 
@@ -193,7 +193,7 @@ public abstract class OldResearchManager {
             }
         }
 
-        if(main.size() != 0) {
+        if(!main.isEmpty()) {
             return false;
         } else {
             ArrayList<String> remove = new ArrayList<>();
@@ -210,7 +210,7 @@ public abstract class OldResearchManager {
             }
 
             note.complete = true;
-            updateData(contents, note);
+            ItemResearchNote.setNoteData(contents, note);
             return true;
         }
     }
@@ -236,82 +236,6 @@ public abstract class OldResearchManager {
 
     }
 
-    public static ResearchNoteData getData(ItemStack stack) {
-        if(stack != null && stack.getItem() == ModItems.RESEARCH_NOTE) {
-            ResearchNoteData data = new ResearchNoteData();
-            if(stack.getTagCompound() == null) {
-                return null;
-            } else {
-                data.key = stack.getTagCompound().getString("key");
-                data.color = stack.getTagCompound().getInteger("color");
-                data.complete = stack.getTagCompound().getBoolean("complete");
-                data.copies = stack.getTagCompound().getInteger("copies");
-                NBTTagList grid = stack.getTagCompound().getTagList("hexgrid", 10);
-                data.hexEntries = new HashMap<>();
-
-                for(int x = 0; x < grid.tagCount(); ++x) {
-                    NBTTagCompound nbt = grid.getCompoundTagAt(x);
-                    int q = nbt.getByte("hexq");
-                    int r = nbt.getByte("hexr");
-                    int type = nbt.getByte("type");
-                    String tag = nbt.getString("aspect");
-                    Aspect aspect = Aspect.getAspect(tag);
-                    HexUtils.Hex hex = new HexUtils.Hex(q, r);
-                    data.hexEntries.put(hex.toString(), new OldResearchManager.HexEntry(aspect, type));
-                    data.hexes.put(hex.toString(), hex);
-                }
-
-                NBTTagList aspects = stack.getTagCompound().getTagList("aspects", 10);
-                data.aspects = new AspectList();
-
-                for (int x = 0; x < aspects.tagCount(); x++) {
-                    NBTTagCompound nbt = aspects.getCompoundTagAt(x);
-                    String tag = nbt.getString("aspect");
-                    data.aspects.add(Aspect.getAspect(tag), 1);
-                }
-
-                return data;
-            }
-        }
-        return null;
-    }
-
-    public static void updateData(ItemStack stack, ResearchNoteData data) {
-        if(stack.getTagCompound() == null) {
-            stack.setTagCompound(new NBTTagCompound());
-        }
-
-        stack.getTagCompound().setString("key", data.key);
-        stack.getTagCompound().setInteger("color", data.color);
-        stack.getTagCompound().setBoolean("complete", data.complete);
-        stack.getTagCompound().setInteger("copies", data.copies);
-        NBTTagList gridtag = new NBTTagList();
-
-        for(HexUtils.Hex hex : data.hexes.values()) {
-            NBTTagCompound gt = new NBTTagCompound();
-            gt.setByte("hexq", (byte)hex.q);
-            gt.setByte("hexr", (byte)hex.r);
-            gt.setByte("type", (byte) data.hexEntries.get(hex.toString()).type);
-            if(data.hexEntries.get(hex.toString()).aspect != null) {
-                gt.setString("aspect", data.hexEntries.get(hex.toString()).aspect.getTag());
-            }
-
-            gridtag.appendTag(gt);
-        }
-
-        stack.getTagCompound().setTag("hexgrid", gridtag);
-
-        NBTTagList aspects = new NBTTagList();
-
-        for (Aspect aspect : data.aspects.getAspects()) {
-            NBTTagCompound asp = new NBTTagCompound();
-            asp.setString("aspect", aspect.getTag());
-            aspects.appendTag(asp);
-        }
-
-        stack.getTagCompound().setTag("aspects", aspects);
-    }
-
     public static Aspect getCombinationResult(Aspect aspect1, Aspect aspect2) {
         for(Aspect aspect : Aspect.aspects.values()) {
             if(aspect.getComponents() != null && (aspect.getComponents()[0] == aspect1 && aspect.getComponents()[1] == aspect2 || aspect.getComponents()[0] == aspect2 && aspect.getComponents()[1] == aspect1)) {
@@ -320,20 +244,6 @@ public abstract class OldResearchManager {
         }
 
         return null;
-    }
-
-    public static boolean completeAspectUnsaved(EntityPlayer player, Aspect aspect, int amount) {
-        if(aspect == null) {
-            return false;
-        } else {
-            OldResearchApi.oldResStorage(player).researchAspect(aspect);
-            OldResearchApi.oldResStorage(player).addToAspectPool(aspect, amount);
-            return true;
-        }
-    }
-
-    public static void completeAspect(EntityPlayer player, Aspect aspect, int amount) {
-        completeAspectUnsaved(player, aspect, amount);
     }
 
     public static void parseJsonResearch(ResourceLocation loc) {
@@ -348,27 +258,24 @@ public abstract class OldResearchManager {
                 int a = 0;
 
                 for (JsonElement element : entries) {
-                    ++a;
-
                     try {
                         JsonObject entry = element.getAsJsonObject();
                         ResearchEntry researchEntry = ResearchManagerAccessor.parseResearchJson(entry);
                         if (researchEntry != null && ResearchCategories.getResearchCategory(researchEntry.getCategory()) != null) {
                             ResearchManagerAccessor.addResearchToCategory(researchEntry);
                         }
+                        a++;
                     } catch (Exception var13) {
-                        var13.printStackTrace();
-                        Thaumcraft.log.warn("Invalid research entry [" + a + "] found in " + loc);
-                        --a;
+                        Thaumcraft.log.warn("Invalid research entry [{}] found in {}", a, loc, var13);
                     }
                 }
 
-                Thaumcraft.log.info("Loaded " + a + " research entries from " + loc);
+                Thaumcraft.log.info("Loaded {} research entries from {}", a, loc);
             } catch (Exception var14) {
-                Thaumcraft.log.warn("Invalid research file: " + loc);
+                Thaumcraft.log.warn("Invalid research file: {}", loc);
             }
         } else {
-            Thaumcraft.log.warn("Research file not found: " + loc);
+            Thaumcraft.log.warn("Research file not found: {}", loc);
         }
     }
 
@@ -376,12 +283,7 @@ public abstract class OldResearchManager {
         CURIOS.add((new BaseCurio("arcane")).setCategory("AUROMANCY"));
         CURIOS.add((new BaseCurio("preserved")).setCategory("ALCHEMY"));
         CURIOS.add((new BaseCurio("ancient")).setCategory("GOLEMANCY"));
-        CURIOS.add(
-            (new BaseCurio("eldritch"))
-                .setCategory("ELDRITCH")
-                .setWarp(IPlayerWarp.EnumWarpType.NORMAL, 1)
-                .setWarp(IPlayerWarp.EnumWarpType.TEMPORARY, 5)
-        );
+        CURIOS.add((new BaseCurio("eldritch")).setCategory("ELDRITCH").setWarp(IPlayerWarp.EnumWarpType.NORMAL, 1).setWarp(IPlayerWarp.EnumWarpType.TEMPORARY, 5));
         CURIOS.add((new BaseCurio("knowledge")).setCategory("INFUSION"));
         CURIOS.add((new BaseCurio("twisted")).setCategory("ARTIFICE"));
         CURIOS.add(new RitesCurio());

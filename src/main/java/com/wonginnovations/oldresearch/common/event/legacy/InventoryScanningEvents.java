@@ -1,4 +1,4 @@
-package com.wonginnovations.oldresearch.proxy;
+package com.wonginnovations.oldresearch.common.event.legacy;
 
 import com.wonginnovations.oldresearch.main.OldResearch;
 import com.wonginnovations.oldresearch.common.network.PacketScanSelfToServer;
@@ -36,7 +36,7 @@ import thaumcraft.client.lib.UtilsFX;
 import thaumcraft.common.lib.SoundsTC;
 
 @Mod.EventBusSubscriber(modid = OldResearch.MODID, value = Side.CLIENT)
-public class ProxyInventoryScanning {
+public class InventoryScanningEvents {
     private static final int SCAN_TICKS = 25;
     private static final int SOUND_TICKS = 2;
     private static final int INVENTORY_PLAYER_X = 26;

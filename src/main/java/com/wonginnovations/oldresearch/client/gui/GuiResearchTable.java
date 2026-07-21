@@ -7,12 +7,12 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 import com.wonginnovations.oldresearch.api.OldResearchApi;
+import com.wonginnovations.oldresearch.common.items.ItemResearchNote;
 import com.wonginnovations.oldresearch.main.OldResearch;
 import com.wonginnovations.oldresearch.common.container.ContainerResearchTable;
 import com.wonginnovations.oldresearch.common.network.PacketCopyPlayerNoteToServer;
 import com.wonginnovations.oldresearch.common.network.PacketAspectCombinationToServer;
 import com.wonginnovations.oldresearch.common.network.PacketAspectPlaceToServer;
-import com.wonginnovations.oldresearch.common.research.OldResearchManager;
 import com.wonginnovations.oldresearch.common.tiles.TileResearchTable;
 import com.wonginnovations.oldresearch.tc4legacy.client.Tessellator;
 import com.wonginnovations.oldresearch.tc4legacy.client.UtilsFX;
@@ -392,7 +392,7 @@ public class GuiResearchTable extends GuiContainer {
     }
 
     private void drawSheet(int x, int y, int mx, int my) {
-        this.tileEntity.note = OldResearchManager.getData(this.tileEntity.getStackInSlot(1));
+        this.tileEntity.note = ItemResearchNote.noteData(this.tileEntity.getStackInSlot(1));
         if(this.tileEntity.note != null && this.tileEntity.note.key != null && !this.tileEntity.note.key.isEmpty()) {
             UtilsFX.bindTexture("textures/misc/parchment3.png");
             this.drawTexturedModalRect(x + 94, y + 8, 0, 0, 150, 150);

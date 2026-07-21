@@ -71,5 +71,4 @@ public class OldResearchUtils {
     public static boolean isThaumometer(ItemStack stack) {
         return stack.getItem() == ItemsTC.thaumometer;
     }
-
 }

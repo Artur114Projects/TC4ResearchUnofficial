@@ -13,12 +13,10 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 @Mixin(EntityLivingBase.class)
 public abstract class EntityLivingBaseMixin {
-
     @Inject(method = "playEquipSound", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/EntityLivingBase;playSound(Lnet/minecraft/util/SoundEvent;FF)V", shift = At.Shift.BEFORE), locals = LocalCapture.CAPTURE_FAILHARD, cancellable = true)
     protected void playEquipSoundInjection(ItemStack stack, CallbackInfo ci, SoundEvent soundEvent, Item item) {
         if (OldResearchUtils.isThaumometer(stack)) {
             ci.cancel();
         }
     }
-
 }

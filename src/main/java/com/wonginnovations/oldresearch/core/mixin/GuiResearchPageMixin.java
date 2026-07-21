@@ -1,8 +1,9 @@
 package com.wonginnovations.oldresearch.core.mixin;
 
+import com.artur114.bananalib.mc.BananaMC;
 import com.wonginnovations.oldresearch.api.OldResearchApi;
+import com.wonginnovations.oldresearch.common.items.ItemResearchNote;
 import com.wonginnovations.oldresearch.main.OldResearch;
-import com.wonginnovations.oldresearch.common.OldResearchUtils;
 import com.wonginnovations.oldresearch.common.network.PacketGivePlayerNoteToServer;
 import com.wonginnovations.oldresearch.common.research.OldResearchManager;
 import net.minecraft.client.gui.GuiScreen;
@@ -24,7 +25,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.capabilities.IPlayerKnowledge;
-import thaumcraft.api.items.ItemsTC;
+import thaumcraft.api.items.IScribeTools;
 import thaumcraft.api.research.*;
 import thaumcraft.client.gui.GuiResearchPage;
 import thaumcraft.client.lib.UtilsFX;
@@ -36,7 +37,6 @@ import java.util.List;
 
 @Mixin(GuiResearchPage.class)
 public abstract class GuiResearchPageMixin extends GuiScreen {
-
     @Shadow(remap = false)
     protected int paneHeight;
     @Shadow(remap = false)
@@ -75,7 +75,6 @@ public abstract class GuiResearchPageMixin extends GuiScreen {
     static ResourceLocation shownRecipe;
     @Shadow(remap = false)
     boolean allowWithPagePopup;
-
     @Shadow(remap = false)
     abstract boolean mouseInside(int x, int y, int w, int h, int mx, int my);
     @Shadow(remap = false)
@@ -84,12 +83,6 @@ public abstract class GuiResearchPageMixin extends GuiScreen {
     abstract void drawStackAt(ItemStack itemstack, int x, int y, int mx, int my, boolean clickthrough);
     @Shadow(remap = false)
     public abstract void drawTexturedModalRectScaled(int par1, int par2, int par3, int par4, int par5, int par6, float scale);
-
-    @Shadow(remap = false)
-    boolean isComplete;
-
-    @Shadow(remap = false)
-    IPlayerKnowledge playerKnowledge;
     @Shadow(remap = false)
     List tipText;
     @Unique
@@ -307,7 +300,7 @@ public abstract class GuiResearchPageMixin extends GuiScreen {
                     if (!key.startsWith("rn_")) {
                         continue;
                     } else {
-                        loc = OldResearchManager.getNote(key);
+                        loc = OldResearchManager.noteStack(key);
                         s = I18n.format("tc.researchtheory", I18n.format("research." + OldResearchManager.getStrippedKey(key) + ".title"));
                     }
 
@@ -397,10 +390,10 @@ public abstract class GuiResearchPageMixin extends GuiScreen {
             if ((mx >= p.x && mx <= p.x + 16) && (my >= p.y && my <= p.y + 16)) {
                 // TODO: Добавить возможность локализировать
                 // TODO: Переписать!
-                if (!this.mc.player.isCreative() && !OldResearchUtils.isPlayerCarrying(this.mc.player, ItemsTC.scribingTools)) {
+                if (!this.mc.player.isCreative() && !BananaMC.inventoryContains(this.mc.player, (stack) -> stack.getItem() instanceof IScribeTools)) {
                     this.mc.player.sendMessage(new TextComponentString("§cScribing tools required to create research notes."));
                     this.mc.displayGuiScreen(null);
-                } else if (!this.mc.player.isCreative() && !OldResearchUtils.isPlayerCarrying(this.mc.player, Items.PAPER)) {
+                } else if (!this.mc.player.isCreative() && !BananaMC.inventoryContains(this.mc.player, Items.PAPER)) {
                     this.mc.player.sendMessage(new TextComponentString("§cPaper required to create research notes."));
                     this.mc.displayGuiScreen(null);
                 } else if (!this.mc.player.isCreative() && !OldResearchManager.consumeInkFromPlayer(this.mc.player, false)) {
@@ -409,7 +402,7 @@ public abstract class GuiResearchPageMixin extends GuiScreen {
                     this.mc.displayGuiScreen(null);
                 } else {
                     OldResearch.NETWORK.sendToServer(
-                        new PacketGivePlayerNoteToServer(OldResearchManager.getData(oldresearch$renderedNotes.get(p)).key)
+                        new PacketGivePlayerNoteToServer(ItemResearchNote.noteData(oldresearch$renderedNotes.get(p)).key)
                     );
                 }
                 ci.cancel();

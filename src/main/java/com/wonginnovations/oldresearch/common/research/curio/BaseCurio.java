@@ -1,4 +1,4 @@
-package com.wonginnovations.oldresearch.api.research.curio;
+package com.wonginnovations.oldresearch.common.research.curio;
 
 import com.wonginnovations.oldresearch.api.OldResearchApi;
 import com.wonginnovations.oldresearch.common.research.ScanManager;

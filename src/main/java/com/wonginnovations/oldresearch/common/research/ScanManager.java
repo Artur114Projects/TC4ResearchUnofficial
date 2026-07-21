@@ -17,61 +17,14 @@ import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.research.ScanningManager;
 
 public class ScanManager {
-
-//    Not yet ( ._.)
-
-//    private static AspectList generateNodeAspects(World world, String node) {
-//        AspectList tags = new AspectList();
-//        ArrayList<Integer> loc = (ArrayList)TileNode.locations.get(node);
-//        if(loc != null && loc.size() > 0) {
-//            int dim = ((Integer)loc.get(0)).intValue();
-//            int x = ((Integer)loc.get(1)).intValue();
-//            int y = ((Integer)loc.get(2)).intValue();
-//            int z = ((Integer)loc.get(3)).intValue();
-//            if(dim == world.provider.dimensionId) {
-//                TileEntity tnb = world.getTileEntity(x, y, z);
-//                if(tnb != null && tnb instanceof INode) {
-//                    AspectList ta = ((INode)tnb).getAspects();
-//
-//                    for(Aspect a : ta.getAspectsSorted()) {
-//                        tags.merge(a, Math.max(4, ta.getAmount(a) / 10));
-//                    }
-//
-//                    switch(((INode)tnb).getNodeType()) {
-//                        case UNSTABLE:
-//                            tags.merge(Aspect.ENTROPY, 4);
-//                            break;
-//                        case HUNGRY:
-//                            tags.merge(Aspect.HUNGER, 4);
-//                            break;
-//                        case TAINTED:
-//                            tags.merge(Aspect.TAINT, 4);
-//                            break;
-//                        case PURE:
-//                            tags.merge(Aspect.HEAL, 2);
-//                            tags.add(Aspect.ORDER, 2);
-//                            break;
-//                        case DARK:
-//                            tags.merge(Aspect.DEATH, 2);
-//                            tags.add(Aspect.DARKNESS, 2);
-//                    }
-//                }
-//            }
-//        }
-//
-//        return tags.size() > 0?tags:null;
-//    }
-
-    public static int checkAndSyncAspectKnowledge(EntityPlayer player, Aspect aspect, int amount) {
-        int save = 0;
+    public static void checkAndSyncAspectKnowledge(EntityPlayer player, Aspect aspect, int amount) {
         if (!OldResearchApi.oldResStorage(player).isKnowAspect(aspect)) {
             OldResearch.NETWORK.sendTo(new PacketAspectDiscovery(aspect.getTag()), (EntityPlayerMP) player);
             amount += 2;
-            save = amount;
         }
 
         if (OldResearchApi.oldResStorage(player).aspectCount(aspect) >= ModConfig.aspectTotalCap) {
-            amount = (int)Math.sqrt(amount);
+            amount = (int) Math.sqrt(amount);
         }
 
         if (amount > 1 && (float)OldResearchApi.oldResStorage(player).aspectCount(aspect) >= (float)ModConfig.aspectTotalCap * 1.25F) {
@@ -79,22 +32,18 @@ public class ScanManager {
         }
 
         if (OldResearchApi.oldResStorage(player).addToAspectPool(aspect, amount)) {
-            OldResearch.NETWORK.sendTo(new PacketAspectPool(aspect.getTag(), amount, OldResearchApi.oldResStorage(player).aspectCount(aspect)), (EntityPlayerMP)player);
-            save = amount;
+            OldResearch.NETWORK.sendTo(new PacketAspectPool(aspect.getTag(), amount, OldResearchApi.oldResStorage(player).aspectCount(aspect)), (EntityPlayerMP) player);
         }
-
-        if (save > 0) {
-            OldResearchManager.completeAspect(player, aspect, OldResearchApi.oldResStorage(player).aspectCount(aspect));
-        }
-
-        return save;
     }
 
-    public static AspectList getScanAspects(EntityPlayer player, Object scan) {
-        if (scan instanceof Entity && !(scan instanceof EntityItem)) {
-            return AspectHelper.getEntityAspects((Entity) scan);
+    public static AspectList objScanAspects(EntityPlayer player, Object obj) {
+        if (obj == null) {
+            return new AspectList();
+        }
+        if (obj instanceof Entity && !(obj instanceof EntityItem)) {
+            return AspectHelper.getEntityAspects((Entity) obj);
         } else {
-            ItemStack is = ScanningManager.getItemFromParms(player, scan);
+            ItemStack is = ScanningManager.getItemFromParms(player, obj);
             if (is != null && !is.isEmpty()) {
                 return AspectHelper.getObjectAspects(is);
             }
@@ -103,7 +52,7 @@ public class ScanManager {
     }
 
     public static boolean canScanThing(EntityPlayer player, Object thing, boolean notify) {
-        AspectList al = getScanAspects(player, thing);
+        AspectList al = objScanAspects(player, thing);
         if (al == null || al.size() < 0) return true;
         for (Aspect aspect : al.getAspects()) {
             if (aspect.getComponents() != null) {

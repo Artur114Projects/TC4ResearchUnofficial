@@ -22,7 +22,6 @@ import thaumcraft.common.config.ConfigItems;
 import java.util.List;
 
 public class ItemCurio extends Item {
-
     public ItemCurio() {
         this.setRegistryName(Thaumcraft.MODID + ":curio");
         this.setTranslationKey("curio");
@@ -64,7 +63,7 @@ public class ItemCurio extends Item {
 
         if (!worldIn.isRemote && OldResearchManager.CURIOS.get(stack.getMetadata()).onItemRightClick(worldIn, player, hand)) {
             player.sendStatusMessage(new TextComponentTranslation("tc.knowledge.gained").setStyle(new Style().setColor(TextFormatting.DARK_PURPLE).setItalic(true)), true);
-            if(!player.capabilities.isCreativeMode) {
+            if (!player.isCreative()) {
                 stack.setCount(stack.getCount()-1);
             }
         }

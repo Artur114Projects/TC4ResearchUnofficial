@@ -92,9 +92,6 @@ public class OldResStorage implements IOldResStorage {
         if (aspect == null) {
             return 0;
         }
-        if (!this.isKnowAspect(aspect)) {
-            return 0;
-        }
         return this.aspects.getOrDefault(aspect, 0);
     }
 

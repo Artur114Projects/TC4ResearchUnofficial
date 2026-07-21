@@ -1,17 +1,13 @@
-package com.wonginnovations.oldresearch.api.research.curio;
+package com.wonginnovations.oldresearch.common.research.curio;
 
-import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.text.Style;
-import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import thaumcraft.api.ThaumcraftApi;
-import thaumcraft.api.capabilities.IPlayerKnowledge;
 import thaumcraft.api.capabilities.IPlayerWarp;
-import thaumcraft.api.capabilities.ThaumcraftCapabilities;
 
 public class RitesCurio extends BaseCurio {
 

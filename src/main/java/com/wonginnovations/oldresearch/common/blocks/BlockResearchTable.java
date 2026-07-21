@@ -1,5 +1,6 @@
 package com.wonginnovations.oldresearch.common.blocks;
 
+import java.util.Objects;
 import java.util.Random;
 
 import com.wonginnovations.oldresearch.main.OldResearch;
@@ -9,6 +10,8 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
@@ -23,9 +26,12 @@ import thaumcraft.client.fx.particles.FXGeneric;
 import thaumcraft.common.blocks.IBlockFacingHorizontal;
 
 public class BlockResearchTable extends BlockTCDevice implements IBlockFacingHorizontal {
+    public final ItemBlock item;
+
     public BlockResearchTable() {
         super(Material.WOOD, TileResearchTable.class, "research_table_old");
         this.setSoundType(SoundType.WOOD);
+        this.item = (ItemBlock) new ItemBlock(this).setRegistryName(Objects.requireNonNull(this.getRegistryName()));
     }
 
     @Override
