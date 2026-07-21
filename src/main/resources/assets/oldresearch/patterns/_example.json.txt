@@ -1,0 +1,11 @@
+{
+  "entries": [
+    {
+      "target": "EXAMPLE", # a target research where do you want to change the note
+      "note": 1, # note number, numbering starts from 1, and goes from left to right in gui
+      "complexity": 10, # complexity of the note, affects the size of the field and the number of missing cells, minimum 0 maximum 10
+      "aspects": ["victus", "ordo", "herba", "vacuos", "volatus"], # a list of aspects that will be in the note, if there are more than 10 of them, then problems may begin!
+      "hash-delta": 1 # the note card is generated semi randomly, you can shift the seed using this field
+    }
+  ]
+}

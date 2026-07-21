@@ -66,8 +66,8 @@ public class ManualRegister {
         ResearchCategories.getResearchCategory("BASICS").research.remove("THEORYRESEARCH");
         ResearchCategories.getResearchCategory("BASICS").research.remove("CELESTIALSCANNING");
         OldResearchManager.parseJsonResearch(new ResourceLocation("oldresearch", "research.json"));
-        OldResearchApi.registerOldResearch(new ResourceLocation("oldresearch", "oldresearch.json"));
         OldResearchManager.patchResearch();
+        this.initPatterns();
         ThaumcraftApi.registerObjectTag(new ItemStack(ModBlocks.RESEARCH_TABLE, 1, 32767), new AspectList(new ItemStack(BlocksTC.researchTable)));
         OldResearchManager.computeAspectComplexity();
         IDustTrigger.registerDustTrigger(new DustTriggerSimple("", BlocksTC.tableWood, new ItemStack(BlocksTC.researchTable)));
@@ -92,6 +92,15 @@ public class ManualRegister {
         OldResearch.NETWORK.registerMessage(PacketCopyPlayerNoteToServer.class, PacketCopyPlayerNoteToServer.class, discriminator++, Side.SERVER);
         OldResearch.NETWORK.registerMessage(PacketSyncAspects.HandlerSA.class, PacketSyncAspects.class, discriminator++, Side.CLIENT);
         OldResearch.NETWORK.registerMessage(PacketSyncResearchTableAspects.class, PacketSyncResearchTableAspects.class, discriminator++, Side.CLIENT);
+    }
+
+    private void initPatterns() {
+        OldResearchApi.registerOldResearch(OldResearch.loc("patterns/alchemy"));
+        OldResearchApi.registerOldResearch(OldResearch.loc("patterns/auromancy"));
+        OldResearchApi.registerOldResearch(OldResearch.loc("patterns/basics"));
+        OldResearchApi.registerOldResearch(OldResearch.loc("patterns/eldritch"));
+        OldResearchApi.registerOldResearch(OldResearch.loc("patterns/golemancy"));
+        OldResearchApi.registerOldResearch(OldResearch.loc("patterns/infusion"));
     }
 
     @SideOnly(Side.CLIENT)

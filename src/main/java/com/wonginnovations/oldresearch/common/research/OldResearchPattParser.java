@@ -21,7 +21,7 @@ public class OldResearchPattParser {
 
     public static List<ResearchNotePattern> parse(ResourceLocation location) {
         JsonParser parser = new JsonParser();
-        String s = "/assets/" + location.getNamespace() + "/" + location.getPath();
+        String s = "/assets/" + location.getNamespace() + "/" + location.getPath() + ".json";
         List<ResearchNotePattern> patterns = new ArrayList<>();
         try (InputStream stream = OldResearchManager.class.getResourceAsStream(s)) {
             if (stream == null) {
@@ -44,7 +44,7 @@ public class OldResearchPattParser {
         } catch (Exception e) {
             log.error("failed to parse file {}", location, e);
         }
-        log.info("loaded {} note patterns from file {}", patterns.size(), location);
+        log.info("Loaded {} note patterns from file {}", patterns.size(), location);
         return patterns;
     }
 
