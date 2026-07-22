@@ -5,7 +5,7 @@ import com.wonginnovations.oldresearch.main.OldResearch;
 import com.wonginnovations.oldresearch.common.network.PacketAspectDiscovery;
 import com.wonginnovations.oldresearch.common.network.PacketAspectDiscoveryError;
 import com.wonginnovations.oldresearch.common.network.PacketAspectPool;
-import com.wonginnovations.oldresearch.common.config.ModConfig;
+import com.wonginnovations.oldresearch.common.config.OldConfig;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -23,11 +23,11 @@ public class ScanManager {
             amount += 2;
         }
 
-        if (OldResearchApi.oldResStorage(player).aspectCount(aspect) >= ModConfig.aspectTotalCap) {
+        if (OldResearchApi.oldResStorage(player).aspectCount(aspect) >= OldConfig.aspectTotalCap) {
             amount = (int) Math.sqrt(amount);
         }
 
-        if (amount > 1 && (float)OldResearchApi.oldResStorage(player).aspectCount(aspect) >= (float)ModConfig.aspectTotalCap * 1.25F) {
+        if (amount > 1 && (float)OldResearchApi.oldResStorage(player).aspectCount(aspect) >= (float) OldConfig.aspectTotalCap * 1.25F) {
             amount = 1;
         }
 

@@ -1,6 +1,6 @@
 package com.wonginnovations.oldresearch.tc4legacy.client;
 
-import com.wonginnovations.oldresearch.common.config.ModConfig;
+import com.wonginnovations.oldresearch.common.config.OldConfig;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
 import thaumcraft.api.aspects.Aspect;
@@ -32,8 +32,8 @@ public class PlayerNotifications {
 
     public static void addNotification(String text, ResourceLocation image, int color) {
         long time = System.nanoTime() / 1000000L;
-        long timeBonus = notificationList.size() == 0?(long)(ModConfig.notificationDelay / 2):0L;
-        notificationList.add(new Notification(text, image, time + (long)ModConfig.notificationDelay + timeBonus, time + (long)(ModConfig.notificationDelay / 4), color));
+        long timeBonus = notificationList.size() == 0?(long)(OldConfig.notificationDelay / 2):0L;
+        notificationList.add(new Notification(text, image, time + (long) OldConfig.notificationDelay + timeBonus, time + (long)(OldConfig.notificationDelay / 4), color));
     }
 
     public static ArrayList<PlayerNotifications.Notification> getListAndUpdate(long time) {
@@ -43,7 +43,7 @@ public class PlayerNotifications {
         for(PlayerNotifications.Notification li : notificationList) {
             if(li.expire >= time) {
                 if(!first) {
-                    temp.add(new PlayerNotifications.Notification(li.text, li.image, time + (long)ModConfig.notificationDelay, li.created, li.color));
+                    temp.add(new PlayerNotifications.Notification(li.text, li.image, time + (long) OldConfig.notificationDelay, li.created, li.color));
                 } else {
                     temp.add(li);
                 }

@@ -138,6 +138,7 @@ public class ItemResearchNote extends Item {
                 data.color = stack.getTagCompound().getInteger("color");
                 data.complete = stack.getTagCompound().getBoolean("complete");
                 data.copies = stack.getTagCompound().getInteger("copies");
+                data.mergedTeories = stack.getTagCompound().getInteger("mergedTeories");
                 NBTTagList grid = stack.getTagCompound().getTagList("hexgrid", 10);
                 data.hexEntries = new HashMap<>();
 
@@ -177,6 +178,7 @@ public class ItemResearchNote extends Item {
         stack.getTagCompound().setInteger("color", data.color);
         stack.getTagCompound().setBoolean("complete", data.complete);
         stack.getTagCompound().setInteger("copies", data.copies);
+        stack.getTagCompound().setInteger("mergedTeories", data.mergedTeories);
         NBTTagList gridtag = new NBTTagList();
 
         for (HexUtils.Hex hex : data.hexes.values()) {

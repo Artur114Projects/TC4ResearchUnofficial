@@ -1,7 +1,7 @@
 package com.wonginnovations.oldresearch.core.mixin;
 
 import com.wonginnovations.oldresearch.common.research.ScanManager;
-import com.wonginnovations.oldresearch.common.config.ModConfig;
+import com.wonginnovations.oldresearch.common.config.OldConfig;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -46,7 +46,7 @@ public abstract class ItemThaumometerMixin extends Item {
 
     @Inject(method = "onItemRightClick", at = @At("HEAD"), cancellable = true)
     public void onItemRightClickInject(World world, EntityPlayer player, EnumHand hand, CallbackInfoReturnable<ActionResult<ItemStack>> cir) {
-        if (!ModConfig.instantScans) {
+        if (!OldConfig.instantScans) {
             ItemStack stack = player.getHeldItem(hand);
             player.setActiveHand(hand);
             cir.setReturnValue(new ActionResult<>(EnumActionResult.PASS, stack));
@@ -55,7 +55,7 @@ public abstract class ItemThaumometerMixin extends Item {
 
     @Override
     public void onUsingTick(@NotNull ItemStack stack, @NotNull EntityLivingBase entity, int count) {
-        if (!(entity instanceof EntityPlayer) || ModConfig.instantScans) {
+        if (!(entity instanceof EntityPlayer) || OldConfig.instantScans) {
             return;
         }
         EntityPlayer player = (EntityPlayer) entity;

@@ -1,6 +1,7 @@
 package com.wonginnovations.oldresearch.registry;
 
 import com.artur114.bananalib.mc.cap.BananaCapStorage;
+import com.artur114.bananalib.util.graphs.BananaGraphs;
 import com.wonginnovations.oldresearch.api.OldResearchApi;
 import com.wonginnovations.oldresearch.common.research.curio.BaseCurio;
 import com.wonginnovations.oldresearch.client.renderer.TileResearchTableRenderer;
@@ -32,16 +33,25 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import thaumcraft.api.ThaumcraftApi;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.blocks.BlocksTC;
+import thaumcraft.api.capabilities.IPlayerKnowledge;
 import thaumcraft.api.crafting.IDustTrigger;
 import thaumcraft.api.items.ItemsTC;
 import thaumcraft.api.research.ResearchCategories;
+import thaumcraft.api.research.ResearchEntry;
+import thaumcraft.api.research.ResearchStage;
 import thaumcraft.common.lib.crafting.DustTriggerSimple;
 
 import java.awt.*;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class ManualRegister {
     public void preInit(Side side) {
@@ -71,6 +81,7 @@ public class ManualRegister {
         ThaumcraftApi.registerObjectTag(new ItemStack(InitBlocks.RESEARCH_TABLE, 1, 32767), new AspectList(new ItemStack(BlocksTC.researchTable)));
         OldResearchManager.computeAspectComplexity();
         IDustTrigger.registerDustTrigger(new DustTriggerSimple("", BlocksTC.tableWood, new ItemStack(BlocksTC.researchTable)));
+        this.initImplicitResLinks();
     }
 
     private void initCaps() {
@@ -101,6 +112,10 @@ public class ManualRegister {
         OldResearchApi.registerOldResearch(OldResearch.loc("patterns/eldritch"));
         OldResearchApi.registerOldResearch(OldResearch.loc("patterns/golemancy"));
         OldResearchApi.registerOldResearch(OldResearch.loc("patterns/infusion"));
+    }
+
+    private void initImplicitResLinks() {
+        OldResearchManager.registerImplicitParents("UNLOCKELDRITCH", "RIFTCLOSER");
     }
 
     @SideOnly(Side.CLIENT)

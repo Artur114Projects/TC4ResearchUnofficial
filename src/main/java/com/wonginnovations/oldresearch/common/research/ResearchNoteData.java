@@ -13,6 +13,7 @@ public class ResearchNoteData {
     public HashMap<String, OldResearchManager.HexEntry> hexEntries = new HashMap<>();
     public HashMap<String, HexUtils.Hex> hexes = new HashMap<>();
     public AspectList aspects = new AspectList();
+    public int mergedTeories;
     public boolean complete;
     public String key;
     public int copies;
@@ -40,8 +41,7 @@ public class ResearchNoteData {
         }
 
         if (complexity > 1) {
-//            int blanks = (rand.nextInt(2) + 1) * (complexity / 2);
-            int blanks = 3 * (complexity / 2);
+            int blanks = complexity;
             HexUtils.Hex[] temp = this.hexes.values().toArray(new HexUtils.Hex[0]);
 
             while (blanks > 0) {
@@ -54,22 +54,7 @@ public class ResearchNoteData {
                         HexUtils.Hex neighbour = temp[randHex].getNeighbour(n);
                         OldResearchManager.HexEntry neighbourEntry = this.hexEntries.get(neighbour.toString());
                         if (neighbourEntry != null && neighbourEntry.type == 1) {
-                            int collidedHexes = 0;
-
-                            for (int q = 0; q != 6; q++) {
-                                if (this.hexes.containsKey(neighbour.getNeighbour(q).toString())) {
-                                    collidedHexes++;
-                                }
-
-                                if (collidedHexes >= 2) {
-                                    break;
-                                }
-                            }
-
-                            if (collidedHexes < 2) {
-                                doRemove = false;
-                                break;
-                            }
+                            doRemove = false;
                         }
                     }
 

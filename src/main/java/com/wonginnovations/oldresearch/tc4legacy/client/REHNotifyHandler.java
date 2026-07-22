@@ -1,6 +1,6 @@
 package com.wonginnovations.oldresearch.tc4legacy.client;
 
-import com.wonginnovations.oldresearch.common.config.ModConfig;
+import com.wonginnovations.oldresearch.common.config.OldConfig;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
@@ -43,17 +43,17 @@ public class REHNotifyHandler {
         ArrayList<PlayerNotifications.Notification> notifications = PlayerNotifications.getListAndUpdate(time);
         int entry = 0;
 
-        for(float shift = -8.0F; entry < notifications.size() && entry < ModConfig.notificationMax; ++entry) {
+        for(float shift = -8.0F; entry < notifications.size() && entry < OldConfig.notificationMax; ++entry) {
             PlayerNotifications.Notification li = notifications.get(entry);
             String text = li.text;
             int size = mc.fontRenderer.getStringWidth(text) / 2;
             int alpha = 255;
             if(entry == notifications.size() - 1 && li.created > time) {
-                alpha = 255 - (int)((float)(li.created - time) / (float)(ModConfig.notificationDelay / 4) * 240.0F);
+                alpha = 255 - (int)((float)(li.created - time) / (float)(OldConfig.notificationDelay / 4) * 240.0F);
             }
 
-            if(li.expire < time + (long)ModConfig.notificationDelay) {
-                alpha = (int)(255.0F - (float)(time + (long) ModConfig.notificationDelay - li.expire) / (float)ModConfig.notificationDelay * 240.0F);
+            if(li.expire < time + (long) OldConfig.notificationDelay) {
+                alpha = (int)(255.0F - (float)(time + (long) OldConfig.notificationDelay - li.expire) / (float) OldConfig.notificationDelay * 240.0F);
                 shift = -8.0F * ((float)alpha / 255.0F);
             }
 
@@ -80,7 +80,7 @@ public class REHNotifyHandler {
             }
 
             if(entry == notifications.size() - 1 && li.created > time) {
-                float scale = (float)(li.created - time) / (float)(ModConfig.notificationDelay / 4);
+                float scale = (float)(li.created - time) / (float)(OldConfig.notificationDelay / 4);
                 alpha = 255 - (int)(scale * 240.0F);
                 GlStateManager.pushMatrix();
                 GlStateManager.translate((float)(k - 5) - 8.0F * scale - (1.0F - scale) * (1.0F - scale) * (1.0F - scale) * (float)size * 3.0F, (float)(l - entry * 8) + shift - 2.0F - 8.0F * scale, 0.0F);

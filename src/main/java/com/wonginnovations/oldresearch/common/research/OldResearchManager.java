@@ -36,16 +36,20 @@ import thaumcraft.api.research.ResearchStage;
 import thaumcraft.common.lib.utils.HexUtils;
 
 public class OldResearchManager {
-    private static final Map<String, ItemStack> NOTES = new HashMap<>();
+    protected static final Map<String, ItemStack> NOTES = new HashMap<>();
+    private static final Map<String, List<String>> IMPLICIT_PARENTS = new HashMap<>();
     private static final Map<String, ResearchNotePattern> NOTE_PATTERNS = new HashMap<>();
     public static ArrayList<BaseCurio> CURIOS = new ArrayList<>();
     public static final Map<Aspect, Integer> ASPECT_COMPLEXITY = new HashMap<>();
     public static IResearchComplexity RESEARCH_COMPLEXITY_FUNCTION = new DefaultResearchComplexity();
-
     private static final Random RANDOM = new Random(69420);
 
     public static void registerNotePattern(ResearchNotePattern pattern) {
         NOTE_PATTERNS.put(pattern.oldResKey(), pattern);
+    }
+
+    public static void registerImplicitParents(String research, String... parents) {
+        IMPLICIT_PARENTS.put(research, Arrays.asList(parents));
     }
 
     public static void registerNotePatterns(List<ResearchNotePattern> patterns) {
@@ -71,13 +75,32 @@ public class OldResearchManager {
         return ASPECT_COMPLEXITY.get(a);
     }
 
-//    public static Aspect getRandomAspect(Random rand, int complexity) {
-//        List<Aspect> possible = ASPECT_COMPLEXITY.keySet().stream().filter(aspect -> ASPECT_COMPLEXITY.get(aspect) <= complexity).toList();
-//        return possible.get(rand.nextInt(possible.size()));
-//    }
+    public static List<String> parentsOfResearch(String research) {
+        ResearchEntry res = ResearchCategories.getResearch(research);
+
+        if (res != null) {
+            String[] parents = res.getParentsClean();
+
+            if (parents != null) {
+                List<String> ret = new ArrayList<>(Arrays.asList(parents));
+                List<String> implicit = IMPLICIT_PARENTS.get(research);
+
+                if (implicit != null) {
+                    ret.addAll(implicit);
+                }
+
+                return ret;
+            }
+        }
+
+        return Collections.emptyList();
+    }
 
     public static AspectList getRandomAspects(Random rand, int maxComplexity, int quantity) {
-        List<Aspect> possible = ASPECT_COMPLEXITY.keySet().stream().filter(aspect -> ASPECT_COMPLEXITY.get(aspect) <= maxComplexity).collect(Collectors.toList());
+        List<Aspect> possible = ASPECT_COMPLEXITY.keySet().stream().filter(aspect -> {
+            int comp = ASPECT_COMPLEXITY.get(aspect);
+            return comp <= maxComplexity && comp >= MathHelper.clamp((maxComplexity / 4) - 2, 0, 2);
+        }).collect(Collectors.toList());
         AspectList selected = new AspectList();
         int upto = Math.min(quantity, possible.size());
         for (int i = 0; i < upto; i++) {
@@ -92,29 +115,47 @@ public class OldResearchManager {
     public static void patchResearch() {
         for (ResearchCategory category : ResearchCategories.researchCategories.values()) {
             for (ResearchEntry entry : category.research.values()) {
-                int i = 0;
-                for (ResearchStage stage : entry.getStages()) {
-                    if (stage == null || stage.getKnow() == null || stage.getKnow().length == 0) continue;
+                ResearchStage[] stages = entry.getStages();
+                for (int i = 0; i != stages.length; i++) {
+                    ResearchStage stage = stages[i];
+                    if (stage == null || stage.getKnow() == null) {
+                        continue;
+                    }
+
+                    int theoryCount = 0;
                     for (ResearchStage.Knowledge knowledge : stage.getKnow()) {
                         if (knowledge.type == IPlayerKnowledge.EnumKnowledgeType.THEORY) {
-                            String key = "rn_" + entry.getKey() + "_" + (++i);
-                            stage.setResearch(ArrayUtils.add(stage.getResearch(), key));
-                            NOTES.put(key, createNote(key));
-                            if (stage.getResearchIcon() == null) stage.setResearchIcon(new String[]{null});
-                            else stage.setResearchIcon(ArrayUtils.add(stage.getResearchIcon(), null));
+                            theoryCount++;
                         }
                     }
+
+                    if (theoryCount == 0) {
+                        continue;
+                    }
+
+                    String key = "rn_" + entry.getKey() + "_" + i;
+                    stage.setResearch(ArrayUtils.add(stage.getResearch(), key));
+                    NOTES.put(key, createNote(key, theoryCount));
+
+                    if (stage.getResearchIcon() == null) {
+                        stage.setResearchIcon(new String[] {null});
+                    } else {
+                        stage.setResearchIcon(ArrayUtils.add(stage.getResearchIcon(), null));
+                    }
+
                     stage.setKnow(null);
                 }
             }
         }
     }
 
-    private static ItemStack createNote(String key) {
+    private static ItemStack createNote(String key, int teoriesCount) {
         ItemStack note = new ItemStack(InitItems.RESEARCH_NOTE);
         ResearchNoteData data = new ResearchNoteData();
         data.key = key;
+        data.mergedTeories = teoriesCount;
         Aspect[] asps = Aspect.aspects.values().toArray(new Aspect[0]);
+        RANDOM.setSeed(key.hashCode());
         data.color =  asps[RANDOM.nextInt(asps.length)].getColor();
         ItemResearchNote.setNoteData(note, data);
         return note;
@@ -125,7 +166,7 @@ public class OldResearchManager {
     }
 
     public static int getResearchComplexity(EntityPlayer player, String key) {
-        return MathHelper.clamp(RESEARCH_COMPLEXITY_FUNCTION.calculateComplexity(player, key), 0, 10);
+        return RESEARCH_COMPLEXITY_FUNCTION.calculateComplexity(player, key);
     }
 
     public static void givePlayerResearchNote(World world, EntityPlayer player, String key) {
@@ -153,7 +194,7 @@ public class OldResearchManager {
     private static ItemStack createNoteFromPattern(ResearchNotePattern pattern, String key) {
         ItemStack note = noteStack(key);
         ResearchNoteData data = ItemResearchNote.noteData(note);
-        Random rand = new Random(pattern.seed());
+        Random rand = new Random((31 * pattern.seed()) + key.hashCode());
         data.generateHexes(rand, pattern.aspects(), pattern.complexity());
         ItemResearchNote.setNoteData(note, data);
         return note;
@@ -163,9 +204,10 @@ public class OldResearchManager {
         ItemStack note = noteStack(key);
         ResearchNoteData data = ItemResearchNote.noteData(note);
         Random rand = new Random(31 * ((31 * world.getSeed()) + key.hashCode()) + data.color);
-        int complexity = getResearchComplexity(player, key);
-        AspectList aspects = getRandomAspects(rand, complexity, complexity + 2);
-        data.generateHexes(rand, aspects, complexity);
+        int complexity = getResearchComplexity(player, key) + data.mergedTeories;
+        int complexityClamped = MathHelper.clamp(complexity, 0, 12);
+        AspectList aspects = getRandomAspects(rand, complexity, Math.min(11, complexityClamped + 2));
+        data.generateHexes(rand, aspects, complexityClamped);
         ItemResearchNote.setNoteData(note, data);
         return note;
     }

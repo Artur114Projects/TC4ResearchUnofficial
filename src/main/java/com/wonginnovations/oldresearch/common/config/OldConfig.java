@@ -4,9 +4,8 @@ import com.wonginnovations.oldresearch.main.OldResearch;
 import net.minecraftforge.common.config.Config;
 
 @Config(modid = OldResearch.MODID)
-public class ModConfig {
-    @Config.Comment("Not quite sure yet low key")
-    public static int researchDifficulty = 1;
+public class OldConfig {
+    public static double researchDifficultyMultiplier = 0.75D;
     public static int notificationDelay = 2000;
     public static int notificationMax = 10;
     public static int aspectTotalCap = 10000;

@@ -174,9 +174,9 @@ public class GuiResearchTable extends GuiContainer {
         }
 
         this.drawAspectText(this.guiLeft + 10, this.guiTop + 40, mx, my);
-        if(this.tileEntity.note != null && (this.tileEntity.getStackInSlot(0) == null || this.tileEntity.getStackInSlot(0).isEmpty() || this.tileEntity.getStackInSlot(0).getItemDamage() == this.tileEntity.getStackInSlot(0).getMaxDamage())) {
+        if(this.tileEntity.note != null && this.tileEntity.getStackInSlot(0).isEmpty() || this.tileEntity.getStackInSlot(0).getItemDamage() == this.tileEntity.getStackInSlot(0).getMaxDamage()) {
             int sx = Math.max(this.fontRenderer.getStringWidth(I18n.format("tile.researchtable.noink.0")), this.fontRenderer.getStringWidth(I18n.format("tile.researchtable.noink.1"))) / 2;
-            UtilsFX.drawCustomTooltip(this, itemRender, this.fontRenderer, Arrays.asList(I18n.format("tile.researchtable.noink.0"), I18n.format("tile.researchtable.noink.1")), gx + 157 - sx, gy + 84, 11);
+            UtilsFX.drawCustomTooltip(this, itemRender, this.fontRenderer, Arrays.asList(I18n.format("tile.researchtable.noink.0"), I18n.format("tile.researchtable.noink.1")), (gx + this.xSize / 2) - sx - 10, gy + 84, 11);
         }
 
         this.renderHoveredToolTip(mx, my);

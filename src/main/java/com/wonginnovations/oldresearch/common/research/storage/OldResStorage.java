@@ -11,10 +11,11 @@ import thaumcraft.api.aspects.AspectList;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class OldResStorage implements IOldResStorage {
-    private final Map<Aspect, Integer> aspects = new HashMap<>();
+    private final Map<Aspect, Integer> aspects = new LinkedHashMap<>();
     private final EntityPlayer player;
     private int finishedNotes = 0;
     

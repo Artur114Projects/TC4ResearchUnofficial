@@ -10,6 +10,7 @@ base {
 }
 
 repositories {
+    maven {url 'https://jitpack.io'}
     maven {url "https://cursemaven.com"}
     maven {url 'https://maven.cleanroommc.com'}
     maven {url 'https://maven.cleanroommc.com'}
@@ -17,7 +18,14 @@ repositories {
     mavenLocal()
 }
 
+configurations {
+    include; implementation.extendsFrom(include)
+}
+
 dependencies {
+    include('com.github.Artur114Projects.BananaLib:asm:1.0.5-betta') {transitive=false}
+    include('com.github.Artur114Projects.BananaLib:util:1.0.5-betta') {transitive=false}
+
     implementation 'org.jetbrains:annotations:24.0.0'
     implementation rfg.deobf('curse.maven:thaumcraft-223628:2629023')
     implementation rfg.deobf('curse.maven:baubles-227083:2518667')
@@ -55,6 +63,11 @@ processResources {
 }
 
 jar {
+    from {
+        configurations.include.collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+    }
     manifest {
         attributes(
             "FMLAT": "tc_at.cfg",
