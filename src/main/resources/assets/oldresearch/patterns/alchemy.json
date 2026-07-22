@@ -1,0 +1,82 @@
+{
+  "entries": [
+    {
+      "target": "METALLURGY",
+      "stage": 1,
+      "complexity": 1,
+      "aspects": ["metallum", "praecantatio", "terra"]
+    },
+    {
+      "target": "METALPURIFICATION",
+      "stage": 0,
+      "complexity": 1,
+      "aspects": ["metallum", "ordo", "permutatio"]
+    },
+    {
+      "target": "LIQUIDDEATH",
+      "stage": 0,
+      "complexity": 3,
+      "aspects": ["aqua", "perditio", "mortuus", "vitium", "exanimis"]
+    },
+    {
+      "target": "BOTTLETAINT",
+      "stage": 0,
+      "complexity": 2,
+      "aspects": ["aqua", "perditio", "mortuus", "vitium"]
+    },
+    {
+      "target": "BATHSALTS",
+      "stage": 0,
+      "complexity": 3,
+      "aspects": ["ordo", "auram", "cognitio", "alkimia", "victus"]
+    },
+    {
+      "target": "SANESOAP",
+      "stage": 0,
+      "complexity": 2,
+      "aspects": ["ordo", "cognitio", "alkimia", "alienis", "victus"]
+    },
+    {
+      "target": "ESSENTIASMELTER",
+      "stage": 2,
+      "complexity": 2,
+      "aspects": ["metallum", "potentia", "ignis", "praecantatio", "permutatio"]
+    },
+    {
+      "target": "ESSENTIASMELTERTHAUMIUM",
+      "stage": 0,
+      "complexity": 4,
+      "aspects": ["metallum", "potentia", "ignis", "praecantatio", "auram", "machina", "fabrico"]
+    },
+    {
+      "target": "ESSENTIASMELTERVOID",
+      "stage": 0,
+      "complexity": 8,
+      "aspects": ["metallum", "potentia", "ignis", "tenebrae", "vitreus", "machina", "fabrico", "vacuos", "alienis"]
+    },
+    {
+      "target": "CENTRIFUGE",
+      "stage": 0,
+      "complexity": 2,
+      "aspects": ["potentia", "permutatio", "machina", "aqua"]
+    },
+    {
+      "target": "THAUMATORIUM",
+      "stage": 0,
+      "complexity": 5,
+      "aspects": ["metallum", "machina", "fabrico", "alkimia", "ordo"]
+    },
+    {
+      "target": "EVERFULLURN",
+      "stage": 0,
+      "complexity": 2,
+      "aspects": ["aqua", "alkimia", "ordo", "permutatio"]
+    },
+    {
+      "target": "POTIONSPRAYER",
+      "stage": 0,
+      "complexity": 2,
+      "aspects": ["aqua", "alkimia", "vinculum", "perditio"]
+    }
+  ]
+}

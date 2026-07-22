@@ -118,6 +118,7 @@ public class OldResearchManager {
                 ResearchStage[] stages = entry.getStages();
                 for (int i = 0; i != stages.length; i++) {
                     ResearchStage stage = stages[i];
+
                     if (stage == null || stage.getKnow() == null) {
                         continue;
                     }
@@ -128,6 +129,8 @@ public class OldResearchManager {
                             theoryCount++;
                         }
                     }
+
+                    stage.setKnow(null);
 
                     if (theoryCount == 0) {
                         continue;
@@ -142,8 +145,6 @@ public class OldResearchManager {
                     } else {
                         stage.setResearchIcon(ArrayUtils.add(stage.getResearchIcon(), null));
                     }
-
-                    stage.setKnow(null);
                 }
             }
         }

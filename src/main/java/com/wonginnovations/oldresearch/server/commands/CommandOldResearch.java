@@ -51,13 +51,13 @@ public class CommandOldResearch extends CommandBase {
                     IOldResStorage storage = OldResearchApi.oldResStorage(player);
                     int n = 0;
                     for (Aspect aspect : Aspect.aspects.values()) {
-                        if (storage.isKnowAspect(aspect)) {
+                        if (!storage.isKnowAspect(aspect)) {
                             storage.researchAspect(aspect);
                             n++;
                         }
                     }
                     storage.sync();
-                    sender.sendMessage(new TextComponentString(TextFormatting.GRAY + "Successfully researched " + n + " aspects"));
+                    sender.sendMessage(new TextComponentString(TextFormatting.GREEN + "Successfully researched " + n + " aspects"));
                 } else {
                     Aspect aspect = Aspect.getAspect(args[2]);
                     if (aspect == null) {
@@ -67,7 +67,7 @@ public class CommandOldResearch extends CommandBase {
                     IOldResStorage storage = OldResearchApi.oldResStorage(player);
                     storage.researchAspect(aspect);
                     storage.sync();
-                    sender.sendMessage(new TextComponentString(TextFormatting.GRAY + "Successfully researched aspect " + TextFormatting.RESET + aspect.getChatcolor() + aspect));
+                    sender.sendMessage(new TextComponentString(TextFormatting.GREEN + "Successfully researched aspect " + TextFormatting.RESET + aspect.getChatcolor() + aspect));
                 }
                 break;
             }
@@ -84,7 +84,7 @@ public class CommandOldResearch extends CommandBase {
                         storage.addToAspectPool(aspect, parseInt(args[3]));
                     }
                     storage.sync();
-                    sender.sendMessage(new TextComponentString(TextFormatting.GRAY + "Successfully"));
+                    sender.sendMessage(new TextComponentString(TextFormatting.GREEN + "Successfully"));
                 } else {
                     Aspect aspect = Aspect.getAspect(args[2]);
                     if (aspect == null) {
@@ -94,7 +94,7 @@ public class CommandOldResearch extends CommandBase {
                     IOldResStorage storage = OldResearchApi.oldResStorage(player);
                     storage.addToAspectPool(aspect, parseInt(args[3]));
                     storage.sync();
-                    sender.sendMessage(new TextComponentString(TextFormatting.GRAY + "Successfully added " + parseInt(args[3]) + " aspects " + TextFormatting.RESET + aspect.getChatcolor() + aspect));
+                    sender.sendMessage(new TextComponentString(TextFormatting.GREEN + "Successfully added " + parseInt(args[3]) + " aspects " + TextFormatting.RESET + aspect.getChatcolor() + aspect));
                 }
                 break;
             }
@@ -111,7 +111,7 @@ public class CommandOldResearch extends CommandBase {
                         storage.setAspectCount(aspect, parseInt(args[3]));
                     }
                     storage.sync();
-                    sender.sendMessage(new TextComponentString(TextFormatting.GRAY + "Successfully"));
+                    sender.sendMessage(new TextComponentString(TextFormatting.GREEN + "Successfully"));
                 } else {
                     Aspect aspect = Aspect.getAspect(args[2]);
                     if (aspect == null) {
@@ -121,7 +121,7 @@ public class CommandOldResearch extends CommandBase {
                     IOldResStorage storage = OldResearchApi.oldResStorage(player);
                     storage.setAspectCount(aspect, parseInt(args[3]));
                     storage.sync();
-                    sender.sendMessage(new TextComponentString(TextFormatting.GRAY + "Successfully set " + parseInt(args[3]) + " aspect " + TextFormatting.RESET + aspect.getChatcolor() + aspect));
+                    sender.sendMessage(new TextComponentString(TextFormatting.GREEN + "Successfully set " + parseInt(args[3]) + " aspect " + TextFormatting.RESET + aspect.getChatcolor() + aspect));
                 }
                 break;
             }

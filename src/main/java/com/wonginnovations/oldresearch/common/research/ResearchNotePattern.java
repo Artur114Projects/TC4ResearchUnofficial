@@ -4,21 +4,21 @@ import thaumcraft.api.aspects.AspectList;
 
 public class ResearchNotePattern {
     private final String targetResearch;
-    private final int targetNote;
+    private final int targetStage;
     private final AspectList aspects;
     private final int complexity;
     private final int hashDelta;
 
-    public ResearchNotePattern(String targetResearch, int targetNote, AspectList aspects, int complexity, int hashDelta) {
+    public ResearchNotePattern(String targetResearch, int targetStage, AspectList aspects, int complexity, int hashDelta) {
         this.targetResearch = targetResearch;
-        this.targetNote = targetNote;
+        this.targetStage = targetStage;
         this.aspects = aspects;
         this.complexity = complexity;
         this.hashDelta = hashDelta;
     }
 
     public String oldResKey() {
-        return "rn_" + this.targetResearch + "_" + this.targetNote;
+        return "rn_" + this.targetResearch + "_" + this.targetStage;
     }
 
     public AspectList aspects() {

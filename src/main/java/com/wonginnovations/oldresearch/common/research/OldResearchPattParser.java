@@ -35,7 +35,7 @@ public class OldResearchPattParser {
                 JsonObject entry = element.getAsJsonObject();
                 patterns.add(new ResearchNotePattern(
                     entry.get("target").getAsString(),
-                    entry.get("note").getAsInt(),
+                    entry.get("stage").getAsInt(),
                     parseAspects(entry.getAsJsonArray("aspects")),
                     entry.get("complexity").getAsInt(),
                     entry.has("hash-delta") ? entry.get("hash-delta").getAsInt() : 0

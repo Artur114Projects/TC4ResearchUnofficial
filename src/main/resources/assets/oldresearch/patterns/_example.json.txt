@@ -4,13 +4,11 @@
       "target": "EXAMPLE",
       # a target research where do you want to change the note
 
-      "note": 1,
-      # note number, numbering starts from 1, and goes from left to right in gui,
-      # the record identifier is saved when changing the stage, for example,
-      # at stage 1 there were 2 notes, their numbers were 1 and 2; at stage 3 there was 1 note, its number will be 3
+      "stage": 1,
+      # number of the stage at which the target note is located, stage numbering starts from 0
 
       "complexity": 10,
-      # complexity of the note, affects the size of the field and the number of missing cells, minimum 0 maximum 10
+      # complexity of the note, affects the size of the field and the number of missing cells, minimum 1 maximum 10
 
       "aspects": ["victus", "ordo", "herba", "vacuos", "volatus"],
       # a list of aspects that will be in the note, if there are more than 10 of them, then problems may begin!
