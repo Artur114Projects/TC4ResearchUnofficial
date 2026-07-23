@@ -27,6 +27,7 @@ import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.capabilities.ThaumcraftCapabilities;
 import thaumcraft.api.research.ResearchCategories;
+import thaumcraft.api.research.ResearchCategory;
 import thaumcraft.api.research.ResearchEntry;
 import thaumcraft.common.lib.SoundsTC;
 import thaumcraft.common.lib.research.ResearchManager;
@@ -74,9 +75,9 @@ public class ItemResearchNote extends Item {
     @SideOnly(Side.CLIENT)
     public static int getColorFromItemStack(ItemStack stack) {
         int c = 2337949;
-        ResearchNoteData rd = noteData(stack);
-        if(rd != null) {
-            c = rd.color;
+
+        if (stack.getTagCompound() != null) {
+            c = stack.getTagCompound().getInteger("color");
         }
 
         return c;
@@ -97,26 +98,18 @@ public class ItemResearchNote extends Item {
         }
 
         ResearchNoteData rd = noteData(stack);
-        ResearchEntry re = ResearchCategories.getResearch(OldResearchManager.getStrippedKey(stack));
-        if (rd != null && rd.key != null && re != null) {
-            tooltip.add(TextFormatting.GOLD + re.getLocalizedName());
-//            int warp = OldResearchApi.getWarp(rd.key);
-//            if(warp > 0) {
-//                if(warp > 5) {
-//                    warp = 5;
-//                }
-//
-//                String ws = I18n.format("tc.forbidden");
-//                String wr = I18n.format("tc.forbidden.level." + warp);
-//                String wte = ws.replaceAll("%n", wr);
-//                tooltip.add(TextFormatting.DARK_PURPLE + wte);
-//            }
+        if (rd != null && rd.key != null) {
+            ResearchEntry re = ResearchCategories.getResearch(OldResearchManager.getStrippedKey(rd.key));
+            if (re != null) {
+                ResearchCategory category = ResearchCategories.getResearchCategory(re.getCategory());
+                tooltip.add(TextFormatting.GOLD + I18n.format("tc.research_category." + category.key) + ": " + TextFormatting.RESET + TextFormatting.WHITE + re.getLocalizedName());
+            }
         }
     }
 
     @Override
     public @NotNull EnumRarity getRarity(ItemStack itemstack) {
-        return itemstack.getItemDamage() < 64 ? EnumRarity.RARE : EnumRarity.EPIC;
+        return itemstack.getItemDamage() < 64 ? EnumRarity.RARE : EnumRarity.UNCOMMON;
     }
 
     @SideOnly(Side.CLIENT)
@@ -137,6 +130,7 @@ public class ItemResearchNote extends Item {
                 data.key = stack.getTagCompound().getString("key");
                 data.color = stack.getTagCompound().getInteger("color");
                 data.complete = stack.getTagCompound().getBoolean("complete");
+                data.generic = stack.getTagCompound().getBoolean("generic");
                 data.copies = stack.getTagCompound().getInteger("copies");
                 data.mergedTeories = stack.getTagCompound().getInteger("mergedTeories");
                 NBTTagList grid = stack.getTagCompound().getTagList("hexgrid", 10);
@@ -177,6 +171,7 @@ public class ItemResearchNote extends Item {
         stack.getTagCompound().setString("key", data.key);
         stack.getTagCompound().setInteger("color", data.color);
         stack.getTagCompound().setBoolean("complete", data.complete);
+        stack.getTagCompound().setBoolean("generic", data.generic);
         stack.getTagCompound().setInteger("copies", data.copies);
         stack.getTagCompound().setInteger("mergedTeories", data.mergedTeories);
         NBTTagList gridtag = new NBTTagList();

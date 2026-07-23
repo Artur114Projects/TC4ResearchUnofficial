@@ -1,22 +1,16 @@
 package com.wonginnovations.oldresearch.common.research;
 
 import com.artur114.bananalib.util.graphs.BananaGraphs;
-import com.wonginnovations.oldresearch.api.OldResearchApi;
 import com.wonginnovations.oldresearch.common.config.OldConfig;
-import net.minecraft.entity.player.EntityPlayer;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import thaumcraft.api.research.ResearchCategories;
 import thaumcraft.api.research.ResearchEntry;
 import thaumcraft.api.research.ResearchStage;
 
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class DefaultResearchComplexity implements IResearchComplexity {
     @Override
-    public int calculateComplexity(EntityPlayer player, String key) {
+    public int calculateComplexity(String key) {
         AtomicInteger ret = new AtomicInteger();
         BananaGraphs.bfs(OldResearchManager.getStrippedKey(key), OldResearchManager::parentsOfResearch, (res) -> {
             ResearchEntry research = ResearchCategories.getResearch(res);

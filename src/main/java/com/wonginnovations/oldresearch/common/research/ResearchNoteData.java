@@ -15,6 +15,7 @@ public class ResearchNoteData {
     public AspectList aspects = new AspectList();
     public int mergedTeories;
     public boolean complete;
+    public boolean generic;
     public String key;
     public int copies;
     public int color;

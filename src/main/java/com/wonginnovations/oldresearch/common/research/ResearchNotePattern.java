@@ -8,13 +8,19 @@ public class ResearchNotePattern {
     private final AspectList aspects;
     private final int complexity;
     private final int hashDelta;
+    private final int color;
 
-    public ResearchNotePattern(String targetResearch, int targetStage, AspectList aspects, int complexity, int hashDelta) {
+    public ResearchNotePattern(String targetResearch, int targetStage, AspectList aspects, int complexity, int color, int hashDelta) {
         this.targetResearch = targetResearch;
         this.targetStage = targetStage;
         this.aspects = aspects;
         this.complexity = complexity;
         this.hashDelta = hashDelta;
+        this.color = color;
+    }
+
+    public int color() {
+        return this.color;
     }
 
     public String oldResKey() {

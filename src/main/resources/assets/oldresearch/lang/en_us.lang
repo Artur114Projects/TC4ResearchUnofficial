@@ -2,9 +2,11 @@ item.knowledgefragment.name=Knowledge Fragment
 item.researchnote.name=Research Note
 item.researchnote.unknown.1=Unknown Knowledge
 item.researchnote.unknown.2=<Right click to reveal>
-item.discovery.name=§5Discovery
+item.discovery.name=§dDiscovery
 item.curio.basic.name=Basic Curiosity
 item.curio.crimson.name=Crimson Rites
+#
+itemGroup.oldresearch.creativetab=Old Research: Notes
 #
 tc.research.copy=Cost to copy this research:
 tc.research.copy.failure=Insufficient %s to copy discovery.

@@ -33,25 +33,16 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.apache.commons.lang3.ArrayUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import thaumcraft.api.ThaumcraftApi;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.blocks.BlocksTC;
-import thaumcraft.api.capabilities.IPlayerKnowledge;
 import thaumcraft.api.crafting.IDustTrigger;
 import thaumcraft.api.items.ItemsTC;
 import thaumcraft.api.research.ResearchCategories;
-import thaumcraft.api.research.ResearchEntry;
-import thaumcraft.api.research.ResearchStage;
 import thaumcraft.common.lib.crafting.DustTriggerSimple;
 
 import java.awt.*;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.Objects;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class ManualRegister {
     public void preInit(Side side) {
@@ -69,6 +60,8 @@ public class ManualRegister {
         if (side == Side.CLIENT) {
             this.initTESR();
         }
+
+        this.initPatterns();
     }
 
     public void postInit(Side side) {
@@ -77,7 +70,6 @@ public class ManualRegister {
         ResearchCategories.getResearchCategory("BASICS").research.remove("CELESTIALSCANNING");
         OldResearchManager.parseJsonResearch(new ResourceLocation("oldresearch", "research.json"));
         OldResearchManager.patchResearch();
-        this.initPatterns();
         ThaumcraftApi.registerObjectTag(new ItemStack(InitBlocks.RESEARCH_TABLE, 1, 32767), new AspectList(new ItemStack(BlocksTC.researchTable)));
         OldResearchManager.computeAspectComplexity();
         IDustTrigger.registerDustTrigger(new DustTriggerSimple("", BlocksTC.tableWood, new ItemStack(BlocksTC.researchTable)));
@@ -152,8 +144,9 @@ public class ManualRegister {
                     return Color.WHITE.getRGB();
                 case 1:
                     int color = 10066329;
-                    ResearchNoteData rd = ItemResearchNote.noteData(stack);
-                    if (rd != null) color = rd.color;
+                    if (stack.getTagCompound() != null) {
+                        color = stack.getTagCompound().getInteger("color");
+                    }
                     return color;
                 default:
                     return Color.BLACK.getRGB();

@@ -2,78 +2,91 @@
   "entries": [
     {
       "target": "METALLURGY",
+      "color": "praecantatio",
       "stage": 1,
       "complexity": 1,
       "aspects": ["metallum", "praecantatio", "terra"]
     },
     {
       "target": "METALPURIFICATION",
+      "color": "ordo",
       "stage": 0,
       "complexity": 1,
       "aspects": ["metallum", "ordo", "permutatio"]
     },
     {
       "target": "LIQUIDDEATH",
+      "color": "vitium",
       "stage": 0,
       "complexity": 3,
       "aspects": ["aqua", "perditio", "mortuus", "vitium", "exanimis"]
     },
     {
       "target": "BOTTLETAINT",
+      "color": "vitium",
       "stage": 0,
       "complexity": 2,
       "aspects": ["aqua", "perditio", "mortuus", "vitium"]
     },
     {
       "target": "BATHSALTS",
+      "color": "auram",
       "stage": 0,
       "complexity": 3,
       "aspects": ["ordo", "auram", "cognitio", "alkimia", "victus"]
     },
     {
       "target": "SANESOAP",
+      "color": "cognitio",
       "stage": 0,
       "complexity": 2,
       "aspects": ["ordo", "cognitio", "alkimia", "alienis", "victus"]
     },
     {
       "target": "ESSENTIASMELTER",
+      "color": "ignis",
       "stage": 2,
       "complexity": 2,
       "aspects": ["metallum", "potentia", "ignis", "praecantatio", "permutatio"]
     },
     {
       "target": "ESSENTIASMELTERTHAUMIUM",
+      "color": "praecantatio",
       "stage": 0,
       "complexity": 4,
       "aspects": ["metallum", "potentia", "ignis", "praecantatio", "auram", "machina", "fabrico"]
     },
     {
       "target": "ESSENTIASMELTERVOID",
+      "color": "tenebrae",
       "stage": 0,
       "complexity": 8,
       "aspects": ["metallum", "potentia", "ignis", "tenebrae", "vitreus", "machina", "fabrico", "vacuos", "alienis"]
     },
     {
       "target": "CENTRIFUGE",
+      "color": "permutatio",
       "stage": 0,
       "complexity": 2,
       "aspects": ["potentia", "permutatio", "machina", "aqua"]
     },
     {
       "target": "THAUMATORIUM",
+      "color": "machina",
       "stage": 0,
       "complexity": 5,
       "aspects": ["metallum", "machina", "fabrico", "alkimia", "ordo"]
     },
     {
       "target": "EVERFULLURN",
+      "color": "aqua",
       "stage": 0,
       "complexity": 2,
       "aspects": ["aqua", "alkimia", "ordo", "permutatio"]
     },
     {
       "target": "POTIONSPRAYER",
+      "color": "vinculum",
       "stage": 0,
       "complexity": 2,
       "aspects": ["aqua", "alkimia", "vinculum", "perditio"]

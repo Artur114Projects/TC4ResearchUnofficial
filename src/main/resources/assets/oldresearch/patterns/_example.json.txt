@@ -13,6 +13,9 @@
       "aspects": ["victus", "ordo", "herba", "vacuos", "volatus"],
       # a list of aspects that will be in the note, if there are more than 10 of them, then problems may begin!
 
+      "color": "sensus",
+      # research note color, accepts aspect and int
+
       "hash-delta": 1
       # the note card is generated semi randomly, you can shift the seed using this field
     }

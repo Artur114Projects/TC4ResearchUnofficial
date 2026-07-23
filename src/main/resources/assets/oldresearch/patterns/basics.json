@@ -1,5 +1,25 @@
 {
   "entries": [
-
+    {
+      "target": "RESEARCHEXPERTISE",
+      "color": "sensus",
+      "stage": 0,
+      "complexity": 2,
+      "aspects": ["ordo", "aer", "cognitio", "sensus"]
+    },
+    {
+      "target": "RESEARCHMASTERY",
+      "color": "sensus",
+      "stage": 0,
+      "complexity": 1,
+      "aspects": ["ordo", "praecantatio", "lux", "potentia", "cognitio", "sensus", "desiderium"]
+    },
+    {
+      "target": "RESEARCHDUPE",
+      "color": "desiderium",
+      "stage": 0,
+      "complexity": 5,
+      "aspects": ["desiderium", "fabrico", "permutatio", "cognitio", "sensus"]
+    }
   ]
 }

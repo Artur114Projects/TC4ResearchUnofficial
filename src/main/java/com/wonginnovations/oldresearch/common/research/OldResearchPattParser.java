@@ -1,9 +1,6 @@
 package com.wonginnovations.oldresearch.common.research;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import com.google.gson.*;
 import net.minecraft.util.ResourceLocation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -38,6 +35,7 @@ public class OldResearchPattParser {
                     entry.get("stage").getAsInt(),
                     parseAspects(entry.getAsJsonArray("aspects")),
                     entry.get("complexity").getAsInt(),
+                    parseColor(entry.get("color")),
                     entry.has("hash-delta") ? entry.get("hash-delta").getAsInt() : 0
                 ));
             }
@@ -46,6 +44,20 @@ public class OldResearchPattParser {
         }
         log.info("Loaded {} note patterns from file {}", patterns.size(), location);
         return patterns;
+    }
+
+    private static int parseColor(JsonElement element) {
+        JsonPrimitive primitive = element.getAsJsonPrimitive();
+        if (primitive.isNumber()) {
+            return primitive.getAsInt();
+        } else {
+            String tag = primitive.getAsString();
+            Aspect aspect = Aspect.getAspect(tag);
+            if (aspect == null) {
+                throw new IllegalStateException("unknown aspect [" + tag + "]");
+            }
+            return aspect.getColor();
+        }
     }
 
     private static AspectList parseAspects(JsonArray arr) {

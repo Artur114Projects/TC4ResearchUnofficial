@@ -38,14 +38,13 @@ import thaumcraft.common.lib.utils.HexUtils;
 import thaumcraft.common.tiles.TileThaumcraftInventory;
 
 public class TileResearchTable extends TileThaumcraftInventory {
-
     public AspectList bonusAspects = new AspectList();
     public ResearchNoteData note;
     public int nextRecalc;
 
     public TileResearchTable() {
         super(2);
-        this.syncedSlots = new int[]{0, 1};
+        this.syncedSlots = new int[] {0, 1};
     }
 
     @Override
@@ -102,11 +101,18 @@ public class TileResearchTable extends TileThaumcraftInventory {
     @Override
     public void update() {
         super.update();
-        if(!this.world.isRemote && this.nextRecalc++ > 600) {
-            this.nextRecalc = 0;
-            this.recalculateBonus();
-            OldResearch.NETWORK.sendToAllAround(new PacketSyncResearchTableAspects(this.getPos(), this.bonusAspects), new NetworkRegistry.TargetPoint(this.getWorld().provider.getDimension(), (double)this.pos.getX() + 0.5, (double)this.pos.getY() + 0.5, (double)this.pos.getZ() + 0.5, 128.0));
-            this.markDirty();
+        if (!this.world.isRemote) {
+            if (this.nextRecalc++ > 600) {
+                this.nextRecalc = 0;
+                this.recalculateBonus();
+                OldResearch.NETWORK.sendToAllAround(new PacketSyncResearchTableAspects(this.getPos(), this.bonusAspects), new NetworkRegistry.TargetPoint(this.getWorld().provider.getDimension(), (double) this.pos.getX() + 0.5, (double) this.pos.getY() + 0.5, (double) this.pos.getZ() + 0.5, 128.0));
+                this.markDirty();
+            }
+            if (this.note != null && this.note.generic) {
+                this.note = OldResearchManager.computeNoteData(this.world, this.note.key);
+                ItemResearchNote.setNoteData(this.getStackInSlot(1), this.note);
+                this.syncTile(false);
+            }
         }
     }
 

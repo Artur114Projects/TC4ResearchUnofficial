@@ -155,34 +155,38 @@ public class OldResearchManager {
         ResearchNoteData data = new ResearchNoteData();
         data.key = key;
         data.mergedTeories = teoriesCount;
-        Aspect[] asps = Aspect.aspects.values().toArray(new Aspect[0]);
-        RANDOM.setSeed(key.hashCode());
-        data.color =  asps[RANDOM.nextInt(asps.length)].getColor();
+        ResearchNotePattern pattern = NOTE_PATTERNS.get(key);
+        if (pattern != null) {
+            data.color = pattern.color();
+        } else {
+            Aspect[] asps = Aspect.aspects.values().toArray(new Aspect[0]);
+            RANDOM.setSeed(key.hashCode());
+            data.color = asps[RANDOM.nextInt(asps.length)].getColor();
+        }
         ItemResearchNote.setNoteData(note, data);
         return note;
+    }
+
+    public static List<ItemStack> allNotes() {
+        List<ItemStack> list = new ArrayList<>(NOTES.size());
+        for (ItemStack stack : NOTES.values()) list.add(stack.copy());
+        return list;
     }
 
     public static ItemStack noteStack(String key) {
         return NOTES.get(key).copy();
     }
 
-    public static int getResearchComplexity(EntityPlayer player, String key) {
-        return RESEARCH_COMPLEXITY_FUNCTION.calculateComplexity(player, key);
+    public static int getResearchComplexity(String key) {
+        return RESEARCH_COMPLEXITY_FUNCTION.calculateComplexity(key);
     }
 
     public static void givePlayerResearchNote(World world, EntityPlayer player, String key) {
         if (!hasResearchNote(player, key) && (player.isCreative() || (consumeInkFromPlayer(player, false) && OldResearchUtils.consumeInventoryItem(player, Items.PAPER)))) {
             consumeInkFromPlayer(player, true);
 
-
-            ResearchNotePattern pattern = NOTE_PATTERNS.get(key);
-            ItemStack note;
-
-            if (pattern != null) {
-                note = createNoteFromPattern(pattern, key);
-            } else {
-                note = createNoteFromRandom(player, world, key);
-            }
+            ItemStack note = noteStack(key);
+            ItemResearchNote.setNoteData(note, computeNoteData(world, key));
 
             if (!player.inventory.addItemStackToInventory(note)) {
                 ForgeHooks.onPlayerTossEvent(player, note, false);
@@ -192,25 +196,34 @@ public class OldResearchManager {
         }
     }
 
-    private static ItemStack createNoteFromPattern(ResearchNotePattern pattern, String key) {
-        ItemStack note = noteStack(key);
-        ResearchNoteData data = ItemResearchNote.noteData(note);
-        Random rand = new Random((31 * pattern.seed()) + key.hashCode());
-        data.generateHexes(rand, pattern.aspects(), pattern.complexity());
-        ItemResearchNote.setNoteData(note, data);
+    public static ResearchNoteData computeNoteData(World world, String key) {
+        ResearchNotePattern pattern = NOTE_PATTERNS.get(key);
+        ResearchNoteData note;
+
+        if (pattern != null) {
+            note = computeNoteDataFromPattern(pattern, key);
+        } else {
+            note = computeNoteDataFromRandom(world, key);
+        }
+
         return note;
     }
 
-    private static ItemStack createNoteFromRandom(EntityPlayer player, World world, String key) {
-        ItemStack note = noteStack(key);
-        ResearchNoteData data = ItemResearchNote.noteData(note);
+    private static ResearchNoteData computeNoteDataFromPattern(ResearchNotePattern pattern, String key) {
+        ResearchNoteData data = ItemResearchNote.noteData(noteStack(key));
+        Random rand = new Random((31 * pattern.seed()) + key.hashCode());
+        data.generateHexes(rand, pattern.aspects(), pattern.complexity());
+        return data;
+    }
+
+    private static ResearchNoteData computeNoteDataFromRandom(World world, String key) {
+        ResearchNoteData data = ItemResearchNote.noteData(noteStack(key));
         Random rand = new Random(31 * ((31 * world.getSeed()) + key.hashCode()) + data.color);
-        int complexity = getResearchComplexity(player, key) + data.mergedTeories;
+        int complexity = getResearchComplexity(key) + data.mergedTeories;
         int complexityClamped = MathHelper.clamp(complexity, 0, 12);
         AspectList aspects = getRandomAspects(rand, complexity, Math.min(11, complexityClamped + 2));
         data.generateHexes(rand, aspects, complexityClamped);
-        ItemResearchNote.setNoteData(note, data);
-        return note;
+        return data;
     }
 
     public static boolean consumeInkFromPlayer(EntityPlayer player, boolean doit) {

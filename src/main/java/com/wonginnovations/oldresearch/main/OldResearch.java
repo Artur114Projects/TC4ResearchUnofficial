@@ -1,5 +1,6 @@
 package com.wonginnovations.oldresearch.main;
 
+import com.wonginnovations.oldresearch.common.creative.OldResCreativeTab;
 import com.wonginnovations.oldresearch.proxy.IProxy;
 import com.wonginnovations.oldresearch.registry.ManualRegister;
 import com.wonginnovations.oldresearch.server.commands.CommandOldResearch;
@@ -17,12 +18,12 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import thaumcraft.Thaumcraft;
 
-//TODO: Сделать консольные команды для исследований
 //TODO: Переписать пакеты по нормальному
 //TODO: Переписать миксины на asm
 @Mod(modid = OldResearch.MODID, useMetadata = true)
 public class OldResearch {
     public static final SimpleNetworkWrapper NETWORK = NetworkRegistry.INSTANCE.newSimpleChannel("oldresearch");
+    public static final OldResCreativeTab CREATIVE_TAB = new OldResCreativeTab("oldresearch.creativetab");
     public static final ManualRegister MANUAL_REGISTER = new ManualRegister();
     public static final Logger LOGGER = LogManager.getLogger("OldResearchUn");
     public static final String MODID = "oldresearch";
