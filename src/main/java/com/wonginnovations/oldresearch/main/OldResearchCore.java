@@ -8,12 +8,13 @@ import zone.rong.mixinbooter.IEarlyMixinLoader;
 import java.util.List;
 import java.util.Map;
 
+@IFMLLoadingPlugin.SortingIndex(1001)
 @IFMLLoadingPlugin.MCVersion("1.12.2")
 @IFMLLoadingPlugin.Name("OldResearchUnoffCore")
 public class OldResearchCore implements IFMLLoadingPlugin, IEarlyMixinLoader {
     @Override
     public String[] getASMTransformerClass() {
-        return new String[0];
+        return new String[] {"com.wonginnovations.oldresearch.asm.ASMTransformerOldRes"};
     }
 
     @Override

@@ -23,6 +23,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
 import org.apache.commons.lang3.ArrayUtils;
+import org.jetbrains.annotations.Nullable;
 import thaumcraft.Thaumcraft;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
@@ -174,7 +175,9 @@ public class OldResearchManager {
     }
 
     public static ItemStack noteStack(String key) {
-        return NOTES.get(key).copy();
+        ItemStack stack = NOTES.get(key);
+        if (stack == null) return null;
+        return stack.copy();
     }
 
     public static int getResearchComplexity(String key) {

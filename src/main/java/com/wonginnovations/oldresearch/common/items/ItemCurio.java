@@ -21,6 +21,7 @@ import thaumcraft.common.config.ConfigItems;
 
 import java.util.List;
 
+//TODO: Переписать
 public class ItemCurio extends Item {
     public ItemCurio() {
         this.setRegistryName(Thaumcraft.MODID + ":curio");

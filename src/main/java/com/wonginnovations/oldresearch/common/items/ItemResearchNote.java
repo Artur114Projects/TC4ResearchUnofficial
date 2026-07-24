@@ -102,7 +102,7 @@ public class ItemResearchNote extends Item {
             ResearchEntry re = ResearchCategories.getResearch(OldResearchManager.getStrippedKey(rd.key));
             if (re != null) {
                 ResearchCategory category = ResearchCategories.getResearchCategory(re.getCategory());
-                tooltip.add(TextFormatting.GOLD + I18n.format("tc.research_category." + category.key) + ": " + TextFormatting.RESET + TextFormatting.WHITE + re.getLocalizedName());
+                tooltip.add(TextFormatting.YELLOW + I18n.format("tc.research_category." + category.key) + ": " + TextFormatting.RESET + TextFormatting.WHITE + re.getLocalizedName());
             }
         }
     }

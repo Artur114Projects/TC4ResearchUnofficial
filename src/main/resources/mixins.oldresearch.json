@@ -5,7 +5,6 @@
   "minVersion": "0.8",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "BlockTableMixin",
     "CommandThaumcraftMixin",
     "ConfigItemsMixin",
     "ItemThaumometerMixin",
@@ -15,7 +14,6 @@
     "TileThaumcraftInventoryMixin"
   ],
   "client": [
-    "GuiResearchPageMixin",
     "RenderEventHandlerMixin",
     "UtilsFXAccessor"
   ],

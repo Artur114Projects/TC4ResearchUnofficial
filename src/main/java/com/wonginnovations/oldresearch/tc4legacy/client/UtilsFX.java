@@ -1,6 +1,5 @@
 package com.wonginnovations.oldresearch.tc4legacy.client;
 
-import com.wonginnovations.oldresearch.core.mixin.UtilsFXAccessor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiScreen;
@@ -18,9 +17,11 @@ import thaumcraft.api.aspects.Aspect;
 import thaumcraft.common.config.ModConfig;
 
 import java.awt.*;
+import java.text.DecimalFormat;
 import java.util.List;
 
 public class UtilsFX extends thaumcraft.client.lib.UtilsFX {
+    static DecimalFormat myFormatter = new DecimalFormat();
 
     public static void bindTexture(String texture) {
         ResourceLocation rl = new ResourceLocation("oldresearch", texture);
@@ -217,7 +218,7 @@ public class UtilsFX extends thaumcraft.client.lib.UtilsFX {
                 }
 
                 GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-                String am = UtilsFXAccessor.getMyFormatter().format(amount);
+                String am = myFormatter.format(amount);
                 int sw = mc.fontRenderer.getStringWidth(am);
                 EnumFacing[] var20 = EnumFacing.HORIZONTALS;
                 int var21 = var20.length;

@@ -16,6 +16,9 @@ import thaumcraft.api.capabilities.ThaumcraftCapabilities;
 import thaumcraft.common.lib.SoundsTC;
 import thaumcraft.common.lib.research.ResearchManager;
 
+
+// TODO: Добавить возможность локализировать
+// TODO: Переписать!
 public class PacketGivePlayerNoteToServer implements IMessage, IMessageHandler<PacketGivePlayerNoteToServer, IMessage> {
     private String key;
 
@@ -39,7 +42,7 @@ public class PacketGivePlayerNoteToServer implements IMessage, IMessageHandler<P
         mainThread.addScheduledTask(() -> {
             World world = ctx.getServerHandler().player.world;
             EntityPlayer player = ctx.getServerHandler().player;
-            if(world != null && player != null && !ThaumcraftCapabilities.knowsResearchStrict(player, message.key)) {
+            if (world != null && player != null && !ThaumcraftCapabilities.knowsResearchStrict(player, message.key)) {
                 if (ResearchManager.doesPlayerHaveRequisites(player, message.key)) {
                     OldResearchManager.givePlayerResearchNote(world, player, message.key);
                     world.playSound(player.posX, player.posY, player.posZ, SoundsTC.learn, SoundCategory.MASTER, 0.75F, 1.0F, false);

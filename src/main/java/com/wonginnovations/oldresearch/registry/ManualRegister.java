@@ -39,6 +39,7 @@ import thaumcraft.api.blocks.BlocksTC;
 import thaumcraft.api.crafting.IDustTrigger;
 import thaumcraft.api.items.ItemsTC;
 import thaumcraft.api.research.ResearchCategories;
+import thaumcraft.client.gui.GuiResearchPage;
 import thaumcraft.common.lib.crafting.DustTriggerSimple;
 
 import java.awt.*;
@@ -46,6 +47,7 @@ import java.util.Objects;
 
 public class ManualRegister {
     public void preInit(Side side) {
+        Class<?> clazz = GuiResearchPage.class;
         MinecraftForge.EVENT_BUS.register(this);
         this.initCaps();
         OldResearchManager.initCurios();
