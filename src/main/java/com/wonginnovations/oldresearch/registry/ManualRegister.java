@@ -67,14 +67,17 @@ public class ManualRegister {
     }
 
     public void postInit(Side side) {
+        ThaumcraftApi.registerObjectTag(new ItemStack(InitBlocks.RESEARCH_TABLE, 1, 32767), new AspectList(new ItemStack(BlocksTC.researchTable)));
+        IDustTrigger.registerDustTrigger(new DustTriggerSimple("", BlocksTC.tableWood, new ItemStack(BlocksTC.researchTable)));
+    }
+
+    public void postInitThaum() {
         ResearchCategories.getResearchCategory("BASICS").research.remove("KNOWLEDGETYPES");
         ResearchCategories.getResearchCategory("BASICS").research.remove("THEORYRESEARCH");
         ResearchCategories.getResearchCategory("BASICS").research.remove("CELESTIALSCANNING");
         OldResearchManager.parseJsonResearch(new ResourceLocation("oldresearch", "research.json"));
         OldResearchManager.patchResearch();
-        ThaumcraftApi.registerObjectTag(new ItemStack(InitBlocks.RESEARCH_TABLE, 1, 32767), new AspectList(new ItemStack(BlocksTC.researchTable)));
         OldResearchManager.computeAspectComplexity();
-        IDustTrigger.registerDustTrigger(new DustTriggerSimple("", BlocksTC.tableWood, new ItemStack(BlocksTC.researchTable)));
         this.initImplicitResLinks();
     }
 

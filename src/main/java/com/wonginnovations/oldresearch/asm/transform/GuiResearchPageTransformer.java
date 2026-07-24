@@ -1,6 +1,7 @@
 package com.wonginnovations.oldresearch.asm.transform;
 
 import com.artur114.bananalib.asm.AbstractASMTransformer;
+import com.artur114.bananalib.asm.BananaASM;
 import com.artur114.bananalib.asm.patterns.InsnPatBuilder;
 import com.artur114.bananalib.asm.patterns.InsnPattern;
 import com.artur114.bananalib.asm.tree.ClassNodeAdv;
@@ -9,12 +10,30 @@ import com.artur114.bananalib.asm.util.InsnBuilder;
 import com.artur114.bananalib.asm.util.InsnCodes;
 import com.artur114.bananalib.asm.util.InsnInterval;
 import com.wonginnovations.oldresearch.asm.ASMTransformerOldRes;
+import net.minecraftforge.fml.relauncher.FMLLaunchHandler;
+import org.objectweb.asm.ClassReader;
+import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.tree.*;
 
 public class GuiResearchPageTransformer extends AbstractASMTransformer {
 
     public GuiResearchPageTransformer() {
         super("thaumcraft.client.gui.GuiResearchPage");
+    }
+
+    @Override
+    public byte[] transform(IASMLogger logger, String className, byte[] bytecode) {
+        ClassReader reader = new ClassReader(bytecode);
+        ClassNodeAdv clazz = BananaASM.createClassNode(reader);
+        this.transform(logger, className, clazz);
+        ClassWriter writer = new ClassWriter(reader, ClassWriter.COMPUTE_FRAMES) {
+            @Override
+            protected String getCommonSuperClass(String type1, String type2) {
+                return "java/lang/Object";
+            }
+        };
+        clazz.accept(writer);
+        return writer.toByteArray();
     }
 
     @Override
@@ -111,11 +130,11 @@ public class GuiResearchPageTransformer extends AbstractASMTransformer {
             builder.thenInsn(FCONST_1);
             builder.thenInsn(FCONST_1);
             builder.thenInsn(FCONST_1);
-            builder.thenMethodInsn(INVOKESTATIC, "net/minecraft/client/renderer/GlStateManager", "color", "(FFFF)V", false);
+            builder.then(METHOD_INSN.withOpcode(INVOKESTATIC).withOwner("net/minecraft/client/renderer/GlStateManager").withDesc("(FFFF)V"));
             builder.thenMethodInsn(INVOKESTATIC, "org/lwjgl/opengl/GL11", "glPushMatrix", "()V", false);
             builder.thenVarInsn(ALOAD, 0);
-            builder.thenFieldInsn(GETFIELD, "thaumcraft/client/gui/GuiResearchPage", "mc", "Lnet/minecraft/client/Minecraft;");
-            builder.thenFieldInsn(GETFIELD, "net/minecraft/client/Minecraft", "renderEngine", "Lnet/minecraft/client/renderer/texture/TextureManager;");
+            builder.then(FIELD_INSN.withOpcode(GETFIELD).withOwner("thaumcraft/client/gui/GuiResearchPage").withDesc("Lnet/minecraft/client/Minecraft;"));
+            builder.then(FIELD_INSN.withOpcode(GETFIELD).withOwner("net/minecraft/client/Minecraft").withDesc("Lnet/minecraft/client/renderer/texture/TextureManager;"));
             builder.thenFieldInsn(GETSTATIC, "thaumcraft/client/lib/events/HudHandler", "KNOW_TYPE", "[Lnet/minecraft/util/ResourceLocation;");
 
             method.instructions.findPattern(builder.build(), 0).ifPresent(start -> {
@@ -180,13 +199,13 @@ public class GuiResearchPageTransformer extends AbstractASMTransformer {
             builder.thenInsn(FCONST_1);
             builder.thenInsn(FCONST_1);
             builder.thenInsn(FCONST_1);
-            builder.thenMethodInsn(INVOKESTATIC, "net/minecraft/client/renderer/GlStateManager", "color", "(FFFF)V", false);
+            builder.then(METHOD_INSN.withOpcode(INVOKESTATIC).withOwner("net/minecraft/client/renderer/GlStateManager").withDesc("(FFFF)V"));
             builder.thenVarInsn(ALOAD, 0);
-            builder.thenFieldInsn(GETFIELD, "thaumcraft/client/gui/GuiResearchPage", "mc", "Lnet/minecraft/client/Minecraft;");
-            builder.thenFieldInsn(GETFIELD, "net/minecraft/client/Minecraft", "renderEngine", "Lnet/minecraft/client/renderer/texture/TextureManager;");
+            builder.then(FIELD_INSN.withOpcode(GETFIELD).withOwner("thaumcraft/client/gui/GuiResearchPage").withDesc("Lnet/minecraft/client/Minecraft;"));
+            builder.then(FIELD_INSN.withOpcode(GETFIELD).withOwner("net/minecraft/client/Minecraft").withDesc("Lnet/minecraft/client/renderer/texture/TextureManager;"));
             builder.thenVarInsn(ALOAD, 0);
             builder.thenFieldInsn(GETFIELD, "thaumcraft/client/gui/GuiResearchPage", "tex1", "Lnet/minecraft/util/ResourceLocation;");
-            builder.thenMethodInsn(INVOKEVIRTUAL, "net/minecraft/client/renderer/texture/TextureManager", "bindTexture", "(Lnet/minecraft/util/ResourceLocation;)V", false);
+            builder.then(METHOD_INSN.withOpcode(INVOKEVIRTUAL).withOwner("net/minecraft/client/renderer/texture/TextureManager").withDesc("(Lnet/minecraft/util/ResourceLocation;)V"));
 
             method.instructions.findPattern(builder.build()).forEach(interval -> {
                 LabelNode labelNode = new LabelNode();
@@ -242,12 +261,6 @@ public class GuiResearchPageTransformer extends AbstractASMTransformer {
                 insn.invokeSpecial("java/util/HashMap", "<init>", "()V");
                 insn.fieldInsn(PUTFIELD, "thaumcraft/client/gui/GuiResearchPage", "oldresearch$renderedNotes", "Ljava/util/Map;");
 
-                insn.varInsn(ALOAD, 0);
-                insn.typeInsn(NEW, "java/util/ArrayList");
-                insn.insn(DUP);
-                insn.invokeSpecial("java/util/ArrayList", "<init>", "()V");
-                insn.fieldInsn(PUTFIELD, "thaumcraft/client/gui/GuiResearchPage", "tipText", "Ljava/util/List;");
-
                 logger.info("Injecting patches into method {}.{}{}", className, method.name, method.desc);
                 method.instructions.insertBefore(interval.start(), insn.build());
             });
@@ -273,7 +286,7 @@ public class GuiResearchPageTransformer extends AbstractASMTransformer {
             });
         });
 
-        clazz.findMethod("mouseClicked").ifPresent(method -> {
+        clazz.findMethod(FMLLaunchHandler.isDeobfuscatedEnvironment() ? "mouseClicked" : "func_73864_a").ifPresent(method -> {
             logger.info("Injecting patches into method {}.{}{}", className, method.name, method.desc);
             InsnBuilder insn = new InsnBuilder();
             insn.varInsn(ALOAD, 0);
@@ -283,7 +296,7 @@ public class GuiResearchPageTransformer extends AbstractASMTransformer {
             insn.ifTrueReturn(RETURN);
             method.instructions.insert(insn.build());
         });
-        
+
         clazz.findMethod("drawAspectPage").ifPresent(method -> {
             InsnPatBuilder builder = InsnPattern.builder();
             InsnBuilder insn = new InsnBuilder();

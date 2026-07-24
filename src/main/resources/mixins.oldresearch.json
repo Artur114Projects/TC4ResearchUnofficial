@@ -7,15 +7,13 @@
   "mixins": [
     "CommandThaumcraftMixin",
     "ConfigItemsMixin",
+    "ConfigResearchMixin",
     "ItemThaumometerMixin",
     "ResearchManagerAccessor",
-    "ScanGenericMixin",
-    "ThaumcraftCraftingManagerAccessor",
-    "TileThaumcraftInventoryMixin"
+    "ScanGenericMixin"
   ],
   "client": [
-    "RenderEventHandlerMixin",
-    "UtilsFXAccessor"
+    "RenderEventHandlerMixin"
   ],
   "server": []
 }

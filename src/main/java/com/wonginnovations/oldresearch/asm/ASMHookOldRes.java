@@ -45,6 +45,10 @@ public class ASMHookOldRes {
         return Arrays.stream(stage.getResearch()).anyMatch(re -> re.startsWith("rn_"));
     }
 
+    public static void hookAetherResearchInit() {
+        OldResearch.MANUAL_REGISTER.postInitThaum();
+    }
+
     public static boolean hookInKnowAspect(Aspect aspect, int id) {
         return OldResearchApi.oldResStorage(Minecraft.getMinecraft().player).isKnowAspect(aspect.getComponents()[id]);
     }

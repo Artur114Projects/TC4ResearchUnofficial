@@ -18,5 +18,4 @@ public abstract class ConfigItemsMixin {
         ItemsTC.curio = new ItemCurio();
         instance.register(ItemsTC.curio);
     }
-
 }
