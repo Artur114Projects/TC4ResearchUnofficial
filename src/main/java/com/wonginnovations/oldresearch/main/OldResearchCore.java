@@ -10,7 +10,7 @@ import java.util.Map;
 
 @IFMLLoadingPlugin.SortingIndex(1001)
 @IFMLLoadingPlugin.MCVersion("1.12.2")
-@IFMLLoadingPlugin.Name("OldResearchUnoffCore")
+@IFMLLoadingPlugin.Name("OldResearchRebornCore")
 public class OldResearchCore implements IFMLLoadingPlugin, IEarlyMixinLoader {
     @Override
     public String[] getASMTransformerClass() {

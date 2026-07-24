@@ -28,7 +28,7 @@ public class OldResearch {
     public static final SimpleNetworkWrapper NETWORK = NetworkRegistry.INSTANCE.newSimpleChannel("oldresearch");
     public static final OldResCreativeTab CREATIVE_TAB = new OldResCreativeTab("oldresearch.creativetab");
     public static final ManualRegister MANUAL_REGISTER = new ManualRegister();
-    public static final Logger LOGGER = LogManager.getLogger("OldResearchUn");
+    public static final Logger LOGGER = LogManager.getLogger("OldResearchReborn");
     public static final String MODID = "oldresearch";
 
     @Instance
@@ -66,22 +66,5 @@ public class OldResearch {
 
     public static ResourceLocation thaumLoc(String loc) {
         return new ResourceLocation(Thaumcraft.MODID, loc);
-    }
-
-    public static void t() {
-        for (int i = 0; i != 10; i++) {
-            GlStateManager.popMatrix();
-            GlStateManager.popMatrix();
-
-            GlStateManager.popMatrix();
-
-            if (i == 1) {
-                continue;
-            }
-
-            GlStateManager.popMatrix();
-            GlStateManager.popMatrix();
-            GlStateManager.popMatrix();
-        }
     }
 }

@@ -7,8 +7,6 @@ item.discovery.name=§dОткрытие
 item.curio.basic.name=Базовое исследование
 item.curio.crimson.name=Багровые обряды
 #
-itemGroup.oldresearch.creativetab=Old Research: Заметки
-#
 tc.research.copy=Стоимость копирования этого исследования:
 tc.research.copy.failure=Недостаточно %s, чтобы скопировать открытие.
 researchnote.complete=Заметка исследования завершена!
